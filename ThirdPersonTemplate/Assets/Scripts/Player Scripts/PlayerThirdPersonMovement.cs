@@ -20,6 +20,7 @@ namespace GravityProject.PlayerSystem
         [SerializeField] private float jumpForce = 90f;
         [Space]
         [SerializeField] private bool looseImpulseMomentumOnCollision = false;
+        [SerializeField] private float baseGravityMultiplier = 1f;
         [SerializeField] private float currentGravityMultiplier = 1f;
         [SerializeField] private float groundCheckSize = 0.3f;
         [SerializeField] private Vector3 groundCheckOffset = Vector3.zero;
@@ -128,7 +129,7 @@ namespace GravityProject.PlayerSystem
         private void HandleGravity()
         {
             if (currentGravityMultiplier != 0f)
-                currentDesiredMovement += currentGravityDirection * PLAYER_BASE_GRAVITY * currentGravityMultiplier * Time.fixedDeltaTime * 
+                currentDesiredMovement += currentGravityDirection * PLAYER_BASE_GRAVITY * baseGravityMultiplier * currentGravityMultiplier * Time.fixedDeltaTime * 
                     Mathf.Max(1f, Mathf.Min(MAX_AIRTIME_MULTIPLIER, airTime * AIRTIME_DELTA));            
         }        
 
