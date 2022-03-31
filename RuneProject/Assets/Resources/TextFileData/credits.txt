@@ -1,0 +1,32 @@
+Rune Project
+
+Developed by TLT Games
+Published by TLT Games
+--
+FH Aachen
+--
+
+Original Concept
+Lyx
+
+Planning
+Lyx
+Tim Bering
+Tarik Glasmacher
+
+Lead Programming
+Tim Bering
+
+Lead Composing
+Tarik Glasmacher
+
+User Interface
+Tim Bering
+
+VFX
+Tim Bering
+
+--
+
+Special thanks to
+Bayat Games
