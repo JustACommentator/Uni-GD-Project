@@ -3,70 +3,81 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class REnemyAI : MonoBehaviour
+namespace RuneProject.EnemySystem
 {
-
-    [SerializeField] private Transform goal = null;
-    [SerializeField] private double attackDistance = 3;
-
-    [Header("References")]
-    [SerializeField] private Rigidbody enemyRigidbody = null;
-    [SerializeField] private NavMeshAgent agent = null;
-    [SerializeField] private State currentState = State.idle;
-    [SerializeField] private float susDistance = 5;
-
-    private float susCount = 0;
-    private float agressiveness = 0.01f;
-
-    enum State
+    /// <summary>
+    /// 
+    /// </summary>
+    public class REnemyAI : MonoBehaviour
     {
-        idle,
-        suspicious,
-        aggro
-    }
+        [Header("Values")]
+        [SerializeField] private Transform goal = null;
+        [SerializeField] private float attackDistance = 3;
+        [SerializeField] private AlertState currentState = AlertState.IDLE;
+        [SerializeField] private float susDistance = 5;
 
+        [Header("References")]
+        [SerializeField] private Rigidbody enemyRigidbody = null;
+        [SerializeField] private NavMeshAgent agent = null;
 
-    void Update()
-    {
-        switch (currentState)
+        private float susCount = 0;
+        private float agressiveness = 0.01f;
+
+        enum AlertState
         {
-            case State.idle:
+            IDLE,
+            SUSPICIOUS,
+            AGGRESSIVE
+        }
 
-                if (Vector3.Distance(enemyRigidbody.position, goal.position) < susDistance)
-                {
-                    currentState = State.suspicious;
-                }
-                break;
+        void Update()
+        {
+            switch (currentState)
+            {
+                case AlertState.IDLE:
 
-            case State.suspicious:
+                    if (Vector3.Distance(enemyRigidbody.position, goal.position) < susDistance)
+                    {
+                        currentState = AlertState.SUSPICIOUS;
+                    }
+                    break;
 
-                if (Vector3.Distance(enemyRigidbody.position, goal.position) < susDistance)
-                {
-                    susCount += Mathf.Clamp(susCount + agressiveness * Time.deltaTime, 0, 1);
-                }
-                else
-                {
-                    susCount -= Mathf.Clamp(susCount + agressiveness * Time.deltaTime, 0, 1);
-                }
+                case AlertState.SUSPICIOUS:
 
-                if (agressiveness == 1)
-                {
-                    currentState = State.aggro;
-                }
-                break;
+                    if (Vector3.Distance(enemyRigidbody.position, goal.position) < susDistance)
+                    {
+                        susCount += Mathf.Clamp(susCount + agressiveness * Time.deltaTime, 0, 1);
+                    }
+                    else
+                    {
+                        susCount -= Mathf.Clamp(susCount + agressiveness * Time.deltaTime, 0, 1);
+                    }
 
-            case State.aggro:
+                    if (agressiveness == 1)
+                    {
+                        currentState = AlertState.AGGRESSIVE;
+                    }
+                    break;
 
-                agent.destination = goal.position;
+                case AlertState.AGGRESSIVE:
 
-                if (Vector3.Distance(enemyRigidbody.position, goal.position) < attackDistance)
-                {
-                    //DoDamage();
-                }
-                break;
+                    agent.destination = goal.position;
 
-            default:
-                break;
+                    if (Vector3.Distance(enemyRigidbody.position, goal.position) < attackDistance)
+                    {
+                        //DoDamage()
+                    }
+                    break;
+            }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, attackDistance);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, susDistance);
         }
     }
 }
