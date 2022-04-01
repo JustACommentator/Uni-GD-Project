@@ -24,11 +24,11 @@ namespace RuneProject.EnemySystem
         [SerializeField] private float reachedDistance = 1;
 
         [Header("References")]
-        [SerializeField] private Rigidbody enemyRigidbody = null;
         [SerializeField] private NavMeshAgent agent = null;
 
         private float susCount = 0;
         private int currentPathPoint = 0;
+        private bool pathForward = true;
 
 
 
@@ -49,7 +49,7 @@ namespace RuneProject.EnemySystem
 
         private void Start()
         {
-            if (startAtFirstPathPosition)
+            if (path.Count > 1 && startAtFirstPathPosition)
                 transform.position = path[0].position;
         }
 
@@ -59,33 +59,57 @@ namespace RuneProject.EnemySystem
             {
                 case AlertState.IDLE:
 
-                    if (Vector3.Distance(enemyRigidbody.position, target.position) < susDistance)
+                    if (Vector3.Distance(transform.position, target.position) < susDistance)
                     {
                         currentState = AlertState.SUSPICIOUS;
                         return;
                     }
 
-                    if (Vector3.Distance(transform.position, path[currentPathPoint].position) <= reachedDistance)
+                    if (path.Count > 1 && Vector3.Distance(transform.position, path[currentPathPoint].position) <= reachedDistance)
                     {
+
+                        Debug.Log(currentPathPoint);
                         switch (currentPatrolState)
                         {
                             case PatrolMode.DEFAULT:
-                                    currentPathPoint = (currentPathPoint + 1) % path.Count;                                    
+                                currentPathPoint = (currentPathPoint + 1) % path.Count;                                    
                                 break;
 
                             case PatrolMode.TRACE_BACK:
-                                    currentPathPoint = (currentPathPoint + 1) % (path.Count * 2); // path[Mathf.Abs(currentPathPoint - path.Count) - path.Count].position;
+                                if (pathForward)
+                                {
+                                    currentPathPoint++;
+                                }
+                                else
+                                {
+                                    currentPathPoint--;
+                                }
+
+                                if (currentPathPoint >= path.Count - 1)
+                                {
+                                    pathForward = false;
+                                }
+
+                                if (currentPathPoint <= 0)
+                                {
+                                    pathForward = true;
+                                }
                                 break;
 
                             case PatrolMode.PING_PONG:
-                                    if (currentPathPoint == 0)                                        
-                                        currentPathPoint = Random.Range(1, path.Count);                                        
-                                    else                                        
-                                        currentPathPoint = 0;                                                                           
+                                if (currentPathPoint == 0)                                        
+                                    currentPathPoint = Random.Range(1, path.Count);                                        
+                                else                                        
+                                    currentPathPoint = 0;                                                                           
                                 break;
 
                             case PatrolMode.RANDOM:
-                                    currentPathPoint = Random.Range(0, path.Count);                                    
+                                int newPathPoint = Random.Range(0, path.Count);
+                                while (currentPathPoint == newPathPoint)
+                                {
+                                    newPathPoint = Random.Range(0, path.Count);
+                                }
+                                currentPathPoint = newPathPoint;
                                 break;
                         }
 
@@ -96,7 +120,7 @@ namespace RuneProject.EnemySystem
 
                 case AlertState.SUSPICIOUS:
 
-                    if (Vector3.Distance(enemyRigidbody.position, target.position) < susDistance)
+                    if (Vector3.Distance(transform.position, target.position) < susDistance)
                     {
                         susCount = Mathf.Clamp(susCount + (1 / aggroTime) * Time.deltaTime, 0, 1);
                     }
@@ -113,18 +137,17 @@ namespace RuneProject.EnemySystem
 
                 case AlertState.AGGRESSIVE:
 
-                    agent.destination = target.position;
-
-                    if (Vector3.Distance(enemyRigidbody.position, target.position) < attackDistance)
+                    if (Vector3.Distance(transform.position, target.position) < attackDistance)
                     {
                         //DoDamage()
                     }
+                    else
+                    {
+                        agent.destination = target.position;
+                    }
+
                     break;
             }
-
-            Debug.Log(currentState);
-            Debug.Log(currentPathPoint);
-            Debug.Log(susCount);
         }
 
         private void OnDrawGizmosSelected()
@@ -137,6 +160,9 @@ namespace RuneProject.EnemySystem
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(transform.position, transform.position + transform.forward * reachedDistance);
+
+            if (path.Count > 1)
+                Gizmos.DrawLine(transform.position, path[currentPathPoint].position);
         }
     }
 }
