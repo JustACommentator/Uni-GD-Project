@@ -163,6 +163,40 @@ namespace RuneProject.EnemySystem
 
             if (path.Count > 1)
                 Gizmos.DrawLine(transform.position, path[currentPathPoint].position);
+
+            switch(currentPatrolState)
+            {
+                case PatrolMode.DEFAULT:
+                    for (int i = 0; i < path.Count; i++)
+                    {
+                        Gizmos.DrawLine(path[i].position, path[(i + 1) % path.Count].position);
+                    }
+                    break;
+
+                case PatrolMode.TRACE_BACK:
+                    for (int i = 0; i < path.Count - 1; i++)
+                    {
+                        Gizmos.DrawLine(path[i].position, path[(i + 1) % path.Count].position);
+                    }
+                    break;
+
+                case PatrolMode.PING_PONG:
+                    for (int i = 0; i < path.Count; i++)
+                    {
+                        Gizmos.DrawLine(path[0].position, path[i].position);
+                    }
+                    break;
+
+                case PatrolMode.RANDOM:
+                    for (int i = 0; i < path.Count; i++)
+                    {
+                        for (int j = 0; j < path.Count; j++)
+                        {
+                            Gizmos.DrawLine(path[i].position, path[j].position);
+                        }
+                    }
+                    break;
+            }
         }
     }
 }
