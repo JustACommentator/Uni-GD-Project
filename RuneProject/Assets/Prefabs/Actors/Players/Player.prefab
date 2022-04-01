@@ -276,6 +276,8 @@ GameObject:
   - component: {fileID: 4091881722017645196}
   - component: {fileID: 5389130759954965137}
   - component: {fileID: 1081399610661986200}
+  - component: {fileID: 481307052763625887}
+  - component: {fileID: 238541623528839758}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -358,6 +360,38 @@ MonoBehaviour:
   cameraTransform: {fileID: 2431479995733997952}
   characterParentTransform: {fileID: 8049069945842501455}
   playerRigidbody: {fileID: 5389130759954965137}
+--- !u!114 &481307052763625887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4091881722017645194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fcdaaadb04fafb4c9963e2234eb9bf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offset: {x: 0, y: 0.35, z: 0}
+  radius: 1.5
+  range: 5
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  damage: 1
+--- !u!114 &238541623528839758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4091881722017645194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8911bebd0550d784ebdec34e1f99889a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
 --- !u!1 &5778071784522341200
 GameObject:
   m_ObjectHideFlags: 0
