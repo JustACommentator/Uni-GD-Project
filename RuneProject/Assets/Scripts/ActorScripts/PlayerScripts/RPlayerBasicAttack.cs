@@ -1,49 +1,64 @@
 using RuneProject.ActorSystem;
+using System.Collections;
 using UnityEngine;
 
-public class RPlayerBasicAttack : MonoBehaviour
+namespace RuneProject.ActorSystem
 {
-    [SerializeField] private Vector3 offset = Vector3.zero;
-    [SerializeField] private float radius = 1;
-    [SerializeField] private float range = 5;
-    [SerializeField] private LayerMask playerMask = new LayerMask();
-    [SerializeField] private int damage = 1;
-
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Script for autoattacks
+    /// on attack, attack nearest enemy and draw indicator line
+    /// </summary>
+    public class RPlayerBasicAttack : MonoBehaviour
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
+        [Header("Values")] 
+        [SerializeField] private Vector3 offsetHitSphere = Vector3.zero;
+        [SerializeField] private float range = 1.5f;
+        [SerializeField] private LayerMask playerMask = new LayerMask();
+        [SerializeField] private int damage = 1;
+        [SerializeField] private LineRenderer lineRenderer;
+        [SerializeField] private Vector3 offsetLROrigin = Vector3.zero;
+        [SerializeField] private Vector3 offsetLRTarget = Vector3.zero;
+        void Update()
         {
-            RaycastHit[] hits = Physics.SphereCastAll(transform.position + offset, radius, transform.forward, range, ~playerMask);
-            RPlayerHealth nearestTarget = null;
-            float nearestDistance = float.MaxValue;
-            for (int i = 0; i < hits.Length; i++)
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                if (hits[i].collider.TryGetComponent<RPlayerHealth>(out RPlayerHealth current))
+                RaycastHit[] hits = Physics.SphereCastAll(transform.position + offsetHitSphere, range, transform.forward, float.MaxValue, ~playerMask);
+                RPlayerHealth nearestTarget = null;
+                float nearestDistance = float.MaxValue;
+                for (int i = 0; i < hits.Length; i++)
                 {
-                    if (hits[i].distance < nearestDistance) ;
+                    if (hits[i].collider.TryGetComponent<RPlayerHealth>(out RPlayerHealth current))
                     {
-                        nearestDistance = hits[i].distance;
-                        nearestTarget = hits[i].collider.GetComponent<RPlayerHealth>();
+                        if (hits[i].distance < nearestDistance)
+                        {
+                            nearestDistance = hits[i].distance;
+                            nearestTarget = hits[i].collider.GetComponent<RPlayerHealth>();
+                        }
                     }
                 }
-            }
-            if (nearestTarget != null)
-            { 
-                nearestTarget.TakeDamage(gameObject, damage);
+                if (nearestTarget != null)
+                {
+                    StartCoroutine(IDrawLine(transform.position, nearestTarget.transform.position));
+                    nearestTarget.TakeDamage(gameObject, damage);
+                }
             }
         }
-    }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color  = Color.red;
-        Gizmos.DrawWireSphere(transform.position + offset, radius);
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position + offsetHitSphere, range);
+        }
+
+        private IEnumerator IDrawLine(Vector3 a, Vector3 b)
+        {
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, a + offsetLROrigin);
+            lineRenderer.SetPosition(1, b + offsetLRTarget);
+            yield return new WaitForSeconds(0.25f);
+            lineRenderer.enabled = false;
+        }
+
+
     }
 }
