@@ -152,8 +152,12 @@ MonoBehaviour:
   target: {fileID: 0}
   attackDistance: 3
   currentState: 0
+  currentPatrolState: 0
   susDistance: 5
   aggroTime: 3
+  path: []
+  startAtFirstPathPosition: 1
+  reachedDistance: 1
   enemyRigidbody: {fileID: 3986327658171331712}
   agent: {fileID: 4180986265226394684}
 --- !u!54 &3986327658171331712

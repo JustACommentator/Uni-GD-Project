@@ -19,7 +19,9 @@ namespace RuneProject.EnemySystem
         [SerializeField] private float aggroTime = 3;
 
         [Header("Patrol")]
-        [SerializeField] private List<Transform> path = null;
+        [SerializeField] private List<Transform> path = new List<Transform>();
+        [SerializeField] private bool startAtFirstPathPosition = true;
+        [SerializeField] private float reachedDistance = 1;
 
         [Header("References")]
         [SerializeField] private Rigidbody enemyRigidbody = null;
@@ -27,7 +29,8 @@ namespace RuneProject.EnemySystem
 
         private float susCount = 0;
         private int currentPathPoint = 0;
-        private float reachedDistance = 1;
+
+
 
         enum AlertState
         {
@@ -44,7 +47,13 @@ namespace RuneProject.EnemySystem
             RANDOM
         }
 
-        void Update()
+        private void Start()
+        {
+            if (startAtFirstPathPosition)
+                transform.position = path[0].position;
+        }
+
+        private void Update()
         {
             switch (currentState)
             {
@@ -53,63 +62,35 @@ namespace RuneProject.EnemySystem
                     if (Vector3.Distance(enemyRigidbody.position, target.position) < susDistance)
                     {
                         currentState = AlertState.SUSPICIOUS;
+                        return;
                     }
 
-                    if (path != null && path.Count > 1)
+                    if (Vector3.Distance(transform.position, path[currentPathPoint].position) <= reachedDistance)
                     {
                         switch (currentPatrolState)
                         {
                             case PatrolMode.DEFAULT:
-
-                                agent.destination = path[currentPathPoint].position;
-
-                                if (Vector3.Distance(enemyRigidbody.position, path[currentPathPoint].position) < reachedDistance)
-                                {
-                                    currentPathPoint = (currentPathPoint + 1) % path.Count;
-                                }
-
+                                    currentPathPoint = (currentPathPoint + 1) % path.Count;                                    
                                 break;
 
                             case PatrolMode.TRACE_BACK:
-
-                                agent.destination = path[Mathf.Abs(currentPathPoint - path.Count) - path.Count].position;
-
-                                if (Vector3.Distance(enemyRigidbody.position, path[currentPathPoint].position) < reachedDistance)
-                                {
-                                    currentPathPoint = (currentPathPoint + 1) % (path.Count * 2);
-                                }
+                                    currentPathPoint = (currentPathPoint + 1) % (path.Count * 2); // path[Mathf.Abs(currentPathPoint - path.Count) - path.Count].position;
                                 break;
 
                             case PatrolMode.PING_PONG:
-
-                                agent.destination = path[currentPathPoint].position;
-
-                                if (Vector3.Distance(enemyRigidbody.position, path[currentPathPoint].position) < reachedDistance)
-                                {
-                                    if (currentPathPoint == 0)
-                                    {
-                                        currentPathPoint = Random.Range(1, path.Count);
-                                    }
-                                    else
-                                    {
-                                        currentPathPoint = 0;
-                                    }
-                                }
-
+                                    if (currentPathPoint == 0)                                        
+                                        currentPathPoint = Random.Range(1, path.Count);                                        
+                                    else                                        
+                                        currentPathPoint = 0;                                                                           
                                 break;
 
                             case PatrolMode.RANDOM:
-
-                                agent.destination = path[currentPathPoint].position;
-
-                                if (Vector3.Distance(enemyRigidbody.position, path[currentPathPoint].position) < reachedDistance)
-                                {
-                                    currentPathPoint = Random.Range(0, path.Count);
-                                }
-
+                                    currentPathPoint = Random.Range(0, path.Count);                                    
                                 break;
                         }
-                    }
+
+                        agent.SetDestination(path[currentPathPoint].position);
+                    }                    
 
                     break;
 
@@ -153,6 +134,9 @@ namespace RuneProject.EnemySystem
 
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, susDistance);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, transform.position + transform.forward * reachedDistance);
         }
     }
 }
