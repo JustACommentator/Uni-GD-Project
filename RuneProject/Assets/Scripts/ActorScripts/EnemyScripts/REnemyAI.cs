@@ -16,6 +16,8 @@ namespace RuneProject.EnemySystem
         [SerializeField] private AlertState currentState = AlertState.IDLE;
         [SerializeField] private PatrolMode currentPatrolState = PatrolMode.DEFAULT;
         [SerializeField] private float susDistance = 5;
+        [SerializeField] private float disengageDistance = 10;
+        [SerializeField] private float disengageTime = 10;
         [SerializeField] private float aggroTime = 3;
 
         [Header("Patrol")]
@@ -29,7 +31,7 @@ namespace RuneProject.EnemySystem
         private float susCount = 0;
         private int currentPathPoint = 0;
         private bool pathForward = true;
-
+        private float lastAttack = 0;
 
 
         enum AlertState
@@ -72,7 +74,7 @@ namespace RuneProject.EnemySystem
                         switch (currentPatrolState)
                         {
                             case PatrolMode.DEFAULT:
-                                currentPathPoint = (currentPathPoint + 1) % path.Count;                                    
+                                currentPathPoint = (currentPathPoint + 1) % path.Count;
                                 break;
 
                             case PatrolMode.TRACE_BACK:
@@ -129,17 +131,39 @@ namespace RuneProject.EnemySystem
                         susCount = Mathf.Clamp(susCount - (1 / aggroTime) * Time.deltaTime, 0, 1);
                     }
 
+                    if (Vector3.Distance(transform.position, target.position) < attackDistance)
+                    {
+                        susCount = 1;
+                    }
+
                     if (susCount == 1)
                     {
                         currentState = AlertState.AGGRESSIVE;
+                    }
+
+                    if (susCount == 0)
+                    {
+                        currentState = AlertState.IDLE;
+                        currentPathPoint = 0;
+                        agent.SetDestination(path[0].position);
                     }
                     break;
 
                 case AlertState.AGGRESSIVE:
 
+                    lastAttack += Time.deltaTime;
+
+                    if (Vector3.Distance(transform.position, target.position) > disengageDistance || lastAttack > disengageTime)
+                    {
+                        currentState = AlertState.SUSPICIOUS;
+                        lastAttack = 0;
+                        return;
+                    }
+
                     if (Vector3.Distance(transform.position, target.position) < attackDistance)
                     {
                         //DoDamage()
+                        lastAttack = 0;
                     }
                     else
                     {
@@ -157,6 +181,9 @@ namespace RuneProject.EnemySystem
 
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, susDistance);
+
+            Gizmos.color = Color.gray;
+            Gizmos.DrawWireSphere(transform.position, disengageDistance);
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(transform.position, transform.position + transform.forward * reachedDistance);
