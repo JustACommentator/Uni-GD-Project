@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  attackDistance: 3
+  attackDistance: 2
   currentState: 0
   currentPatrolState: 0
   susDistance: 5
@@ -158,7 +158,6 @@ MonoBehaviour:
   path: []
   startAtFirstPathPosition: 1
   reachedDistance: 1
-  enemyRigidbody: {fileID: 3986327658171331712}
   agent: {fileID: 4180986265226394684}
 --- !u!54 &3986327658171331712
 Rigidbody:

@@ -12,7 +12,7 @@ namespace RuneProject.EnemySystem
     {
         [Header("Values")]
         [SerializeField] private Transform target = null;
-        [SerializeField] private float attackDistance = 3;
+        [SerializeField] private float attackDistance = 2;
         [SerializeField] private AlertState currentState = AlertState.IDLE;
         [SerializeField] private PatrolMode currentPatrolState = PatrolMode.DEFAULT;
         [SerializeField] private float susDistance = 5;
