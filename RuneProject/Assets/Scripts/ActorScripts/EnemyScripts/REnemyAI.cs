@@ -69,8 +69,6 @@ namespace RuneProject.EnemySystem
 
                     if (path.Count > 1 && Vector3.Distance(transform.position, path[currentPathPoint].position) <= reachedDistance)
                     {
-
-                        Debug.Log(currentPathPoint);
                         switch (currentPatrolState)
                         {
                             case PatrolMode.DEFAULT:

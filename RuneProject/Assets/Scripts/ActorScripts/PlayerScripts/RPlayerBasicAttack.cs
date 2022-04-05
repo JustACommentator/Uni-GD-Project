@@ -1,4 +1,3 @@
-using RuneProject.ActorSystem;
 using System.Collections;
 using UnityEngine;
 
@@ -18,9 +17,15 @@ namespace RuneProject.ActorSystem
         [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private Vector3 offsetLROrigin = Vector3.zero;
         [SerializeField] private Vector3 offsetLRTarget = Vector3.zero;
+        [SerializeField] private float attackCooldown = 0.5f;
+
+        private float currentAttackCooldown = 0f;
+
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (currentAttackCooldown > 0f)
+                currentAttackCooldown -= Time.deltaTime;
+            else if (Input.GetKeyDown(KeyCode.Q))
             {
                 RaycastHit[] hits = Physics.SphereCastAll(transform.position + offsetHitSphere, range, transform.forward, float.MaxValue, ~playerMask);
                 RPlayerHealth nearestTarget = null;
@@ -36,10 +41,12 @@ namespace RuneProject.ActorSystem
                         }
                     }
                 }
+
                 if (nearestTarget != null)
                 {
                     StartCoroutine(IDrawLine(transform.position, nearestTarget.transform.position));
                     nearestTarget.TakeDamage(gameObject, damage);
+                    currentAttackCooldown = attackCooldown;
                 }
             }
         }
@@ -58,7 +65,5 @@ namespace RuneProject.ActorSystem
             yield return new WaitForSeconds(0.25f);
             lineRenderer.enabled = false;
         }
-
-
     }
 }

@@ -11,13 +11,13 @@ namespace RuneProject.ActorSystem
         [SerializeField] private float runSpeed = 1000f;
         [SerializeField] private float inputRunThreshold = 0.8f;
         [SerializeField] private bool alwaysRun = false;
+        [SerializeField] private EPlayerMovementMode playerMovementMode = EPlayerMovementMode.ACCELERATE_AND_DECELERATE;
         [Space]
         [SerializeField] private bool smoothTurnaround = false;
         [SerializeField] private float characterTurnaroundDelta = 30f;
         [Space]
         [SerializeField] private bool looseImpulseMomentumOnCollision = false;
         [SerializeField] private float baseGravityMultiplier = 1f;
-        [SerializeField] private float currentGravityMultiplier = 1f;
         [SerializeField] private float groundCheckSize = 0.3f;
         [SerializeField] private Vector3 groundCheckOffset = Vector3.zero;
         [SerializeField] private LayerMask playerLayer = new LayerMask();
@@ -32,14 +32,15 @@ namespace RuneProject.ActorSystem
         private bool isGrounded = false;
         private float airTime = 0f;
 
+        public event System.EventHandler<Vector2> OnMove;
         public event System.EventHandler OnLand;
         public event System.EventHandler OnLeaveGround;
 
         private const string INPUT_AXIS_HORIZONTAL = "Horizontal";
         private const string INPUT_AXIS_VERTICAL = "Vertical";
-        private const float PLAYER_BASE_GRAVITY = 250.9f;
         private const float MAX_AIRTIME_MULTIPLIER = 30f;
         private const float AIRTIME_DELTA = 10f;
+        private const float IMPACT_DECREASE_DELTA = 10f;
         private const float IMPULSE_THRESHOLD = 0.1f;
 
         public bool IsGrounded { get => isGrounded; }
@@ -82,6 +83,8 @@ namespace RuneProject.ActorSystem
 
             input.Normalize();
 
+            OnMove?.Invoke(this, input);
+
             Vector3 forward = cameraTransform.forward;
             forward.y = 0f;
             forward.Normalize();
@@ -92,7 +95,7 @@ namespace RuneProject.ActorSystem
 
             Vector3 targetDir = forward * input.y + right * input.x;
 
-            currentDesiredMovement += Time.deltaTime * usedSpeed * targetDir;
+            currentDesiredMovement += usedSpeed * targetDir * Time.deltaTime;
 
             Quaternion targetRotation = smoothTurnaround ? Quaternion.Slerp(characterParentTransform.rotation, Quaternion.LookRotation(targetDir), Time.deltaTime * characterTurnaroundDelta) : Quaternion.LookRotation(targetDir);
             characterParentTransform.rotation = targetRotation;
@@ -100,27 +103,38 @@ namespace RuneProject.ActorSystem
 
         private void HandleGravity()
         {
-            if (currentGravityMultiplier != 0f)
-                currentDesiredMovement += Vector3.down * PLAYER_BASE_GRAVITY * baseGravityMultiplier * currentGravityMultiplier * Time.fixedDeltaTime *
-                    Mathf.Max(1f, Mathf.Min(MAX_AIRTIME_MULTIPLIER, airTime * AIRTIME_DELTA));
+            playerRigidbody.AddForce(baseGravityMultiplier * Physics.gravity, ForceMode.Acceleration);
         }
 
         private void HandleApplyMovement()
         {
-            if (currentDesiredMovement.magnitude != 0f)
+            if (currentImpulseMovement != Vector3.zero)
             {
-                playerRigidbody.velocity += currentDesiredMovement + currentImpulseMovement;
+                playerRigidbody.velocity += currentImpulseMovement;
 
-                currentDesiredMovement = Vector3.zero;
-
-                if (currentImpulseMovement != Vector3.zero)
-                {
-                    if (currentImpulseMovement.magnitude < IMPULSE_THRESHOLD)
-                        currentImpulseMovement = Vector3.zero;
-                    else
-                        currentImpulseMovement = Vector3.Lerp(currentImpulseMovement, Vector3.zero, Time.fixedDeltaTime * 10f);
-                }
+                if (currentImpulseMovement.magnitude < IMPULSE_THRESHOLD)
+                    currentImpulseMovement = Vector3.zero;
+                else
+                    currentImpulseMovement = Vector3.Lerp(currentImpulseMovement, Vector3.zero, Time.fixedDeltaTime * IMPACT_DECREASE_DELTA);
             }
+                        
+            switch (playerMovementMode)
+            {
+                case EPlayerMovementMode.ACCELERATE_AND_DECELERATE:
+                    if (currentDesiredMovement.magnitude != 0f)
+                        playerRigidbody.velocity += currentDesiredMovement;
+                    break;
+                case EPlayerMovementMode.STOP_AND_GO:
+                    if (currentDesiredMovement.magnitude != 0f)
+                        playerRigidbody.AddForce(currentDesiredMovement, ForceMode.Force);
+                    break;
+                case EPlayerMovementMode.ONLY_ACCELERATE:
+                    break;
+                case EPlayerMovementMode.ONLY_DECELERATE:
+                    break;
+            }            
+
+            currentDesiredMovement = Vector3.zero;            
         }
 
         private void HandleGroundCheck()
@@ -164,5 +178,13 @@ namespace RuneProject.ActorSystem
 
             currentImpulseMovement += dir * strength;
         }
+    }
+
+    public enum EPlayerMovementMode
+    {
+        ACCELERATE_AND_DECELERATE,
+        STOP_AND_GO,
+        ONLY_ACCELERATE,
+        ONLY_DECELERATE
     }
 }
