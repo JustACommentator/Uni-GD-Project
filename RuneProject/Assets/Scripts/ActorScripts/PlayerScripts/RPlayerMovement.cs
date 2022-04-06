@@ -11,7 +11,6 @@ namespace RuneProject.ActorSystem
         [SerializeField] private float runSpeed = 1000f;
         [SerializeField] private float inputRunThreshold = 0.8f;
         [SerializeField] private bool alwaysRun = false;
-        [SerializeField] private EPlayerMovementMode playerMovementMode = EPlayerMovementMode.ACCELERATE_AND_DECELERATE;
         [Space]
         [SerializeField] private bool smoothTurnaround = false;
         [SerializeField] private float characterTurnaroundDelta = 30f;
@@ -77,7 +76,11 @@ namespace RuneProject.ActorSystem
 
             if (playerRigidbody.velocity != Vector3.zero) playerRigidbody.velocity = Vector3.zero;
 
-            if (input == Vector2.zero) return;
+            if (input == Vector2.zero)
+            {
+                currentDesiredMovement = Vector3.zero;
+                return;
+            }
 
             float usedSpeed = alwaysRun || input.magnitude >= inputRunThreshold ? runSpeed : walkSpeed;
 
@@ -95,7 +98,7 @@ namespace RuneProject.ActorSystem
 
             Vector3 targetDir = forward * input.y + right * input.x;
 
-            currentDesiredMovement += usedSpeed * targetDir * Time.deltaTime;
+            currentDesiredMovement = usedSpeed * targetDir * Time.deltaTime;
 
             Quaternion targetRotation = smoothTurnaround ? Quaternion.Slerp(characterParentTransform.rotation, Quaternion.LookRotation(targetDir), Time.deltaTime * characterTurnaroundDelta) : Quaternion.LookRotation(targetDir);
             characterParentTransform.rotation = targetRotation;
@@ -117,24 +120,9 @@ namespace RuneProject.ActorSystem
                 else
                     currentImpulseMovement = Vector3.Lerp(currentImpulseMovement, Vector3.zero, Time.fixedDeltaTime * IMPACT_DECREASE_DELTA);
             }
-                        
-            switch (playerMovementMode)
-            {
-                case EPlayerMovementMode.ACCELERATE_AND_DECELERATE:
-                    if (currentDesiredMovement.magnitude != 0f)
-                        playerRigidbody.velocity += currentDesiredMovement;
-                    break;
-                case EPlayerMovementMode.STOP_AND_GO:
-                    if (currentDesiredMovement.magnitude != 0f)
-                        playerRigidbody.AddForce(currentDesiredMovement, ForceMode.Force);
-                    break;
-                case EPlayerMovementMode.ONLY_ACCELERATE:
-                    break;
-                case EPlayerMovementMode.ONLY_DECELERATE:
-                    break;
-            }            
 
-            currentDesiredMovement = Vector3.zero;            
+            if (currentDesiredMovement.magnitude != 0f)
+                playerRigidbody.MovePosition(transform.position + currentDesiredMovement);           
         }
 
         private void HandleGroundCheck()
@@ -178,13 +166,5 @@ namespace RuneProject.ActorSystem
 
             currentImpulseMovement += dir * strength;
         }
-    }
-
-    public enum EPlayerMovementMode
-    {
-        ACCELERATE_AND_DECELERATE,
-        STOP_AND_GO,
-        ONLY_ACCELERATE,
-        ONLY_DECELERATE
     }
 }
