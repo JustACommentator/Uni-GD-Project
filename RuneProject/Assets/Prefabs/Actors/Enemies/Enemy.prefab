@@ -156,10 +156,13 @@ MonoBehaviour:
   disengageDistance: 10
   disengageTime: 10
   aggroTime: 3
+  currentPattern: 0
   target: {fileID: 0}
   attackDistance: 2
   attackCooldownTime: 2
   tolleranceDistance: 1
+  timeToleranceAttack: 1
+  rotationSpeed: 720
   currentPatrolState: 0
   path:
   - {fileID: 0}

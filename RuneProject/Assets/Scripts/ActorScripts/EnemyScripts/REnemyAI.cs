@@ -24,6 +24,7 @@ namespace RuneProject.EnemySystem
         [SerializeField] private float attackCooldownTime = 2;
         [SerializeField] private float tolleranceDistance = 1;
         [SerializeField] private float timeToleranceAttack = 1;
+        [SerializeField] private float rotationSpeed = 720;
 
         [Header("Patrol")]
         [SerializeField] private EPatrolMode currentPatrolState = EPatrolMode.DEFAULT;
@@ -71,6 +72,7 @@ namespace RuneProject.EnemySystem
         private void Update()
         {
             float distToTarget = Vector3.Distance(transform.position, target.position);
+
             switch (currentState)
             {
                 case EAlertState.IDLE:
@@ -177,36 +179,25 @@ namespace RuneProject.EnemySystem
 
                     switch (currentPattern)
                     {
+
+                        case EAttackPatternType.CIRCLE:
+
+                            targetDirection = Quaternion.AngleAxis(rotationSpeed * Time.deltaTime, Vector3.up) * targetDirection;
+
+                            goto case EAttackPatternType.RUN_TOWARDS;
+
                         case EAttackPatternType.RUN_TOWARDS:
 
-                            if (distToTarget < attackDistance && lastAttack > attackCooldownTime)
+                            if (distToTarget < attackDistance && lastAttack > attackCooldownTime + randomTimeToAttack)
                             {
                                 //DoDamage()
-                                agent.destination = target.position + targetDirection * 0.1f;
+                                agent.destination = target.position + targetDirection * 0.3f;
                                 lastAttack = 0;
                                 randomTimeToAttack = Random.value * timeToleranceAttack;
                             }
                             else if ((distToTarget < attackDistance - tolleranceDistance || distToTarget > attackDistance - 0.1f) && lastAttack > 0.1)
                             {
                                 agent.destination = target.position + targetDirection * (attackDistance - 0.1f);
-                            }
-
-                            break;
-
-                        case EAttackPatternType.CIRCLE:
-
-                            Vector3 goalTargetDirection = Quaternion.AngleAxis(360.0f * Time.deltaTime, Vector3.up) * targetDirection;
-
-                            if (distToTarget < attackDistance && lastAttack > attackCooldownTime + randomTimeToAttack)
-                            {
-                                //DoDamage()
-                                agent.destination = target.position + goalTargetDirection * 0.1f;
-                                lastAttack = 0;
-                                randomTimeToAttack = Random.value * timeToleranceAttack;
-                            }
-                            else if ((distToTarget < attackDistance - tolleranceDistance || distToTarget > attackDistance - 0.1f) && lastAttack > 0.1)
-                            {
-                                agent.destination = target.position + (attackDistance - 0.1f) * goalTargetDirection;
                             }
 
                             break;
@@ -223,10 +214,16 @@ namespace RuneProject.EnemySystem
                     break;
             }
 
+            Vector3 dir;
+
             if (currentState != EAlertState.AGGRESSIVE)
-                transform.LookAt(transform.position + agent.velocity);
+                dir = transform.position + agent.velocity;
             else
-                transform.LookAt(target.position);
+                dir = target.position - transform.position;
+
+            dir.y = 0;
+            Quaternion rot = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rot, agent.angularSpeed * 0.1f * Time.deltaTime);
         }
 
         private void OnDrawGizmosSelected()

@@ -2050,8 +2050,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1716435618}
     - target: {fileID: 8170655358071508800, guid: 4352ef07fc20941aaac0c94ef245ea1f, type: 3}
-      propertyPath: disengageTime
-      value: 10
+      propertyPath: currentPattern
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8170655358071508800, guid: 4352ef07fc20941aaac0c94ef245ea1f, type: 3}
       propertyPath: path.Array.size
