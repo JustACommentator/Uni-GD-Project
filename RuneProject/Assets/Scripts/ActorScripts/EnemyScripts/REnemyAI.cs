@@ -10,17 +10,23 @@ namespace RuneProject.EnemySystem
     /// </summary>
     public class REnemyAI : MonoBehaviour
     {
-        [Header("Values")]
-        [SerializeField] private Transform target = null;
-        [SerializeField] private float attackDistance = 2;
-        [SerializeField] private AlertState currentState = AlertState.IDLE;
-        [SerializeField] private PatrolMode currentPatrolState = PatrolMode.DEFAULT;
+        [Header("States")]
+        [SerializeField] private EAlertState currentState = EAlertState.IDLE;
         [SerializeField] private float susDistance = 5;
         [SerializeField] private float disengageDistance = 10;
         [SerializeField] private float disengageTime = 10;
         [SerializeField] private float aggroTime = 3;
 
+        [Header("Combat")]
+        [SerializeField] private EAttackPatternType currentPattern = EAttackPatternType.RUN_TOWARDS;
+        [SerializeField] private Transform target = null;
+        [SerializeField] private float attackDistance = 2;
+        [SerializeField] private float attackCooldownTime = 2;
+        [SerializeField] private float tolleranceDistance = 1;
+        [SerializeField] private float timeToleranceAttack = 1;
+
         [Header("Patrol")]
+        [SerializeField] private EPatrolMode currentPatrolState = EPatrolMode.DEFAULT;
         [SerializeField] private List<Transform> path = new List<Transform>();
         [SerializeField] private bool startAtFirstPathPosition = true;
         [SerializeField] private float reachedDistance = 1;
@@ -32,21 +38,28 @@ namespace RuneProject.EnemySystem
         private int currentPathPoint = 0;
         private bool pathForward = true;
         private float lastAttack = 0;
+        private float randomTimeToAttack = 0;
 
-
-        enum AlertState
+        enum EAlertState
         {
             IDLE,
             SUSPICIOUS,
             AGGRESSIVE
         }
 
-        enum PatrolMode
+        enum EPatrolMode
         {
             DEFAULT,
             TRACE_BACK,
             PING_PONG,
             RANDOM
+        }
+
+        enum EAttackPatternType
+        {
+            RUN_TOWARDS,
+            CIRCLE,
+            RUN_AWAY
         }
 
         private void Start()
@@ -57,13 +70,14 @@ namespace RuneProject.EnemySystem
 
         private void Update()
         {
+            float distToTarget = Vector3.Distance(transform.position, target.position);
             switch (currentState)
             {
-                case AlertState.IDLE:
+                case EAlertState.IDLE:
 
-                    if (Vector3.Distance(transform.position, target.position) < susDistance)
+                    if (distToTarget < susDistance)
                     {
-                        currentState = AlertState.SUSPICIOUS;
+                        currentState = EAlertState.SUSPICIOUS;
                         return;
                     }
 
@@ -71,11 +85,11 @@ namespace RuneProject.EnemySystem
                     {
                         switch (currentPatrolState)
                         {
-                            case PatrolMode.DEFAULT:
+                            case EPatrolMode.DEFAULT:
                                 currentPathPoint = (currentPathPoint + 1) % path.Count;
                                 break;
 
-                            case PatrolMode.TRACE_BACK:
+                            case EPatrolMode.TRACE_BACK:
                                 if (pathForward)
                                 {
                                     currentPathPoint++;
@@ -96,14 +110,14 @@ namespace RuneProject.EnemySystem
                                 }
                                 break;
 
-                            case PatrolMode.PING_PONG:
+                            case EPatrolMode.PING_PONG:
                                 if (currentPathPoint == 0)                                        
                                     currentPathPoint = Random.Range(1, path.Count);                                        
                                 else                                        
                                     currentPathPoint = 0;                                                                           
                                 break;
 
-                            case PatrolMode.RANDOM:
+                            case EPatrolMode.RANDOM:
                                 int newPathPoint = Random.Range(0, path.Count);
                                 while (currentPathPoint == newPathPoint)
                                 {
@@ -118,9 +132,9 @@ namespace RuneProject.EnemySystem
 
                     break;
 
-                case AlertState.SUSPICIOUS:
+                case EAlertState.SUSPICIOUS:
 
-                    if (Vector3.Distance(transform.position, target.position) < susDistance)
+                    if (distToTarget < susDistance)
                     {
                         susCount = Mathf.Clamp(susCount + (1 / aggroTime) * Time.deltaTime, 0, 1);
                     }
@@ -129,47 +143,90 @@ namespace RuneProject.EnemySystem
                         susCount = Mathf.Clamp(susCount - (1 / aggroTime) * Time.deltaTime, 0, 1);
                     }
 
-                    if (Vector3.Distance(transform.position, target.position) < attackDistance)
+                    if (distToTarget < attackDistance)
                     {
                         susCount = 1;
                     }
 
                     if (susCount == 1)
                     {
-                        currentState = AlertState.AGGRESSIVE;
+                        currentState = EAlertState.AGGRESSIVE;
                     }
 
                     if (susCount == 0)
                     {
-                        currentState = AlertState.IDLE;
+                        currentState = EAlertState.IDLE;
                         currentPathPoint = 0;
                         agent.SetDestination(path[0].position);
                     }
+
                     break;
 
-                case AlertState.AGGRESSIVE:
+                case EAlertState.AGGRESSIVE:
 
                     lastAttack += Time.deltaTime;
 
-                    if (Vector3.Distance(transform.position, target.position) > disengageDistance || lastAttack > disengageTime)
+                    if (distToTarget > disengageDistance || lastAttack > disengageTime)
                     {
-                        currentState = AlertState.SUSPICIOUS;
+                        currentState = EAlertState.SUSPICIOUS;
                         lastAttack = 0;
                         return;
                     }
 
-                    if (Vector3.Distance(transform.position, target.position) < attackDistance)
+                    Vector3 targetDirection = Vector3.Normalize(transform.position - target.position);
+
+                    switch (currentPattern)
                     {
-                        //DoDamage()
-                        lastAttack = 0;
-                    }
-                    else
-                    {
-                        agent.destination = target.position;
+                        case EAttackPatternType.RUN_TOWARDS:
+
+                            if (distToTarget < attackDistance && lastAttack > attackCooldownTime)
+                            {
+                                //DoDamage()
+                                agent.destination = target.position + targetDirection * 0.1f;
+                                lastAttack = 0;
+                                randomTimeToAttack = Random.value * timeToleranceAttack;
+                            }
+                            else if ((distToTarget < attackDistance - tolleranceDistance || distToTarget > attackDistance - 0.1f) && lastAttack > 0.1)
+                            {
+                                agent.destination = target.position + targetDirection * (attackDistance - 0.1f);
+                            }
+
+                            break;
+
+                        case EAttackPatternType.CIRCLE:
+
+                            Vector3 goalTargetDirection = Quaternion.AngleAxis(360.0f * Time.deltaTime, Vector3.up) * targetDirection;
+
+                            if (distToTarget < attackDistance && lastAttack > attackCooldownTime + randomTimeToAttack)
+                            {
+                                //DoDamage()
+                                agent.destination = target.position + goalTargetDirection * 0.1f;
+                                lastAttack = 0;
+                                randomTimeToAttack = Random.value * timeToleranceAttack;
+                            }
+                            else if ((distToTarget < attackDistance - tolleranceDistance || distToTarget > attackDistance - 0.1f) && lastAttack > 0.1)
+                            {
+                                agent.destination = target.position + (attackDistance - 0.1f) * goalTargetDirection;
+                            }
+
+                            break;
+
+                        case EAttackPatternType.RUN_AWAY:
+
+                            if (distToTarget < attackDistance)
+                                agent.destination = target.position + targetDirection * disengageDistance;
+
+                            break;
+
                     }
 
                     break;
             }
+
+            if (currentState != EAlertState.AGGRESSIVE)
+                transform.LookAt(transform.position + agent.velocity);
+            else
+                transform.LookAt(target.position);
         }
 
         private void OnDrawGizmosSelected()
@@ -191,28 +248,28 @@ namespace RuneProject.EnemySystem
 
             switch(currentPatrolState)
             {
-                case PatrolMode.DEFAULT:
+                case EPatrolMode.DEFAULT:
                     for (int i = 0; i < path.Count; i++)
                     {
                         Gizmos.DrawLine(path[i].position, path[(i + 1) % path.Count].position);
                     }
                     break;
 
-                case PatrolMode.TRACE_BACK:
+                case EPatrolMode.TRACE_BACK:
                     for (int i = 0; i < path.Count - 1; i++)
                     {
                         Gizmos.DrawLine(path[i].position, path[(i + 1) % path.Count].position);
                     }
                     break;
 
-                case PatrolMode.PING_PONG:
+                case EPatrolMode.PING_PONG:
                     for (int i = 0; i < path.Count; i++)
                     {
                         Gizmos.DrawLine(path[0].position, path[i].position);
                     }
                     break;
 
-                case PatrolMode.RANDOM:
+                case EPatrolMode.RANDOM:
                     for (int i = 0; i < path.Count; i++)
                     {
                         for (int j = 0; j < path.Count; j++)

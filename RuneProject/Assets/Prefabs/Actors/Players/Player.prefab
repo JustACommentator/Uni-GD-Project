@@ -456,7 +456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disableOnBuild: 0
-  openConsoleKeyCode: 94
+  openConsoleKeyCode: 44
   consoleParent: {fileID: 1626988721}
   consoleInputField: {fileID: 2125244050}
   consoleResolveText: {fileID: 675227063}
