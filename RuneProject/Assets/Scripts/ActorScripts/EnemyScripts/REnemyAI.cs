@@ -25,6 +25,9 @@ namespace RuneProject.EnemySystem
         [SerializeField] private float tolleranceDistance = 1;
         [SerializeField] private float timeToleranceAttack = 1;
         [SerializeField] private float rotationSpeed = 720;
+        [SerializeField] private Transform thrower = null;
+        [SerializeField] private Rigidbody shoots = null;
+        [SerializeField] private float throwingPower = 5;
 
         [Header("Patrol")]
         [SerializeField] private EPatrolMode currentPatrolState = EPatrolMode.DEFAULT;
@@ -191,7 +194,16 @@ namespace RuneProject.EnemySystem
                             if (distToTarget < attackDistance && lastAttack > attackCooldownTime + randomTimeToAttack)
                             {
                                 //DoDamage()
-                                agent.destination = target.position + targetDirection * 0.3f;
+                                if (shoots)
+                                {
+                                    Rigidbody projectile = Instantiate(shoots, thrower.position, thrower.rotation);
+                                    projectile.velocity = Vector3.Normalize(target.position + Vector3.up * Mathf.Sqrt(distToTarget) - transform.position) * throwingPower;
+                                }
+                                else
+                                {
+                                    agent.destination = target.position + targetDirection * 0.3f;
+                                }
+
                                 lastAttack = 0;
                                 randomTimeToAttack = Random.value * timeToleranceAttack;
                             }

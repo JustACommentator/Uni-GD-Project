@@ -704,6 +704,10 @@ PrefabInstance:
       value: Enemy 1
       objectReference: {fileID: 0}
     - target: {fileID: 8170655358071508800, guid: 4352ef07fc20941aaac0c94ef245ea1f, type: 3}
+      propertyPath: shoots
+      value: 
+      objectReference: {fileID: 2677164833305963422, guid: 31f7101a6445a4e33835928e212b7921, type: 3}
+    - target: {fileID: 8170655358071508800, guid: 4352ef07fc20941aaac0c94ef245ea1f, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 1716435618}
