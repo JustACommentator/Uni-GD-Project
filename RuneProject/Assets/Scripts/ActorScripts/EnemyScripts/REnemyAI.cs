@@ -211,7 +211,7 @@ namespace RuneProject.EnemySystem
                             }
                             else if ((distToTarget < attackDistance - tolleranceDistance || distToTarget > attackDistance - 0.1f) && lastAttack > 0.1 && agent.isOnNavMesh)
                             {
-                                agent.destination = target.position + targetDirection * (attackDistance - 0.1f);
+                                agent.destination = target.position + targetDirection * Random.Range(attackDistance / 2, attackDistance - 0.1f);
                             }
 
                             break;
