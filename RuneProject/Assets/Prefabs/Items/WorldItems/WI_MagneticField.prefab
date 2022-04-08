@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 4955736532292157212}
   - component: {fileID: 4955736532292157210}
   - component: {fileID: 4955736532292157211}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CenterMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,9 +219,9 @@ GameObject:
   - component: {fileID: 8383231606601964072}
   - component: {fileID: 4955736532473722420}
   - component: {fileID: 1461288868585803763}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WI_MagneticField
-  m_TagString: Untagged
+  m_TagString: WorldItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bc8a0632eeb30f4ca2d59e1c8e2ded7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attractionForce: 320
+  attractionForce: 275
   minDistanceToApplyForce: 0.3
 --- !u!1 &4955736533026954115
 GameObject:

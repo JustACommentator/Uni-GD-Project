@@ -82,9 +82,11 @@ MonoBehaviour:
   itemCategory: 2
   placeConditions: 
   spawnOffset: {x: 0, y: 1, z: 0}
+  dontRotateOnInstantiate: 0
   dontTumbleOnInstantiate: 0
   colliders:
   - {fileID: 6604197617597030806}
+  behavioursToDisableOnPreview: []
   placeholder: {fileID: 1725092983955051115}
   worldMesh: {fileID: 585458961477202560}
   rigidbody: {fileID: 7085603947495896346}
@@ -189,6 +191,10 @@ PrefabInstance:
       value: Mesh
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 33dd9b4c16fa5484f852b04b255f83bc, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 33dd9b4c16fa5484f852b04b255f83bc, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -274,6 +280,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 33dd9b4c16fa5484f852b04b255f83bc, type: 3}
       propertyPath: m_Name
       value: Placeholder
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 33dd9b4c16fa5484f852b04b255f83bc, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 33dd9b4c16fa5484f852b04b255f83bc, type: 3}
       propertyPath: m_IsActive

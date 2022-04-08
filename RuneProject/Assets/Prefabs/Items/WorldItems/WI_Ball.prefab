@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9169725240265407446}
   - component: {fileID: 9169725240265407440}
   - component: {fileID: 9169725240265407447}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,9 +93,9 @@ GameObject:
   - component: {fileID: 9169725240281524846}
   - component: {fileID: 1755267283068750393}
   - component: {fileID: 6495410289831321834}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WI_Ball
-  m_TagString: Untagged
+  m_TagString: WorldItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -161,9 +161,11 @@ MonoBehaviour:
   itemCategory: 1
   placeConditions: 
   spawnOffset: {x: 0, y: 1, z: 0}
+  dontRotateOnInstantiate: 0
   dontTumbleOnInstantiate: 1
   colliders:
   - {fileID: 9169725240281524846}
+  behavioursToDisableOnPreview: []
   placeholder: {fileID: 9169725240364399450}
   worldMesh: {fileID: 9169725240265407445}
   rigidbody: {fileID: 1755267283068750393}
