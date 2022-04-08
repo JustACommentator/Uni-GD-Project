@@ -132,7 +132,8 @@ namespace RuneProject.EnemySystem
                                 break;
                         }
 
-                        agent.SetDestination(path[currentPathPoint].position);
+                        if (agent.isOnNavMesh)
+                            agent.SetDestination(path[currentPathPoint].position);
                     }                    
 
                     break;
@@ -162,7 +163,8 @@ namespace RuneProject.EnemySystem
                     {
                         currentState = EAlertState.IDLE;
                         currentPathPoint = 0;
-                        agent.SetDestination(path[0].position);
+                        if (agent.isOnNavMesh)
+                            agent.SetDestination(path[0].position);
                     }
 
                     break;
@@ -199,7 +201,7 @@ namespace RuneProject.EnemySystem
                                     Rigidbody projectile = Instantiate(shoots, thrower.position, thrower.rotation);
                                     projectile.velocity = Vector3.Normalize(target.position + Vector3.up * Mathf.Sqrt(distToTarget) - transform.position) * throwingPower;
                                 }
-                                else
+                                else if (agent.isOnNavMesh)
                                 {
                                     agent.destination = target.position + targetDirection * 0.3f;
                                 }
@@ -207,7 +209,7 @@ namespace RuneProject.EnemySystem
                                 lastAttack = 0;
                                 randomTimeToAttack = Random.value * timeToleranceAttack;
                             }
-                            else if ((distToTarget < attackDistance - tolleranceDistance || distToTarget > attackDistance - 0.1f) && lastAttack > 0.1)
+                            else if ((distToTarget < attackDistance - tolleranceDistance || distToTarget > attackDistance - 0.1f) && lastAttack > 0.1 && agent.isOnNavMesh)
                             {
                                 agent.destination = target.position + targetDirection * (attackDistance - 0.1f);
                             }
@@ -216,7 +218,7 @@ namespace RuneProject.EnemySystem
 
                         case EAttackPatternType.RUN_AWAY:
 
-                            if (distToTarget < attackDistance)
+                            if (distToTarget < attackDistance && agent.isOnNavMesh)
                                 agent.destination = target.position + targetDirection * disengageDistance;
 
                             break;
