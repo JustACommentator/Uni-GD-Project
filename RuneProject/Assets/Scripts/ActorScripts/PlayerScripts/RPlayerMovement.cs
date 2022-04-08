@@ -30,6 +30,7 @@ namespace RuneProject.ActorSystem
         private Vector3 currentImpulseMovement = Vector3.zero;
         private bool isGrounded = false;
         private float airTime = 0f;
+        private int blockMovement = 0;
 
         public event System.EventHandler<Vector2> OnMove;
         public event System.EventHandler OnLand;
@@ -72,7 +73,7 @@ namespace RuneProject.ActorSystem
 
         private void HandleMovementAndTurnaround()
         {
-            Vector2 input = new Vector2(Input.GetAxis(INPUT_AXIS_HORIZONTAL), Input.GetAxis(INPUT_AXIS_VERTICAL));
+            Vector2 input = blockMovement > 0 ? Vector2.zero : new Vector2(Input.GetAxis(INPUT_AXIS_HORIZONTAL), Input.GetAxis(INPUT_AXIS_VERTICAL));
 
             if (playerRigidbody.velocity != Vector3.zero) playerRigidbody.velocity = Vector3.zero;
 
@@ -144,6 +145,22 @@ namespace RuneProject.ActorSystem
 
             if (!isGrounded)
                 airTime += Time.fixedDeltaTime;
+        }
+
+        /// <summary>
+        /// Blocks Player Movement Input.
+        /// </summary>
+        public void BlockMovementInput()
+        {
+            blockMovement++;
+        }
+
+        /// <summary>
+        /// Unblocks Player Movement Input.
+        /// </summary>
+        public void UnBlockMovementInput()
+        {
+            blockMovement = Mathf.Max(0, blockMovement - 1);
         }
 
         /// <summary>

@@ -7,10 +7,14 @@ namespace RuneProject.SpellSystem
     /// <summary>
     /// Handles the Spells that can be casted by the player.
     /// </summary>
+    [System.Serializable]
     public class RSpell
     {
         private ERuneType runeType = ERuneType.THROW_G;
         private List<int> runeArguments = new List<int>();
+
+        public ERuneType RuneType { get => runeType; }
+        public List<int> RuneArguments { get => runeArguments; }
 
         /// <summary>
         /// Creates a new Spell with set data.
@@ -19,71 +23,6 @@ namespace RuneProject.SpellSystem
         {
             runeType = _runeType;
             runeArguments = _args;
-        }
-
-        /// <summary>
-        /// Resolve the spell.
-        /// </summary>
-        public void Resolve()
-        {
-            switch (runeType)
-            {
-                //Wirf Xg (0) nach Yg (1)
-                case ERuneType.THROW_G:
-                    break;
-
-                //Wirf Xg (0) nach Yi
-                case ERuneType.THROW_I:
-                    break;
-
-                //Verwandle Xg (0) in Yg (1)
-                case ERuneType.TRANSFORM:
-                    break;
-
-                //Erzeuge Xe (0)
-                case ERuneType.CREATE_E:
-                    break;
-
-                //Erzeuge Xg (0)
-                case ERuneType.CREATE_G:
-                    break;
-
-                //Erzeuge Xe (0) an Stelle Yg (1)
-                case ERuneType.CREATE_E_AT_G:
-                    break;
-
-                //Erzeuge Xe (0) an Yi
-                case ERuneType.CREATE_E_AT_I:
-                    break;
-
-                //Erzeuge Xg (0) an Yg (1)
-                case ERuneType.CREATE_G_AT_G:
-                    break;
-
-                //Erzeuge Xg (0) an Yi
-                case ERuneType.CREATE_G_AT_I:
-                    break;
-
-                //Führe Xg (0)
-                case ERuneType.WIELD:
-                    break;
-
-                //Hetze Xg (0) auf Yg (1)
-                case ERuneType.AGGRO:
-                    break;
-
-                //Wende Xe (0) auf Yg (1)
-                case ERuneType.APPLY_ELEMENT:
-                    break;
-
-                //Lasse Xg (0) Yg (1) anziehen
-                case ERuneType.PULL_G:
-                    break;
-
-                //Lasse Xi Yg (1) anzeigen
-                case ERuneType.PULL_I:
-                    break;
-            }
         }
     }
 
@@ -102,6 +41,7 @@ namespace RuneProject.SpellSystem
         AGGRO,
         APPLY_ELEMENT,
         PULL_G,
-        PULL_I
+        PULL_I,
+        TELEPORT_I
     }
 }

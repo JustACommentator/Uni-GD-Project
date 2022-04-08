@@ -1,3 +1,4 @@
+using RuneProject.ActorSystem;
 using RuneProject.SpellSystem;
 using System;
 using System.Collections;
@@ -18,6 +19,8 @@ namespace RuneProject.UserInterfaceSystem
         [SerializeField] private KeyCode openConsoleKeyCode = KeyCode.Comma;
 
         [Header("References")]
+        [SerializeField] private RPlayerSpellHandler spellHandler = null;
+        [SerializeField] private RPlayerMovement playerMovement = null;
         [SerializeField] private GameObject consoleParent = null;
         [SerializeField] private TMP_InputField consoleInputField = null;
         [SerializeField] private TMP_Text consoleResolveText = null;
@@ -25,6 +28,7 @@ namespace RuneProject.UserInterfaceSystem
         private float consoleTimerLeft = 0f;
         private bool consoleIsOpen = false;
         private bool isInInputField = false;
+        private bool blockedMovement = false;
 
         private const float CONSOLE_TIMER = 5f;
         private const KeyCode ENTER_KEYCODE = KeyCode.Return;
@@ -81,7 +85,7 @@ namespace RuneProject.UserInterfaceSystem
             if (Enum.TryParse<ERuneType>(parts[1], out ERuneType runeType) && Enum.IsDefined(typeof(ERuneType), runeType))
             {
                 int parameterCount = parts.Length - 2;
-                if (parameterCount <= 0)
+                if (parameterCount <= 0 && runeType != (ERuneType.TELEPORT_I))
                 {
                     consoleResolveText.text = GetErrorMessage(2);
                     return;
@@ -108,7 +112,11 @@ namespace RuneProject.UserInterfaceSystem
                 }
                 else
                 {
-                    spell.Resolve();
+                    spellHandler.ResolveSpell(spell);
+                    consoleResolveText.text = $"Resolving spell {spell.RuneType} with arguments ";
+
+                    foreach (int i in spell.RuneArguments)
+                        consoleResolveText.text += $"{i} ";
                 }
             }
             else
@@ -118,6 +126,12 @@ namespace RuneProject.UserInterfaceSystem
             }
 
             consoleInputField.text = string.Empty;
+
+            if (blockedMovement)
+            {
+                blockedMovement = false;
+                playerMovement.UnBlockMovementInput();
+            }
         }
 
         private void OpenConsole()
@@ -127,12 +141,24 @@ namespace RuneProject.UserInterfaceSystem
             consoleParent.SetActive(true);
             consoleInputField.Select();
             consoleInputField.ActivateInputField();
+
+            if (!blockedMovement)
+            {
+                blockedMovement = true;
+                playerMovement.BlockMovementInput();
+            }
         }
 
         private void CloseConsole()
         {
             consoleParent.SetActive(false);
             consoleInputField.text = string.Empty;
+
+            if (blockedMovement)
+            {
+                blockedMovement = false;
+                playerMovement.UnBlockMovementInput();
+            }
         }
 
         private string GetErrorMessage(int id)
