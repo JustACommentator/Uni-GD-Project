@@ -22,6 +22,7 @@ namespace RuneProject.ActorSystem
         [Header("References")]
         [SerializeField] private Transform characterTransform = null;
         [SerializeField] private Camera mainCamera = null;
+        [SerializeField] private ParticleSystem effect = null;
 
         [Header("Prefabs")]
         [SerializeField] private GameObject playerTeleportIndicatorPrefab = null;
@@ -73,6 +74,8 @@ namespace RuneProject.ActorSystem
                         if (!instantiateTarget.DontTumbleOnInstantiate)
                             instance.Rigidbody.angularVelocity = Random.insideUnitSphere * instantiateTumbleSpinForce;
 
+                        Instantiate(effect, instance.transform);
+
                         instantiatedObjects.Enqueue(instance.gameObject);
                         if (instantiatedObjects.Count > instantiateLimit)
                             Destroy(instantiatedObjects.Dequeue());
@@ -121,6 +124,8 @@ namespace RuneProject.ActorSystem
                                 if (!instantiateTarget.DontTumbleOnInstantiate)
                                     instance.Rigidbody.angularVelocity = Random.insideUnitSphere * instantiateTumbleSpinForce;
 
+                                Instantiate(effect, instance.transform);
+
                                 instantiatedObjects.Enqueue(instance.gameObject);
                                 if (instantiatedObjects.Count > instantiateLimit)
                                     Destroy(instantiatedObjects.Dequeue());
@@ -133,7 +138,7 @@ namespace RuneProject.ActorSystem
                     }
                     break;
 
-                //Führe Xg (0)
+                //F?hre Xg (0)
                 case ERuneType.WIELD:
 
                     break;
