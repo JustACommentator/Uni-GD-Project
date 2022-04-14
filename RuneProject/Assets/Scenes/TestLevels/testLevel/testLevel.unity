@@ -3060,6 +3060,10 @@ PrefabInstance:
       propertyPath: lineRenderer
       value: 
       objectReference: {fileID: 1716435617}
+    - target: {fileID: 2752603098364448998, guid: df3c56c187de1cb49a29b2973cc76f32, type: 3}
+      propertyPath: effect
+      value: 
+      objectReference: {fileID: 9013604096713952438, guid: 250900aa652d840c5a1680524c147eff, type: 3}
     - target: {fileID: 4091881722017645194, guid: df3c56c187de1cb49a29b2973cc76f32, type: 3}
       propertyPath: m_Name
       value: Player
