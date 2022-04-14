@@ -1257,6 +1257,7 @@ MonoBehaviour:
   - {fileID: 773923306945573146, guid: a90aec7c35dd77f468591748b8afbcf9, type: 3}
   - {fileID: 6495410289831321834, guid: dd33094f3c66ffb4c9ac8a9814ef3c99, type: 3}
   - {fileID: 4955736532473722420, guid: bc526336519308d45887efa5f77cb71b, type: 3}
+  - {fileID: 5578698100696101480, guid: 4b376c7d71d7ae94c84dd570315f9b10, type: 3}
 --- !u!1 &4091881722017645194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,6 +1523,7 @@ MonoBehaviour:
   instantiateLimit: 30
   characterTransform: {fileID: 8049069945842501455}
   mainCamera: {fileID: 1687258584}
+  effect: {fileID: 9013604096713952438, guid: 250900aa652d840c5a1680524c147eff, type: 3}
   playerTeleportIndicatorPrefab: {fileID: 1840529877910198798, guid: 404810509551a86449645231e54d5e2b, type: 3}
 --- !u!1 &5778071784522341200
 GameObject:

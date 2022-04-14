@@ -25,7 +25,7 @@ namespace RuneProject.ActorSystem
         {
             if (currentAttackCooldown > 0f)
                 currentAttackCooldown -= Time.deltaTime;
-            else if (Input.GetKeyDown(KeyCode.Q))
+            else if (Input.GetMouseButtonDown(1))
             {
                 RaycastHit[] hits = Physics.SphereCastAll(transform.position + offsetHitSphere, range, transform.forward, float.MaxValue, ~playerMask);
                 RPlayerHealth nearestTarget = null;
