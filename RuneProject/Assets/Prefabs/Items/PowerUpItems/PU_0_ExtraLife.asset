@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef164dbf4606a23428c7d249cacc3920, type: 3}
+  m_Name: PU_0_ExtraLife
+  m_EditorClassIdentifier: 
+  csv_Key: extra_life
+  powerUpIcon: {fileID: 0}
+  hasLimit: 0
+  limit: 1

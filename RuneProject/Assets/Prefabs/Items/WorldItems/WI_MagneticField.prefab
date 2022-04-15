@@ -273,6 +273,18 @@ MonoBehaviour:
   spawnOffset: {x: 0, y: 0, z: 0}
   dontRotateOnInstantiate: 1
   dontTumbleOnInstantiate: 1
+  cantBePickedUp: 1
+  pickupRange: 0.25
+  cantBeUsedAsWeapon: 1
+  isRangedWeapon: 0
+  cantBeBroken: 0
+  rangedProjectilePrefab: {fileID: 0}
+  rangedProjectileSpawnOffset: {x: 0, y: 0, z: 1}
+  attackDamage: 1
+  attacksPerSecond: 2
+  attacksBeforeBeingBroken: 5
+  activeEffect: 0
+  activeEffectParameters: []
   colliders:
   - {fileID: 8383231606601964072}
   behavioursToDisableOnPreview:

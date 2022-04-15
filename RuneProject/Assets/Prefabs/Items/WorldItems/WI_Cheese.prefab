@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 773923306945573146}
   - component: {fileID: 6604197617597030806}
   - component: {fileID: 7085603947495896346}
+  - component: {fileID: -6710769352922494460}
   m_Layer: 7
   m_Name: WI_Cheese
   m_TagString: WorldItem
@@ -84,6 +85,19 @@ MonoBehaviour:
   spawnOffset: {x: 0, y: 1, z: 0}
   dontRotateOnInstantiate: 0
   dontTumbleOnInstantiate: 0
+  cantBePickedUp: 0
+  pickupRange: 0.25
+  cantBeUsedAsWeapon: 0
+  isRangedWeapon: 0
+  cantBeBroken: 0
+  rangedProjectilePrefab: {fileID: 0}
+  rangedProjectileSpawnOffset: {x: 0, y: 0, z: 1}
+  attackDamage: 1
+  attacksPerSecond: 2
+  attacksBeforeBeingBroken: 5
+  activeEffect: 1
+  activeEffectParameters:
+  - 2
   colliders:
   - {fileID: 6604197617597030806}
   behavioursToDisableOnPreview: []
@@ -119,6 +133,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-6710769352922494460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5333160367681994008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11a44548dfcbb3847acfba43bbf0dd5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToCatchFire: 1.5
+  burnTimeUntilDestroy: 5
 --- !u!1001 &350891557532454865
 PrefabInstance:
   m_ObjectHideFlags: 0
