@@ -9,6 +9,8 @@ namespace RuneProject.ActorSystem
         private int currentHealth = 0;
         private bool isAlive = false;
 
+        public int MaxHealth { get => maxHealth; set => maxHealth = value; }
+
         public event System.EventHandler<int> OnDamageTaken;
         public event System.EventHandler<int> OnHealReceived;
         public event System.EventHandler OnDeath;

@@ -1,4 +1,5 @@
 using RuneProject.ActorSystem;
+using RuneProject.LibrarySystem;
 using RuneProject.SpellSystem;
 using System;
 using System.Collections;
@@ -19,6 +20,7 @@ namespace RuneProject.UserInterfaceSystem
         [SerializeField] private KeyCode openConsoleKeyCode = KeyCode.Comma;
 
         [Header("References")]
+        [SerializeField] private RPlayerInventory playerInventory = null;
         [SerializeField] private RPlayerSpellHandler spellHandler = null;
         [SerializeField] private RPlayerMovement playerMovement = null;
         [SerializeField] private GameObject consoleParent = null;
@@ -76,52 +78,72 @@ namespace RuneProject.UserInterfaceSystem
 
             string[] parts = consoleInputField.text.Split(' ');
 
-            if (!parts[0].Equals("s"))
+            if (parts[0].Equals("s")) 
             {
-                consoleResolveText.text = GetErrorMessage(0);
-                return;
-            }
+                if (Enum.TryParse<ERuneType>(parts[1], out ERuneType runeType) && Enum.IsDefined(typeof(ERuneType), runeType))
+                {
+                    int parameterCount = parts.Length - 2;
+                    if (parameterCount <= 0 && runeType != (ERuneType.TELEPORT_I))
+                    {
+                        consoleResolveText.text = GetErrorMessage(2);
+                        return;
+                    }
 
-            if (Enum.TryParse<ERuneType>(parts[1], out ERuneType runeType) && Enum.IsDefined(typeof(ERuneType), runeType))
+                    List<int> args = new List<int>();
+                    for (int i = 2; i < parts.Length; i++)
+                    {
+                        if (int.TryParse(parts[i], out int current))
+                            args.Add(current);
+                        else
+                        {
+                            consoleResolveText.text = GetErrorMessage(-1);
+                            return;
+                        }
+                    }
+
+                    RSpell spell = new RSpell(runeType, args);
+
+                    if (spell == null)
+                    {
+                        consoleResolveText.text = GetErrorMessage(0);
+                        return;
+                    }
+                    else
+                    {
+                        spellHandler.ResolveSpell(spell);
+                        consoleResolveText.text = $"Resolving spell {spell.RuneType} with arguments ";
+
+                        foreach (int i in spell.RuneArguments)
+                            consoleResolveText.text += $"{i} ";
+                    }
+                }
+                else
+                {
+                    consoleResolveText.text = GetErrorMessage(1);
+                    return;
+                }
+            }
+            else if (parts[0].Equals("a"))
             {
-                int parameterCount = parts.Length - 2;
-                if (parameterCount <= 0 && runeType != (ERuneType.TELEPORT_I))
+                if (parts.Length <= 1)
                 {
                     consoleResolveText.text = GetErrorMessage(2);
                     return;
                 }
-
-                List<int> args = new List<int>();
-                for (int i = 2; i < parts.Length; i++)
+                else if (int.TryParse(parts[1], out int index))
                 {
-                    if (int.TryParse(parts[i], out int current))                    
-                        args.Add(current);
-                    else
-                    {
-                        consoleResolveText.text = GetErrorMessage(-1);
-                        return;
-                    }
-                }
-                
-                RSpell spell = new RSpell(runeType, args);                
-
-                if (spell == null)
-                {
-                    consoleResolveText.text = GetErrorMessage(0);
-                    return;
+                    playerInventory.AddPowerUp(RItemIdentifierLibrary.GetPowerUpItem(index));
+                    consoleResolveText.text = $"Adding Powerup of ID {index}";
                 }
                 else
                 {
-                    spellHandler.ResolveSpell(spell);
-                    consoleResolveText.text = $"Resolving spell {spell.RuneType} with arguments ";
-
-                    foreach (int i in spell.RuneArguments)
-                        consoleResolveText.text += $"{i} ";
+                    consoleResolveText.text = GetErrorMessage(2);
+                    return;
                 }
             }
             else
             {
-                consoleResolveText.text = GetErrorMessage(1);
+                consoleResolveText.text = GetErrorMessage(0);
                 return;
             }
 

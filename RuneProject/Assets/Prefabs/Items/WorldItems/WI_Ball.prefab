@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9169725240265407445}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.15, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 9169725240281524845}
@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 9169725240281524846}
   - component: {fileID: 1755267283068750393}
   - component: {fileID: 6495410289831321834}
+  - component: {fileID: -9153644304996295495}
   m_Layer: 7
   m_Name: WI_Ball
   m_TagString: WorldItem
@@ -128,7 +129,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.15
-  m_Center: {x: 0, y: 0.15, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1755267283068750393
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -163,12 +164,38 @@ MonoBehaviour:
   spawnOffset: {x: 0, y: 1, z: 0}
   dontRotateOnInstantiate: 0
   dontTumbleOnInstantiate: 1
+  cantBePickedUp: 0
+  pickupRange: 0.25
+  cantBeUsedAsWeapon: 0
+  isRangedWeapon: 0
+  cantBeBroken: 0
+  rangedProjectilePrefab: {fileID: 0}
+  rangedProjectileSpawnOffset: {x: 0, y: 0, z: 1}
+  attackDamage: 1
+  attacksPerSecond: 2
+  attacksBeforeBeingBroken: 8
+  activeEffect: 0
+  activeEffectParameters: []
   colliders:
   - {fileID: 9169725240281524846}
   behavioursToDisableOnPreview: []
   placeholder: {fileID: 9169725240364399450}
   worldMesh: {fileID: 9169725240265407445}
   rigidbody: {fileID: 1755267283068750393}
+--- !u!114 &-9153644304996295495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9169725240281524844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11a44548dfcbb3847acfba43bbf0dd5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToCatchFire: 1.5
+  burnTimeUntilDestroy: 5
 --- !u!1 &9169725240364399450
 GameObject:
   m_ObjectHideFlags: 0

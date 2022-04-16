@@ -63,7 +63,7 @@ namespace RuneProject.ActorSystem
                 //Erzeuge Xg (0)
                 case ERuneType.CREATE_G:
                     {
-                        RWorldItem instantiateTarget = RItemIdentifierLibrary.GetItem(spell.RuneArguments[0]);
+                        RWorldItem instantiateTarget = RItemIdentifierLibrary.GetWorldItem(spell.RuneArguments[0]);
                         RWorldItem instance = Instantiate(instantiateTarget, transform.position
                             + characterTransform.forward * defaultInstantiateOffset.z
                             + Vector3.up * defaultInstantiateOffset.y
@@ -100,7 +100,7 @@ namespace RuneProject.ActorSystem
                 //Erzeuge Xg (0) an Yi
                 case ERuneType.CREATE_G_AT_I:
                     {
-                        RWorldItem instantiateTarget = RItemIdentifierLibrary.GetItem(spell.RuneArguments[0]);
+                        RWorldItem instantiateTarget = RItemIdentifierLibrary.GetWorldItem(spell.RuneArguments[0]);
                         bool foundTarget = false;
                         RWorldItem placeholderInstance = Instantiate(instantiateTarget);
                         placeholderInstance.SetAsPreview();
