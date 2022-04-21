@@ -45,7 +45,7 @@ PrefabInstance:
       objectReference: {fileID: -2432090755550338912, guid: 9c71e1930942c4da699df1b415398484, type: 3}
     - target: {fileID: 4431963067936674338, guid: 4352ef07fc20941aaac0c94ef245ea1f, type: 3}
       propertyPath: m_Name
-      value: Enemy
+      value: Slime
       objectReference: {fileID: 0}
     - target: {fileID: 8170655358071508800, guid: 4352ef07fc20941aaac0c94ef245ea1f, type: 3}
       propertyPath: anim

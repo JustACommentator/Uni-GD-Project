@@ -81,36 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &3074219463465201809
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8059643525274377235}
-  m_Layer: 0
-  m_Name: Thrower
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8059643525274377235
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3074219463465201809}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.13, z: 0.299}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 8628936512816877633}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4431963067936674338
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +114,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1219525342}
-  - {fileID: 8059643525274377235}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -194,8 +163,9 @@ MonoBehaviour:
   tolleranceDistance: 1
   timeToleranceAttack: 1
   rotationSpeed: 720
-  thrower: {fileID: 8059643525274377235}
+  thrower: {fileID: 0}
   shoots: {fileID: 0}
+  throwingPower: 5
   currentPatrolState: 0
   path:
   - {fileID: 0}
@@ -204,6 +174,7 @@ MonoBehaviour:
   startAtFirstPathPosition: 1
   reachedDistance: 1
   agent: {fileID: 4180986265226394684}
+  anim: {fileID: 0}
 --- !u!54 &3986327658171331712
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -233,7 +233,7 @@ namespace RuneProject.EnemySystem
             Vector3 dir;
 
             if (currentState != EAlertState.AGGRESSIVE)
-                dir = transform.position + agent.velocity;
+                dir = agent.velocity;
             else
                 dir = target.position - transform.position;
 
