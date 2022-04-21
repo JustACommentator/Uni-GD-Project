@@ -37,6 +37,7 @@ namespace RuneProject.EnemySystem
 
         [Header("References")]
         [SerializeField] private NavMeshAgent agent = null;
+        [SerializeField] private Animator anim = null;
 
         private float susCount = 0;
         private int currentPathPoint = 0;
@@ -203,6 +204,7 @@ namespace RuneProject.EnemySystem
                                 }
                                 else if (agent.isOnNavMesh)
                                 {
+                                    anim.SetTrigger("attack");
                                     agent.destination = target.position + targetDirection * 0.3f;
                                 }
 
