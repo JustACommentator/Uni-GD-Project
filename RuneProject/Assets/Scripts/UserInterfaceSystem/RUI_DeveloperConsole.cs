@@ -28,6 +28,7 @@ namespace RuneProject.UserInterfaceSystem
         [SerializeField] private TMP_Text consoleResolveText = null;
 
         private float consoleTimerLeft = 0f;
+        private string lastInput = string.Empty;
         private bool consoleIsOpen = false;
         private bool isInInputField = false;
         private bool blockedMovement = false;
@@ -115,6 +116,8 @@ namespace RuneProject.UserInterfaceSystem
 
                         foreach (int i in spell.RuneArguments)
                             consoleResolveText.text += $"{i} ";
+
+                        lastInput = consoleInputField.text;
                     }
                 }
                 else
@@ -134,10 +137,22 @@ namespace RuneProject.UserInterfaceSystem
                 {
                     playerInventory.AddPowerUp(RItemIdentifierLibrary.GetPowerUpItem(index));
                     consoleResolveText.text = $"Adding Powerup of ID {index}";
+                    lastInput = consoleInputField.text;
                 }
                 else
                 {
                     consoleResolveText.text = GetErrorMessage(2);
+                    return;
+                }
+            }
+            else if (consoleInputField.text.Equals("l"))
+            {
+                if (string.IsNullOrEmpty(lastInput))
+                    consoleResolveText.text = GetErrorMessage(3);
+                else
+                {
+                    consoleInputField.text = lastInput;
+                    ResolveInput();
                     return;
                 }
             }
@@ -193,6 +208,8 @@ namespace RuneProject.UserInterfaceSystem
                     return "<color=red>RuneNotFoundException</color>";
                 case 2: 
                     return "<color=red>MissingParameterException</color>";
+                case 3:
+                    return "<color=red>NoValidLastInputException</color>";
             }
 
             return "<color=red>Unknown Error.</color>";

@@ -1,0 +1,22 @@
+newmtl plate_top
+d 1
+Ns 0.99
+Ni 0
+Ka 0 0 0
+Kd 0.992157 0.992157 0.992157
+Ks 0.984314 0.984314 0.984314
+Km 0.0003937
+map_Kd /Maps/plate.jpg
+map_Bump /Maps/plate.jpg
+
+newmtl plate_bottom
+d 1
+Ns 0.99
+Ni 0
+Ka 0 0 0
+Kd 0.992157 0.992157 0.992157
+Ks 0.984314 0.984314 0.984314
+Km 0.0003937
+map_Kd /Maps/plate.jpg
+map_Bump /Maps/plate.jpg
+
