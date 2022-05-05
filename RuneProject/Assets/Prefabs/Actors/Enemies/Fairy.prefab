@@ -205,7 +205,7 @@ Animator:
   m_GameObject: {fileID: 3021471253313995365}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b9779c27583314a7d8823abfeec323b4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -304,7 +304,7 @@ MonoBehaviour:
   startAtFirstPathPosition: 1
   reachedDistance: 1
   agent: {fileID: 3977839142796325433}
-  anim: {fileID: 0}
+  anim: {fileID: 4237770999407957194}
 --- !u!54 &4207347930333592197
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -344,7 +344,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 0.1
+  m_Height: 0.8
   m_Direction: 1
-  m_Center: {x: 0, y: 0.47, z: 0}
+  m_Center: {x: 0, y: 0.4, z: 0}
