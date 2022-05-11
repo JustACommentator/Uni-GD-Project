@@ -1,5 +1,6 @@
 using RuneProject.HitboxSystem;
 using RuneProject.ItemSystem;
+using RuneProject.UtilitySystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private float range = 1.5f;
         [SerializeField] private LayerMask playerMask = new LayerMask();
         [SerializeField] private int damage = 1;
+        [SerializeField] private Vector3 knockback = Vector3.zero;
         [SerializeField] private LineRenderer lineRenderer;
         [SerializeField] private Vector3 offsetLROrigin = Vector3.zero;
         [SerializeField] private Vector3 offsetLRTarget = Vector3.zero;
@@ -37,12 +39,25 @@ namespace RuneProject.ActorSystem
         [SerializeField] private bool cantUseWorldItemActiveEffectOnAttackCooldown = false;
 
         private float currentAttackCooldown = 0f;
+        private bool blockAttackInput = false;
+        private bool blockPickupInput = false;
+        private bool blockWorldItemInput = false;
         private int currentPickedUpWorldItemBeforeBreakCounter = 0;
         private RWorldItem currentPickedUpWorldItem = null;
 
         private const int ATTACK_MOUSE_BUTTON = 1;
         private const KeyCode PICKUP_DROP_KEYCODE = KeyCode.F;
         private const KeyCode WORLD_ITEM_ACTIVE_EFFECT_KEYCODE = KeyCode.R;
+
+        private void Start()
+        {
+            playerHealth.OnDeath += PlayerHealth_OnDeath;
+        }
+
+        private void OnDestroy()
+        {
+            playerHealth.OnDeath -= PlayerHealth_OnDeath;
+        }
 
         void Update()
         {
@@ -53,7 +68,7 @@ namespace RuneProject.ActorSystem
 
         private void HandlePickups()
         {
-            if (Input.GetKeyDown(PICKUP_DROP_KEYCODE))
+            if (Input.GetKeyDown(PICKUP_DROP_KEYCODE) && !blockPickupInput)
             {
                 if (currentPickedUpWorldItem)
                     DropCurrentWorldItem();
@@ -66,13 +81,13 @@ namespace RuneProject.ActorSystem
         {
             if (currentAttackCooldown > 0f)
                 currentAttackCooldown -= Time.deltaTime;
-            else if (Input.GetMouseButtonDown(ATTACK_MOUSE_BUTTON))
+            else if (Input.GetMouseButtonDown(ATTACK_MOUSE_BUTTON) && !blockAttackInput)
             {
                 if (!currentPickedUpWorldItem)
                 {
                     RaycastHit[] hits = Physics.SphereCastAll(transform.position + offsetHitSphere, range, transform.forward, float.MaxValue, ~playerMask);
                     RPlayerHealth nearestTarget = null;
-                    float nearestDistance = float.MaxValue;
+                    float nearestDistance = range + 0.1f;
                     for (int i = 0; i < hits.Length; i++)
                     {
                         if (hits[i].collider.TryGetComponent<RPlayerHealth>(out RPlayerHealth current))
@@ -88,7 +103,7 @@ namespace RuneProject.ActorSystem
                     if (nearestTarget != null)
                     {
                         StartCoroutine(IDrawLine(transform.position, nearestTarget.transform.position));
-                        nearestTarget.TakeDamage(gameObject, damage);
+                        nearestTarget.TakeDamage(gameObject, damage, RVectorUtility.ConvertKnockbackToWorldSpace(transform.position, nearestTarget.transform.position, knockback));
                         currentAttackCooldown = 1f / attacksPerSecond;
                     }
                 }
@@ -108,7 +123,7 @@ namespace RuneProject.ActorSystem
         private void HandleWorldItemActiveEffects()
         {
             if (Input.GetKeyDown(WORLD_ITEM_ACTIVE_EFFECT_KEYCODE) && currentPickedUpWorldItem &&
-                (currentAttackCooldown <= 0f || !cantUseWorldItemActiveEffectOnAttackCooldown))
+                (currentAttackCooldown <= 0f || !cantUseWorldItemActiveEffectOnAttackCooldown) && !blockWorldItemInput)
             {
                 switch (currentPickedUpWorldItem.ActiveEffect)
                 {
@@ -211,6 +226,13 @@ namespace RuneProject.ActorSystem
 
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, pickupDetectionRange);
+        }
+
+        private void PlayerHealth_OnDeath(object sender, GameObject e)
+        {
+            blockAttackInput = true;
+            blockPickupInput = true;
+            blockWorldItemInput = true;
         }
 
         private IEnumerator IDrawLine(Vector3 a, Vector3 b)

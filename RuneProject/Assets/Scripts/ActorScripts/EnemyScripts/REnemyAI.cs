@@ -37,6 +37,7 @@ namespace RuneProject.EnemySystem
         [Header("References")]
         [SerializeField] private NavMeshAgent agent = null;
         [SerializeField] private Animator anim = null;
+        [SerializeField] private List<GameObject> hitboxes = new List<GameObject>();
 
         private float susCount = 0;
         private int currentPathPoint = 0;
@@ -46,6 +47,8 @@ namespace RuneProject.EnemySystem
         public Transform target;
 
         RuneProject.ActorSystem.RPlayerHealth player;
+
+        private const float HITBOX_UPTIME = 0.5f;
 
         enum EAlertState
         {
@@ -76,6 +79,8 @@ namespace RuneProject.EnemySystem
 
             player = GameObject.FindGameObjectWithTag("Player").GetComponent< RuneProject.ActorSystem.RPlayerHealth>();
             target = player.transform;
+            for (int i = 0; i < hitboxes.Count; i++)
+                hitboxes[i].SetActive(false);
         }
 
         private void Update()
@@ -211,6 +216,7 @@ namespace RuneProject.EnemySystem
                                 {
                                     anim.SetTrigger("attack");
                                     agent.destination = target.position + targetDirection * 0.3f;
+                                    StartCoroutine(IToggleHitboxes());
                                 }
 
                                 lastAttack = 0;
@@ -300,6 +306,15 @@ namespace RuneProject.EnemySystem
                     }
                     break;
             }
+        }
+
+        private IEnumerator IToggleHitboxes()
+        {
+            for (int i=0; i<hitboxes.Count; i++)
+                hitboxes[i].SetActive(true);
+            yield return new WaitForSeconds(HITBOX_UPTIME);
+            for (int i = 0; i < hitboxes.Count; i++)
+                hitboxes[i].SetActive(false);
         }
     }
 }
