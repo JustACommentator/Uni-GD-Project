@@ -19,7 +19,6 @@ namespace RuneProject.EnemySystem
 
         [Header("Combat")]
         [SerializeField] private EAttackPatternType currentPattern = EAttackPatternType.RUN_TOWARDS;
-        [SerializeField] private Transform target = null;
         [SerializeField] private float attackDistance = 2;
         [SerializeField] private float attackCooldownTime = 2;
         [SerializeField] private float tolleranceDistance = 1;
@@ -44,6 +43,9 @@ namespace RuneProject.EnemySystem
         private bool pathForward = true;
         private float lastAttack = 0;
         private float randomTimeToAttack = 0;
+        public Transform target;
+
+        RuneProject.ActorSystem.RPlayerHealth player;
 
         enum EAlertState
         {
@@ -71,6 +73,9 @@ namespace RuneProject.EnemySystem
         {
             if (path.Count > 1 && startAtFirstPathPosition)
                 transform.position = path[0].position;
+
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent< RuneProject.ActorSystem.RPlayerHealth>();
+            target = player.transform;
         }
 
         private void Update()
@@ -164,7 +169,7 @@ namespace RuneProject.EnemySystem
                     {
                         currentState = EAlertState.IDLE;
                         currentPathPoint = 0;
-                        if (agent.isOnNavMesh)
+                        if (agent.isOnNavMesh && path.Count > 0)
                             agent.SetDestination(path[0].position);
                     }
 
@@ -174,7 +179,7 @@ namespace RuneProject.EnemySystem
 
                     lastAttack += Time.deltaTime;
 
-                    if (distToTarget > disengageDistance || lastAttack > disengageTime)
+                    if (distToTarget > disengageDistance || lastAttack > disengageTime || !player.isAlive)
                     {
                         currentState = EAlertState.SUSPICIOUS;
                         lastAttack = 0;
@@ -238,8 +243,11 @@ namespace RuneProject.EnemySystem
                 dir = target.position - transform.position;
 
             dir.y = 0;
-            Quaternion rot = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.Lerp(transform.rotation, rot, agent.angularSpeed * 0.1f * Time.deltaTime);
+            if (dir != Vector3.zero)
+            {
+                Quaternion rot = Quaternion.LookRotation(dir);
+                transform.rotation = Quaternion.Lerp(transform.rotation, rot, agent.angularSpeed * 0.1f * Time.deltaTime);
+            }
         }
 
         private void OnDrawGizmosSelected()

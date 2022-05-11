@@ -7,7 +7,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private int maxHealth = 10;
      
         private int currentHealth = 0;
-        private bool isAlive = false;
+        public bool isAlive = false;
 
         public int MaxHealth { get => maxHealth; set => maxHealth = value; }
 
