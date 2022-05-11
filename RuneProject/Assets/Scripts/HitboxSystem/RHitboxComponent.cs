@@ -1,4 +1,5 @@
 using RuneProject.ActorSystem;
+using RuneProject.UtilitySystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace RuneProject.HitboxSystem
         [SerializeField] protected bool isMultihitHitbox = false;
         [SerializeField] protected bool resetDamageInstanceOnTriggerExit = false;
         [SerializeField] protected float maxDamageInstancesPerSecond = 1f;
+        [SerializeField] protected Vector3 knockback = Vector3.zero;
 
         protected Dictionary<Collider, Tuple<RPlayerHealth, float>> damageDictionary = new Dictionary<Collider, Tuple<RPlayerHealth, float>>();
 
@@ -28,19 +30,20 @@ namespace RuneProject.HitboxSystem
         {
             if (other.gameObject == owner) return;
 
+            if (damageDictionary.ContainsKey(other))
+            {
+                Tuple<RPlayerHealth, float> currentTuple = damageDictionary[other];
+                if (Time.time >= currentTuple.Item2)                
+                    damageDictionary.Remove(other);                
+            }
+
             if (!damageDictionary.ContainsKey(other))
             {
                 if (other.TryGetComponent<RPlayerHealth>(out RPlayerHealth otherHealth))
                 {
-                    otherHealth.TakeDamage(owner, damage);
+                    otherHealth.TakeDamage(owner, damage, RVectorUtility.ConvertKnockbackToWorldSpace(owner.transform.position, other.transform.position, knockback));
                     damageDictionary.Add(other, new Tuple<RPlayerHealth, float>(otherHealth, Time.time + 1f / maxDamageInstancesPerSecond));
                 }
-            }
-            else
-            {
-                Tuple<RPlayerHealth, float> currentTuple = damageDictionary[other];
-                if (currentTuple.Item2 >= Time.time)
-                    damageDictionary.Remove(other);
             }
         }
 

@@ -25,6 +25,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private Transform cameraTransform = null;
         [SerializeField] private Transform characterParentTransform = null;
         [SerializeField] private Rigidbody playerRigidbody = null;
+        [SerializeField] private RPlayerHealth playerHealth = null;
 
         private Vector3 currentDesiredMovement = Vector3.zero;
         private Vector3 currentImpulseMovement = Vector3.zero;
@@ -46,6 +47,16 @@ namespace RuneProject.ActorSystem
         public bool IsGrounded { get => isGrounded; }
         public Vector3 Forward { get => characterParentTransform.forward; }
         public Vector3 Right { get => characterParentTransform.right; }
+
+        private void Start()
+        {
+            playerHealth.OnDeath += PlayerHealth_OnDeath;
+        }
+
+        private void OnDestroy()
+        {
+            playerHealth.OnDeath -= PlayerHealth_OnDeath;
+        }
 
         private void Update()
         {
@@ -182,6 +193,11 @@ namespace RuneProject.ActorSystem
             dir.Normalize();
 
             currentImpulseMovement += dir * strength;
+        }
+
+        private void PlayerHealth_OnDeath(object sender, GameObject e)
+        {
+            BlockMovementInput();
         }
     }
 }
