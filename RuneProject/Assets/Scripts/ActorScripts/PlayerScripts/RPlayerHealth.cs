@@ -17,7 +17,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private float receivedKnockbackMultiplier = 1f;
      
         private int currentHealth = 0;
-        public bool isAlive = false;
+        private bool isAlive = false;
         private NavMeshAgent agent = null;
         private Coroutine currentKnockbackRoutine = null;
         private Coroutine currentDamageMaterialRoutine = null;
@@ -25,6 +25,7 @@ namespace RuneProject.ActorSystem
         public int MaxHealth { get => maxHealth; set => maxHealth = value; }
         public float ReceivedKnockbackMultiplier { get => receivedKnockbackMultiplier; }
         public int CurrentHealth { get => currentHealth; }
+        public bool IsAlive { get => isAlive; }
 
         public event System.EventHandler<int> OnDamageTaken;
         public event System.EventHandler<int> OnHealReceived;

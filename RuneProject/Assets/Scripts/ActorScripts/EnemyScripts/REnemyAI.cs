@@ -1,3 +1,4 @@
+using RuneProject.ActorSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,9 +45,8 @@ namespace RuneProject.EnemySystem
         private bool pathForward = true;
         private float lastAttack = 0;
         private float randomTimeToAttack = 0;
-        public Transform target;
-
-        RuneProject.ActorSystem.RPlayerHealth player;
+        private Transform target = null;
+        private RPlayerHealth player = null;
 
         private const float HITBOX_UPTIME = 0.5f;
 
@@ -184,7 +184,7 @@ namespace RuneProject.EnemySystem
 
                     lastAttack += Time.deltaTime;
 
-                    if (distToTarget > disengageDistance || lastAttack > disengageTime || !player.isAlive)
+                    if (distToTarget > disengageDistance || lastAttack > disengageTime || !player.IsAlive)
                     {
                         currentState = EAlertState.SUSPICIOUS;
                         lastAttack = 0;

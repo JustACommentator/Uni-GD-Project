@@ -2511,8 +2511,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c3cad8397be81a45a77e5c59da54aa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2
-  runSpeed: 4
+  walkSpeed: 3
+  runSpeed: 5
   inputRunThreshold: 0.8
   alwaysRun: 0
   smoothTurnaround: 1
@@ -2551,7 +2551,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   damage: 1
-  knockback: {x: 10, y: 0, z: 0}
+  knockback: {x: 30, y: 0, z: 0}
   lineRenderer: {fileID: 4941768753697270743}
   offsetLROrigin: {x: 0, y: 0, z: 0}
   offsetLRTarget: {x: 0, y: 0, z: 0}

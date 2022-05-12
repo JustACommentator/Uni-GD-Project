@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1443582908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.45, z: 0.15}
+  m_LocalPosition: {x: 0, y: 0.45, z: 0.425}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8859111868682657348}
@@ -355,7 +355,6 @@ MonoBehaviour:
   disengageTime: 10
   aggroTime: 3
   currentPattern: 1
-  target: {fileID: 0}
   attackDistance: 2
   attackCooldownTime: 2
   tolleranceDistance: 1

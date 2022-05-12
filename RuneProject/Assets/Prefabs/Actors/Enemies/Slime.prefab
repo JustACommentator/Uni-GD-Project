@@ -291,7 +291,7 @@ GameObject:
   - component: {fileID: 6399312475632591376}
   - component: {fileID: 3578261989150793553}
   - component: {fileID: 8499373906123317002}
-  - component: {fileID: 6553316290693037192}
+  - component: {fileID: 6860729249378902336}
   m_Layer: 9
   m_Name: Slime
   m_TagString: Enemy
@@ -374,7 +374,6 @@ MonoBehaviour:
   anim: {fileID: 5889011835949142983}
   hitboxes:
   - {fileID: 5818369838979829323}
-  target: {fileID: 0}
 --- !u!54 &6399312475632591376
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -411,7 +410,6 @@ MonoBehaviour:
   isAI: 1
   maxHealth: 10
   receivedKnockbackMultiplier: 1
-  isAlive: 0
 --- !u!114 &8499373906123317002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,12 +427,12 @@ MonoBehaviour:
   enemyAgent: {fileID: 6168088656180980396}
   enemyRigidbody: {fileID: 6399312475632591376}
   enemyColliders:
-  - {fileID: 6553316290693037192}
+  - {fileID: 6860729249378902336}
   bouncyMaterial: {fileID: 13400000, guid: ecf59c5977e7eee4b93c100d2989a82e, type: 2}
   destroyParticleSystemPrefab: {fileID: 9013604096713952438, guid: 250900aa652d840c5a1680524c147eff, type: 3}
   ragdollInitialBurstPower: 2000
---- !u!64 &6553316290693037192
-MeshCollider:
+--- !u!135 &6860729249378902336
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -443,7 +441,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1579241630799410176, guid: c8e77d8cc5c7847c19814be6d943f86e, type: 3}
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Center: {x: 0, y: 0.4, z: 0}
