@@ -92,7 +92,7 @@ namespace RuneProject.ActorSystem
                     {
                         if (hits[i].collider.TryGetComponent<RPlayerHealth>(out RPlayerHealth current))
                         {
-                            if (hits[i].distance < nearestDistance)
+                            if (hits[i].distance < nearestDistance && current.IsAlive)
                             {
                                 nearestDistance = hits[i].distance;
                                 nearestTarget = hits[i].collider.GetComponent<RPlayerHealth>();
@@ -100,7 +100,7 @@ namespace RuneProject.ActorSystem
                         }
                     }
 
-                    if (nearestTarget != null)
+                    if (nearestTarget != null && nearestTarget.IsAlive)
                     {
                         StartCoroutine(IDrawLine(transform.position, nearestTarget.transform.position));
                         nearestTarget.TakeDamage(gameObject, damage, RVectorUtility.ConvertKnockbackToWorldSpace(transform.position, nearestTarget.transform.position, knockback));

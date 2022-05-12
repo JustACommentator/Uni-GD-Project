@@ -1,4 +1,5 @@
 using RuneProject.ActorSystem;
+using RuneProject.EnvironmentSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,6 +24,12 @@ namespace RuneProject.UserInterfaceSystem
         private void PlayerHealth_OnDeath(object sender, GameObject e)
         {
             gameOverCanvas.SetActive(true);
+        }
+
+        public void OnClick_Respawn()
+        {
+            Destroy(GameObject.FindGameObjectWithTag("Player"));
+            FindObjectOfType<RPlayerSpawnPoint>().SpawnPlayer();
         }
 
         public void OnClick_ReloadScene()

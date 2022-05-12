@@ -77,14 +77,24 @@ namespace RuneProject.EnemySystem
             if (path.Count > 1 && startAtFirstPathPosition)
                 transform.position = path[0].position;
 
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent< RuneProject.ActorSystem.RPlayerHealth>();
-            target = player.transform;
+            if (!player)
+            {
+                player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<RPlayerHealth>();
+                target = player?.transform;
+            }
+
             for (int i = 0; i < hitboxes.Count; i++)
                 hitboxes[i].SetActive(false);
         }
 
         private void Update()
         {
+            if (!player)
+            {
+                player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<RPlayerHealth>();
+                target = player?.transform;
+            }
+
             float distToTarget = Vector3.Distance(transform.position, target.position);
 
             switch (currentState)
