@@ -17,7 +17,12 @@ namespace RuneProject.ActorSystem
         [SerializeField] private Transform characterTransform = null;
         [SerializeField] private RHitboxComponent attackHitbox = null;
         [Space]
+        [SerializeField] private GameObject autoAttackIndicatorParent = null;
+        [SerializeField] private Transform autoAttackIndicatorTransform = null;
+        [Space]
         [SerializeField] private RPlayerHealth playerHealth = null;
+        [SerializeField] private RPlayerMovement playerMovement = null;
+        [SerializeField] private RPlayerDash playerDash = null;
 
         [Header("Values")] 
         [SerializeField] private Vector3 offsetHitSphere = Vector3.zero;
@@ -26,9 +31,8 @@ namespace RuneProject.ActorSystem
         [SerializeField] private int damage = 1;
         [SerializeField] private Vector3 knockback = Vector3.zero;
         [SerializeField] private LineRenderer lineRenderer;
-        [SerializeField] private Vector3 offsetLROrigin = Vector3.zero;
-        [SerializeField] private Vector3 offsetLRTarget = Vector3.zero;
         [SerializeField] private float attacksPerSecond = 2f;
+        [SerializeField] private float attackRange = 8f;
         [Space]
         [SerializeField] private Vector2 throwAwayForce = new Vector2(30f, 10f);
         [SerializeField] private float hitboxUptime = 0.1f;
@@ -39,19 +43,34 @@ namespace RuneProject.ActorSystem
         [SerializeField] private bool cantUseWorldItemActiveEffectOnAttackCooldown = false;
 
         private float currentAttackCooldown = 0f;
+        private float currentAttackChargeTime = 0f;
         private bool blockAttackInput = false;
         private bool blockPickupInput = false;
         private bool blockWorldItemInput = false;
+        private bool chargingAttack = false;
         private int currentPickedUpWorldItemBeforeBreakCounter = 0;
         private RWorldItem currentPickedUpWorldItem = null;
 
+        public event System.EventHandler OnBeginCharge;
+        public event System.EventHandler OnEndCharge;
+        public event System.EventHandler OnFireAutoAttack;
+
         private const int ATTACK_MOUSE_BUTTON = 1;
+        private const float MIN_AUTO_ATTACK_CHARGE_TIME = 0.5f;
+        private const float MAX_AUTO_ATTACK_CHARGE_TIME = 2f;
+        private const float AUTO_ATTACK_STAND_TIME = 0.6f;
         private const KeyCode PICKUP_DROP_KEYCODE = KeyCode.F;
         private const KeyCode WORLD_ITEM_ACTIVE_EFFECT_KEYCODE = KeyCode.R;
 
         private void Start()
         {
             playerHealth.OnDeath += PlayerHealth_OnDeath;
+            playerDash.OnDash += PlayerDash_OnDash;
+        }
+
+        private void PlayerDash_OnDash(object sender, System.EventArgs e)
+        {
+            CancelAttackCharge();
         }
 
         private void OnDestroy()
@@ -85,27 +104,10 @@ namespace RuneProject.ActorSystem
             {
                 if (!currentPickedUpWorldItem)
                 {
-                    RaycastHit[] hits = Physics.SphereCastAll(transform.position + offsetHitSphere, range, transform.forward, float.MaxValue, ~playerMask);
-                    RPlayerHealth nearestTarget = null;
-                    float nearestDistance = range + 0.1f;
-                    for (int i = 0; i < hits.Length; i++)
-                    {
-                        if (hits[i].collider.TryGetComponent<RPlayerHealth>(out RPlayerHealth current))
-                        {
-                            if (hits[i].distance < nearestDistance && current.IsAlive)
-                            {
-                                nearestDistance = hits[i].distance;
-                                nearestTarget = hits[i].collider.GetComponent<RPlayerHealth>();
-                            }
-                        }
-                    }
-
-                    if (nearestTarget != null && nearestTarget.IsAlive)
-                    {
-                        StartCoroutine(IDrawLine(transform.position, nearestTarget.transform.position));
-                        nearestTarget.TakeDamage(gameObject, damage, RVectorUtility.ConvertKnockbackToWorldSpace(transform.position, nearestTarget.transform.position, knockback));
-                        currentAttackCooldown = 1f / attacksPerSecond;
-                    }
+                    chargingAttack = true;
+                    currentAttackChargeTime = 0f;
+                    autoAttackIndicatorParent.SetActive(true);
+                    OnBeginCharge?.Invoke(this, null);
                 }
                 else if (!currentPickedUpWorldItem.CantBeUsedAsWeapon)
                 {
@@ -116,6 +118,40 @@ namespace RuneProject.ActorSystem
 
                     //if (currentPickedUpWorldItemBeforeBreakCounter <= 0)
                     //    BreakCurrentItem();
+                }
+            }
+            else if (Input.GetMouseButton(ATTACK_MOUSE_BUTTON) && !blockAttackInput && chargingAttack)
+            {
+                currentAttackChargeTime += Time.deltaTime;
+
+                if (!currentPickedUpWorldItem)
+                {
+                    autoAttackIndicatorTransform.localScale = new Vector3(0.3f, 0.3f, 0f) + Vector3.forward * GetAutoAttackDistance();
+
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
+                    {
+                        Vector3 dir = hit.point - transform.position;
+                        dir.y = 0f;
+                        autoAttackIndicatorTransform.LookAt(autoAttackIndicatorTransform.position + dir);
+                    }
+                }
+            }
+            else if (Input.GetMouseButtonUp(ATTACK_MOUSE_BUTTON) && !blockAttackInput && chargingAttack)
+            {
+                chargingAttack = false;
+
+                if (!currentPickedUpWorldItem)
+                {
+                    autoAttackIndicatorParent.SetActive(false);
+                    OnEndCharge?.Invoke(this, null);
+
+                    if (currentAttackChargeTime >= MIN_AUTO_ATTACK_CHARGE_TIME)
+                    {
+                        playerMovement.ResetMovementMomentum();
+                        playerMovement.LookAtMouse();
+                        playerMovement.BlockMovementInput(AUTO_ATTACK_STAND_TIME);
+                        OnFireAutoAttack?.Invoke(this, null);
+                    }
                 }
             }
         }
@@ -178,6 +214,13 @@ namespace RuneProject.ActorSystem
             currentPickedUpWorldItem = null;
         }
 
+        private void CancelAttackCharge()
+        {
+            chargingAttack = false;
+            autoAttackIndicatorParent.SetActive(false);
+            OnEndCharge?.Invoke(this, null);
+        }
+
         private void TryPickUpWorldItem()
         {
             if (cantPickUpOnAttackCooldown && currentAttackCooldown > 0f) return;
@@ -219,6 +262,14 @@ namespace RuneProject.ActorSystem
             Destroy(worldItemObject);
         }
 
+        private float GetAutoAttackDistance()
+        {
+            if (currentAttackChargeTime < MIN_AUTO_ATTACK_CHARGE_TIME)
+                return 0f;
+
+            return Mathf.Clamp(Mathf.Lerp(0f, attackRange, (currentAttackChargeTime-MIN_AUTO_ATTACK_CHARGE_TIME) / MAX_AUTO_ATTACK_CHARGE_TIME), 0f, attackRange);            
+        }
+
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
@@ -233,13 +284,13 @@ namespace RuneProject.ActorSystem
             blockAttackInput = true;
             blockPickupInput = true;
             blockWorldItemInput = true;
-        }
+        }        
 
         private IEnumerator IDrawLine(Vector3 a, Vector3 b)
         {
             lineRenderer.enabled = true;
-            lineRenderer.SetPosition(0, a + offsetLROrigin);
-            lineRenderer.SetPosition(1, b + offsetLRTarget);
+            //lineRenderer.SetPosition(0, a + offsetLROrigin);
+            //lineRenderer.SetPosition(1, b + offsetLRTarget);
             yield return new WaitForSeconds(0.25f);
             lineRenderer.enabled = false;
         }

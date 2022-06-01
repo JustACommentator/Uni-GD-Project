@@ -167,6 +167,14 @@ namespace RuneProject.ActorSystem
         }
 
         /// <summary>
+        /// Blocks Player Movement Input.
+        /// </summary>
+        public void BlockMovementInput(float time)
+        {
+            StartCoroutine(IBlockMovementInputFor(time));
+        }
+
+        /// <summary>
         /// Unblocks Player Movement Input.
         /// </summary>
         public void UnBlockMovementInput()
@@ -195,9 +203,33 @@ namespace RuneProject.ActorSystem
             currentImpulseMovement += dir * strength;
         }
 
+        public void LookAtMouse()
+        {
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
+            {
+                Vector3 dir = hit.point - transform.position;
+                dir.y = 0f;
+                dir.Normalize();
+
+                characterParentTransform.rotation = Quaternion.LookRotation(dir);
+            }
+        }
+
+        public void ResetMovementMomentum()
+        {
+            currentDesiredMovement = Vector3.zero;
+        }
+
         private void PlayerHealth_OnDeath(object sender, GameObject e)
         {
             BlockMovementInput();
+        }
+
+        private IEnumerator IBlockMovementInputFor(float time)
+        {
+            BlockMovementInput();
+            yield return new WaitForSeconds(time);
+            UnBlockMovementInput();
         }
     }
 }
