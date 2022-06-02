@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 namespace RuneProject.EnemySystem
 {
@@ -39,6 +40,7 @@ namespace RuneProject.EnemySystem
         [SerializeField] private NavMeshAgent agent = null;
         [SerializeField] private Animator anim = null;
         [SerializeField] private List<GameObject> hitboxes = new List<GameObject>();
+        [SerializeField] private Image attentionIndicator = null;
 
         private float susCount = 0;
         private int currentPathPoint = 0;
@@ -49,6 +51,29 @@ namespace RuneProject.EnemySystem
         private RPlayerHealth player = null;
 
         private const float HITBOX_UPTIME = 0.5f;
+
+        private EAlertState CurrentState {
+            get => currentState;
+            set {
+                currentState = value;
+                switch(currentState)
+                {
+                    case EAlertState.SUSPICIOUS:
+                        attentionIndicator.color = Color.white;
+                        attentionIndicator.sprite = Resources.Load<Sprite>("UI/AttentionIndicator/AttentionIndicator_sus");
+                        attentionIndicator.enabled = true;
+                        break;
+                    case EAlertState.AGGRESSIVE:
+                        attentionIndicator.color = Color.white;
+                        attentionIndicator.sprite = Resources.Load<Sprite>("UI/AttentionIndicator/AttentionIndicator_following");
+                        attentionIndicator.enabled = true;
+                        break;
+                    default:
+                        attentionIndicator.enabled = false;
+                        break;
+                }
+            }
+        }
 
         enum EAlertState
         {
@@ -97,13 +122,13 @@ namespace RuneProject.EnemySystem
 
             float distToTarget = Vector3.Distance(transform.position, target.position);
 
-            switch (currentState)
+            switch (CurrentState)
             {
                 case EAlertState.IDLE:
 
                     if (distToTarget < susDistance)
                     {
-                        currentState = EAlertState.SUSPICIOUS;
+                        CurrentState = EAlertState.SUSPICIOUS;
                         return;
                     }
 
@@ -177,12 +202,12 @@ namespace RuneProject.EnemySystem
 
                     if (susCount == 1)
                     {
-                        currentState = EAlertState.AGGRESSIVE;
+                        CurrentState = EAlertState.AGGRESSIVE;
                     }
 
                     if (susCount == 0)
                     {
-                        currentState = EAlertState.IDLE;
+                        CurrentState = EAlertState.IDLE;
                         currentPathPoint = 0;
                         if (agent.isOnNavMesh && path.Count > 0)
                             agent.SetDestination(path[0].position);
@@ -196,7 +221,7 @@ namespace RuneProject.EnemySystem
 
                     if (distToTarget > disengageDistance || lastAttack > disengageTime || !player.IsAlive)
                     {
-                        currentState = EAlertState.SUSPICIOUS;
+                        CurrentState = EAlertState.SUSPICIOUS;
                         lastAttack = 0;
                         return;
                     }
@@ -253,7 +278,7 @@ namespace RuneProject.EnemySystem
 
             Vector3 dir;
 
-            if (currentState != EAlertState.AGGRESSIVE)
+            if (CurrentState != EAlertState.AGGRESSIVE)
                 dir = agent.velocity;
             else
                 dir = target.position - transform.position;
