@@ -28060,6 +28060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraShakeParent: {fileID: 617720232950732716}
+  virtualCam: {fileID: 2431479995733997952}
 --- !u!1 &6036153300712092323
 GameObject:
   m_ObjectHideFlags: 0

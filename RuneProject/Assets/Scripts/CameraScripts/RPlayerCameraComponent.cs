@@ -9,9 +9,15 @@ namespace RuneProject.CameraSystem
     {
         [Header("References")]
         [SerializeField] private Transform cameraShakeParent = null;
+        [SerializeField] private Transform virtualCam = null;
 
         private int currentShakePriority = -1;
         private Coroutine currentShakeRoutine = null;
+
+        private static RPlayerCameraComponent singleton = null;
+
+        public Transform VirtualCam { get => virtualCam; }
+        public static RPlayerCameraComponent Singleton { get { if (singleton == null) singleton = FindObjectOfType<RPlayerCameraComponent>(); return singleton; } }
 
         /// <summary>
         /// Work In Progress, Don't Use!
