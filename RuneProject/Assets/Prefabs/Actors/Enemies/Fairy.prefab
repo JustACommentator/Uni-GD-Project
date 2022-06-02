@@ -372,7 +372,7 @@ MonoBehaviour:
   anim: {fileID: 4237770999407957194}
   hitboxes:
   - {fileID: 1443582908}
-  attentionIndicator: {fileID: 8451284630187333010}
+  attentionIndicator: {fileID: 3902503976696455411}
 --- !u!54 &4207347930333592197
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -554,14 +554,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8466380272345790203, guid: c16a925000ee5452b8b25bb771fcd8e5, type: 3}
   m_PrefabInstance: {fileID: 6104483907086926372}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8451284630187333010 stripped
+--- !u!114 &3902503976696455411 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2449823358486419382, guid: c16a925000ee5452b8b25bb771fcd8e5, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7106400341226939095, guid: c16a925000ee5452b8b25bb771fcd8e5, type: 3}
   m_PrefabInstance: {fileID: 6104483907086926372}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: abfe023e9521b401dbeb2a2032d9fef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -40,7 +40,7 @@ namespace RuneProject.EnemySystem
         [SerializeField] private NavMeshAgent agent = null;
         [SerializeField] private Animator anim = null;
         [SerializeField] private List<GameObject> hitboxes = new List<GameObject>();
-        [SerializeField] private Image attentionIndicator = null;
+        [SerializeField] private RAttentionIndicator attentionIndicator = null;
 
         private float susCount = 0;
         private int currentPathPoint = 0;
@@ -56,26 +56,11 @@ namespace RuneProject.EnemySystem
             get => currentState;
             set {
                 currentState = value;
-                switch(currentState)
-                {
-                    case EAlertState.SUSPICIOUS:
-                        attentionIndicator.color = Color.white;
-                        attentionIndicator.sprite = Resources.Load<Sprite>("UI/AttentionIndicator/AttentionIndicator_sus");
-                        attentionIndicator.enabled = true;
-                        break;
-                    case EAlertState.AGGRESSIVE:
-                        attentionIndicator.color = Color.white;
-                        attentionIndicator.sprite = Resources.Load<Sprite>("UI/AttentionIndicator/AttentionIndicator_following");
-                        attentionIndicator.enabled = true;
-                        break;
-                    default:
-                        attentionIndicator.enabled = false;
-                        break;
-                }
+                attentionIndicator.switchState(value);
             }
         }
 
-        enum EAlertState
+        public enum EAlertState
         {
             IDLE,
             SUSPICIOUS,

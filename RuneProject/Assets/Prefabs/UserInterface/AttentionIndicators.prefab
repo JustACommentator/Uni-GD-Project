@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 675d654544ee84c32b383ceb5c92b696, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0ff8a8db2700c4bf69da095c92fa6c35, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -87,9 +87,9 @@ GameObject:
   - component: {fileID: 7445521744344556645}
   - component: {fileID: 3074078462777414963}
   - component: {fileID: 7031722433956465527}
-  - component: {fileID: 3135783471309856420}
+  - component: {fileID: 7106400341226939095}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: AttentionIndicators
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3135783471309856420
+--- !u!114 &7106400341226939095
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,6 +185,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5085791789902648168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41b48b29db946436d986e201e6211e64, type: 3}
+  m_Script: {fileID: 11500000, guid: abfe023e9521b401dbeb2a2032d9fef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  offset: 0.25
+  img: {fileID: 2449823358486419382}
+  ai_sus: {fileID: 21300000, guid: 0ff8a8db2700c4bf69da095c92fa6c35, type: 3}
+  ai_following: {fileID: 21300000, guid: 2bd1e6db1e1ac49a1b58476f075d2761, type: 3}
