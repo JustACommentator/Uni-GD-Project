@@ -28,6 +28,8 @@ namespace RuneProject.ActorSystem
         private float currentDashCooldown = 0f;
         private bool isDead = false;
 
+        public float CurrentDashCooldown { get => currentDashCooldown; set => currentDashCooldown = value; }
+
         private void Start()
         {
             playerHealth.OnDeath += PlayerHealth_OnDeath;
