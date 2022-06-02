@@ -9,7 +9,7 @@ namespace RuneProject.ActorSystem
         [Header("Values")]
         [SerializeField] private float dashCooldown = 1f;
         [SerializeField] private float dashPower = 20f;
-        [SerializeField] private float movementBlockTime = 0.3f;
+        [SerializeField] private float movementBlockTime = 0.4f;
 
         [Header("References")]
         [SerializeField] private RPlayerMovement movement = null;

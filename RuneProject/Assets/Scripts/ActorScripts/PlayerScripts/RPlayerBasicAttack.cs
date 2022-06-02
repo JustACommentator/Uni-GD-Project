@@ -16,10 +16,14 @@ namespace RuneProject.ActorSystem
         [SerializeField] private List<Transform> handTransforms = new List<Transform>();
         [SerializeField] private Transform characterTransform = null;
         [SerializeField] private RHitboxComponent attackHitbox = null;
-        [SerializeField] private Transform autoAttackHitboxParent = null;
+        [SerializeField] private GameObject autoAttackHitboxParent = null;
+        [SerializeField] private Transform autoAttackHitboxScaler = null;
         [Space]
         [SerializeField] private GameObject autoAttackIndicatorParent = null;
         [SerializeField] private Transform autoAttackIndicatorTransform = null;
+        [SerializeField] private Transform autoAttackStaffStartPointTransform = null;
+        [SerializeField] private Transform autoAttackStaffEndPointTransform = null;
+        [SerializeField] private List<LineRenderer> autoAttackLineRenderers = new List<LineRenderer>();
         [Space]
         [SerializeField] private RPlayerHealth playerHealth = null;
         [SerializeField] private RPlayerMovement playerMovement = null;
@@ -27,6 +31,7 @@ namespace RuneProject.ActorSystem
 
         [Header("Values")]         
         [SerializeField] private LayerMask playerMask = new LayerMask();                
+        [SerializeField] private LayerMask defaultMask = new LayerMask();                
         [SerializeField] private float attacksPerSecond = 2f;
         [SerializeField] private float attackRange = 8f;
         [SerializeField] private float autoAttackHitboxUptime = 0.5f;
@@ -56,6 +61,10 @@ namespace RuneProject.ActorSystem
         private const float MIN_AUTO_ATTACK_CHARGE_TIME = 0.5f;
         private const float MAX_AUTO_ATTACK_CHARGE_TIME = 2f;
         private const float AUTO_ATTACK_STAND_TIME = 0.6f;
+        private const float AUTO_ATTACK_HITBOX_WARMUP_TIME = 0.1f;
+        private const float LIGHTNING_RANDOM_INTERVAL = 0.3f;
+        private const float LIGHTNING_UPDATE_INTERVAL = 0.05f;
+        private const float LIGHTNING_MIN_DISTANCE = 0.25f;
         private const KeyCode PICKUP_DROP_KEYCODE = KeyCode.F;
         private const KeyCode WORLD_ITEM_ACTIVE_EFFECT_KEYCODE = KeyCode.R;
 
@@ -119,7 +128,7 @@ namespace RuneProject.ActorSystem
 
                 if (!currentPickedUpWorldItem)
                 {
-                    autoAttackIndicatorTransform.localScale = new Vector3(0.3f, 0.3f, 0f) + Vector3.forward * GetAutoAttackDistance();
+                    autoAttackIndicatorTransform.localScale = new Vector3(0.3f, 0.3f, GetAutoAttackDistance());
 
                     if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
                     {
@@ -140,7 +149,7 @@ namespace RuneProject.ActorSystem
 
                     if (currentAttackChargeTime >= MIN_AUTO_ATTACK_CHARGE_TIME)
                     {
-                        autoAttackHitboxParent.localScale = new Vector3(1f, 1f, GetAutoAttackDistance()/2f);
+                        autoAttackHitboxScaler.localScale = new Vector3(1f, 1f, GetAutoAttackDistance()/4+0.4f);
                         StartCoroutine(IToggleAutoAttackHitbox());
                         playerMovement.ResetMovementMomentum();
                         playerMovement.LookAtMouse();
@@ -257,6 +266,38 @@ namespace RuneProject.ActorSystem
             Destroy(worldItemObject);
         }
 
+        private void SetLightningPositions()
+        {
+            Vector3 startPos = autoAttackStaffStartPointTransform.position;
+            Vector3 endPos = autoAttackStaffEndPointTransform.position;
+            Vector3 dir = (endPos - startPos).normalized;
+
+            Vector3 raycastStartPos = transform.position + Vector3.up * autoAttackStaffStartPointTransform.localPosition.y;
+            if (Physics.Raycast(raycastStartPos, dir, out RaycastHit hit, Vector3.Distance(raycastStartPos, endPos), defaultMask))
+                endPos = hit.point;
+
+            if (Vector3.Distance(startPos, endPos) < LIGHTNING_MIN_DISTANCE) return;
+
+            for (int i=0; i< autoAttackLineRenderers.Count; i++)
+            {
+                int randomPoints = Random.Range(4, 8);              
+
+                float segmentLength = Vector3.Distance(startPos, endPos) / randomPoints;
+                List<Vector3> finalPositions = new List<Vector3>() { characterTransform.InverseTransformPoint(startPos) };
+
+                for (int j=0; j<randomPoints; j++)
+                {
+                    Vector3 currentPos = startPos + (j + 1) * segmentLength * dir + Random.insideUnitSphere * LIGHTNING_RANDOM_INTERVAL;
+                    finalPositions.Add(characterTransform.InverseTransformPoint(currentPos));
+                }
+
+                finalPositions.Add(characterTransform.InverseTransformPoint(endPos));
+
+                autoAttackLineRenderers[i].positionCount = randomPoints + 2;
+                autoAttackLineRenderers[i].SetPositions(finalPositions.ToArray());
+            }
+        }
+
         private float GetAutoAttackDistance()
         {
             if (currentAttackChargeTime < MIN_AUTO_ATTACK_CHARGE_TIME)
@@ -269,6 +310,9 @@ namespace RuneProject.ActorSystem
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, pickupDetectionRange);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position + Vector3.up * 0.5f, transform.position + Vector3.up * 0.5f + transform.forward * LIGHTNING_MIN_DISTANCE);
         }
 
         private void PlayerHealth_OnDeath(object sender, GameObject e)
@@ -292,9 +336,20 @@ namespace RuneProject.ActorSystem
 
         private IEnumerator IToggleAutoAttackHitbox()
         {
-            autoAttackHitboxParent.gameObject.SetActive(true);
+            yield return new WaitForSeconds(AUTO_ATTACK_HITBOX_WARMUP_TIME);            
+            autoAttackHitboxParent.SetActive(true);
+            StartCoroutine(IChangeLightnings());
             yield return new WaitForSeconds(autoAttackHitboxUptime);
-            autoAttackHitboxParent.gameObject.SetActive(false);
+            autoAttackHitboxParent.SetActive(false);
+        }
+
+        private IEnumerator IChangeLightnings()
+        {
+            while (autoAttackHitboxParent.activeInHierarchy)
+            {
+                SetLightningPositions();
+                yield return new WaitForSeconds(LIGHTNING_UPDATE_INTERVAL);
+            }
         }
     }
 }

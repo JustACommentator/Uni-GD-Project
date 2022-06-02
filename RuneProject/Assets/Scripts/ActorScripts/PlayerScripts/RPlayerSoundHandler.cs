@@ -14,6 +14,7 @@ namespace RuneProject.ActorSystem
         [Space]
         [SerializeField] private RPlayerBasicAttack basicAttack = null;
         [SerializeField] private RPlayerMovement movement = null;
+        [SerializeField] private RPlayerDash dash = null;
 
         private AudioSource autoAttackChargeSource = null;
 
@@ -24,6 +25,12 @@ namespace RuneProject.ActorSystem
             basicAttack.OnBeginCharge += BasicAttack_OnBeginCharge;
             basicAttack.OnEndCharge += BasicAttack_OnEndCharge;
             basicAttack.OnFireAutoAttack += BasicAttack_OnFireAutoAttack;
+            dash.OnDash += Dash_OnDash;
+        }
+
+        private void Dash_OnDash(object sender, System.EventArgs e)
+        {
+            sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.dashClip, true, randomizePitch: true);
         }
 
         private void BasicAttack_OnEndCharge(object sender, System.EventArgs e)
