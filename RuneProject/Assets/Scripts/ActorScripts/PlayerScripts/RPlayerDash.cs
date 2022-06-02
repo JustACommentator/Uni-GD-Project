@@ -19,7 +19,7 @@ namespace RuneProject.ActorSystem
 
         public event System.EventHandler OnDash;
 
-        private const KeyCode DASH_INPUT = KeyCode.C;
+        private const KeyCode DASH_INPUT = KeyCode.LeftShift;
 
         private float currentDashCooldown = 0f;
 

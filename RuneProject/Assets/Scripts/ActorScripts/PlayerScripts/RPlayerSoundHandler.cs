@@ -13,6 +13,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private RAudioEmitComponent sfxSource = null;
         [Space]
         [SerializeField] private RPlayerBasicAttack basicAttack = null;
+        [SerializeField] private RPlayerMovement movement = null;
 
         private AudioSource autoAttackChargeSource = null;
 
@@ -23,15 +24,12 @@ namespace RuneProject.ActorSystem
             basicAttack.OnBeginCharge += BasicAttack_OnBeginCharge;
             basicAttack.OnEndCharge += BasicAttack_OnEndCharge;
             basicAttack.OnFireAutoAttack += BasicAttack_OnFireAutoAttack;
-
         }
 
         private void BasicAttack_OnEndCharge(object sender, System.EventArgs e)
         {
-            if (autoAttackChargeSource)
-            {
-                Destroy(autoAttackChargeSource.gameObject, ADDITIONAL_FIRE_TIME);
-            }
+            if (autoAttackChargeSource)            
+                Destroy(autoAttackChargeSource.gameObject, ADDITIONAL_FIRE_TIME);            
         }
 
         private void BasicAttack_OnFireAutoAttack(object sender, System.EventArgs e)

@@ -10,6 +10,8 @@ namespace RuneProject.LibrarySystem
         public AudioClip autoAttackChargeStartClip = null;
         public AudioClip autoAttackChargeSustainClip = null;
         public AudioClip autoAttackFireClip = null;
+        [Space]
+        public AudioClip walkClip = null;
 
         private static RSFXIdentifierLibrary singleton = null;
 

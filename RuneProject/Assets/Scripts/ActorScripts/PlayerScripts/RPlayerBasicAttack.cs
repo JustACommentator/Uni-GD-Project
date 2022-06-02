@@ -16,6 +16,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private List<Transform> handTransforms = new List<Transform>();
         [SerializeField] private Transform characterTransform = null;
         [SerializeField] private RHitboxComponent attackHitbox = null;
+        [SerializeField] private Transform autoAttackHitboxParent = null;
         [Space]
         [SerializeField] private GameObject autoAttackIndicatorParent = null;
         [SerializeField] private Transform autoAttackIndicatorTransform = null;
@@ -24,15 +25,11 @@ namespace RuneProject.ActorSystem
         [SerializeField] private RPlayerMovement playerMovement = null;
         [SerializeField] private RPlayerDash playerDash = null;
 
-        [Header("Values")] 
-        [SerializeField] private Vector3 offsetHitSphere = Vector3.zero;
-        [SerializeField] private float range = 1.5f;
-        [SerializeField] private LayerMask playerMask = new LayerMask();
-        [SerializeField] private int damage = 1;
-        [SerializeField] private Vector3 knockback = Vector3.zero;
-        [SerializeField] private LineRenderer lineRenderer;
+        [Header("Values")]         
+        [SerializeField] private LayerMask playerMask = new LayerMask();                
         [SerializeField] private float attacksPerSecond = 2f;
         [SerializeField] private float attackRange = 8f;
+        [SerializeField] private float autoAttackHitboxUptime = 0.5f;
         [Space]
         [SerializeField] private Vector2 throwAwayForce = new Vector2(30f, 10f);
         [SerializeField] private float hitboxUptime = 0.1f;
@@ -67,12 +64,7 @@ namespace RuneProject.ActorSystem
             playerHealth.OnDeath += PlayerHealth_OnDeath;
             playerDash.OnDash += PlayerDash_OnDash;
         }
-
-        private void PlayerDash_OnDash(object sender, System.EventArgs e)
-        {
-            CancelAttackCharge();
-        }
-
+        
         private void OnDestroy()
         {
             playerHealth.OnDeath -= PlayerHealth_OnDeath;
@@ -106,6 +98,7 @@ namespace RuneProject.ActorSystem
                 {
                     chargingAttack = true;
                     currentAttackChargeTime = 0f;
+                    autoAttackIndicatorTransform.localScale = new Vector3(0.3f, 0.3f, 0f);
                     autoAttackIndicatorParent.SetActive(true);
                     OnBeginCharge?.Invoke(this, null);
                 }
@@ -147,6 +140,8 @@ namespace RuneProject.ActorSystem
 
                     if (currentAttackChargeTime >= MIN_AUTO_ATTACK_CHARGE_TIME)
                     {
+                        autoAttackHitboxParent.localScale = new Vector3(1f, 1f, GetAutoAttackDistance()/2f);
+                        StartCoroutine(IToggleAutoAttackHitbox());
                         playerMovement.ResetMovementMomentum();
                         playerMovement.LookAtMouse();
                         playerMovement.BlockMovementInput(AUTO_ATTACK_STAND_TIME);
@@ -272,9 +267,6 @@ namespace RuneProject.ActorSystem
 
         private void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position + offsetHitSphere, range);
-
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, pickupDetectionRange);
         }
@@ -284,15 +276,11 @@ namespace RuneProject.ActorSystem
             blockAttackInput = true;
             blockPickupInput = true;
             blockWorldItemInput = true;
-        }        
+        }
 
-        private IEnumerator IDrawLine(Vector3 a, Vector3 b)
+        private void PlayerDash_OnDash(object sender, System.EventArgs e)
         {
-            lineRenderer.enabled = true;
-            //lineRenderer.SetPosition(0, a + offsetLROrigin);
-            //lineRenderer.SetPosition(1, b + offsetLRTarget);
-            yield return new WaitForSeconds(0.25f);
-            lineRenderer.enabled = false;
+            CancelAttackCharge();
         }
 
         private IEnumerator IToggleHitbox()
@@ -300,6 +288,13 @@ namespace RuneProject.ActorSystem
             attackHitbox.gameObject.SetActive(true);
             yield return new WaitForSeconds(hitboxUptime);
             attackHitbox.gameObject.SetActive(false);
+        }
+
+        private IEnumerator IToggleAutoAttackHitbox()
+        {
+            autoAttackHitboxParent.gameObject.SetActive(true);
+            yield return new WaitForSeconds(autoAttackHitboxUptime);
+            autoAttackHitboxParent.gameObject.SetActive(false);
         }
     }
 }
