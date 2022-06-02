@@ -1,3 +1,4 @@
+using RuneProject.CameraSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,8 +16,10 @@ namespace RuneProject.ActorSystem
         [SerializeField] private RPlayerMovement movement = null;
         [SerializeField] private RPlayerHealth playerHealth = null;
         [SerializeField] private Transform playerCharacterTransform = null;
+        [SerializeField] private RPlayerCameraComponent cameraComponent = null;
         [Space]
         [SerializeField] private Transform dashDirectionIndicator = null;
+        [SerializeField] private GameObject dashTrailIndicator = null;
 
         public event System.EventHandler OnDash;
 
@@ -62,10 +65,12 @@ namespace RuneProject.ActorSystem
                 dir.y = 0f;
                 dir.Normalize();
 
+                StartCoroutine(IDisableTrailAfter());
                 movement.BlockMovementInput(movementBlockTime);
                 movement.ResetMovementMomentum();
                 movement.LookAtMouse();
                 movement.AddImpulse(dir * dashPower);
+                //cameraComponent.Shake(5f, 2f, 6f, 0.2f, 0);
                 OnDash?.Invoke(this, null);
             }
         }
@@ -88,6 +93,13 @@ namespace RuneProject.ActorSystem
         private bool CanDash()
         {
             return currentDashCooldown <= 0f;
+        }
+
+        private IEnumerator IDisableTrailAfter()
+        {
+            dashTrailIndicator.SetActive(true);
+            yield return new WaitForSeconds(movementBlockTime);
+            dashTrailIndicator.SetActive(false);
         }
     }
 }

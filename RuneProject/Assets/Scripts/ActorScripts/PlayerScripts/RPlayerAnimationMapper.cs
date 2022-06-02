@@ -8,10 +8,18 @@ namespace RuneProject.ActorSystem
     {
         [Header("References")]
         [SerializeField] private RAudioEmitComponent sfxSource = null;
+        [SerializeField] private RPlayerHealth playerHealth = null;
+
+        private const float INVINCIBLE_TIME = 0.3f;
 
         public void Anim_PlayStepSound()
         {
             sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.walkClip, true, randomizePitch: true);
+        }
+
+        public void Anim_SetInvincible()
+        {
+            playerHealth.SetInvincible(INVINCIBLE_TIME);
         }
     }
 }

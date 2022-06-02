@@ -11,6 +11,7 @@ namespace RuneProject.UserInterfaceSystem
         [Header("References")]
         [SerializeField] private RPlayerHealth playerHealth = null;
         [SerializeField] private CanvasGroup gameOverCanvas = null;
+        [SerializeField] private CanvasGroup vignette = null;
 
         private void Start()
         {
@@ -45,16 +46,20 @@ namespace RuneProject.UserInterfaceSystem
 
         private IEnumerator IFadeInGameOverScreen()
         {
+            vignette.gameObject.SetActive(true);
             gameOverCanvas.gameObject.SetActive(true);
             gameOverCanvas.alpha = 0f;
 
-            yield return new WaitForSeconds(3.7f);
+            yield return new WaitForSeconds(4f);
 
             while (gameOverCanvas.alpha < 1f)
             {
-                gameOverCanvas.alpha += Time.deltaTime * 0.5f;
+                gameOverCanvas.alpha += Time.deltaTime * 0.6f;
+                vignette.alpha -= Time.deltaTime * 0.6f;
                 yield return null;
             }
+
+            vignette.gameObject.SetActive(false);
         }
     }
 }

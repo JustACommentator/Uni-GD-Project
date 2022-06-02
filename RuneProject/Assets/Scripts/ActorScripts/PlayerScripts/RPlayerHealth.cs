@@ -18,9 +18,11 @@ namespace RuneProject.ActorSystem
      
         private int currentHealth = 0;
         private bool isAlive = false;
+        private bool isInvincible = false;
         private NavMeshAgent agent = null;
         private Coroutine currentKnockbackRoutine = null;
         private Coroutine currentDamageMaterialRoutine = null;
+        private Coroutine currentInvincibilityRoutine = null;
 
         public int MaxHealth { get => maxHealth; set => maxHealth = value; }
         public float ReceivedKnockbackMultiplier { get => receivedKnockbackMultiplier; }
@@ -35,6 +37,7 @@ namespace RuneProject.ActorSystem
         private const float MIN_KNOCKBACK_MAGNITUDE_TO_CONTINUE_DISABLING_NAVMESHAGENT = 0.01f;
         private const float MIN_KNOCKBACK_TIME = 0.5f;
         private const float DAMAGE_MATERIAL_DISPLAY_TIME = 0.15f;
+        private const float ON_HIT_INVINCIBILITY = 0.2f;
 
         private void Start()
         {
@@ -45,16 +48,9 @@ namespace RuneProject.ActorSystem
                 agent = healthRigidbody.GetComponent<NavMeshAgent>();
         }
 
-        private void Update()
+        public void TakeDamage(GameObject source, int damage, Vector3 knockback, bool dontGiveInvincibility = false)
         {
-            if (Input.GetKeyDown(KeyCode.K))
-                Die(null);
-
-        }
-
-        public void TakeDamage(GameObject source, int damage, Vector3 knockback)
-        {
-            if (!isAlive)
+            if (!isAlive || isInvincible)
                 return;
 
             currentHealth -= damage;
@@ -76,10 +72,10 @@ namespace RuneProject.ActorSystem
                 }
             }
 
-            if (currentHealth < 1)
-            {
-                Die(source);
-            }
+            if (currentHealth < 1)            
+                Die(source);            
+            else if (!dontGiveInvincibility)
+                SetInvincible(ON_HIT_INVINCIBILITY);
 
             OnDamageTaken?.Invoke(this, damage);
         }
@@ -91,6 +87,19 @@ namespace RuneProject.ActorSystem
             currentHealth += heal;
             currentHealth = Mathf.Min(maxHealth, currentHealth);
             OnHealReceived?.Invoke(this, heal);
+        }
+
+        public void SetInvincible(float time)
+        {
+            if (currentInvincibilityRoutine != null)
+                StopCoroutine(currentInvincibilityRoutine);
+
+            currentInvincibilityRoutine = StartCoroutine(ISetInvincible(time));
+        }
+
+        public void ForceKill()
+        {
+            Die(null);
         }
 
         private void Die(GameObject source)
@@ -127,6 +136,13 @@ namespace RuneProject.ActorSystem
                 characterRenderers[i].materials = materials[i];
 
             currentDamageMaterialRoutine = null;         
+        }
+
+        private IEnumerator ISetInvincible(float time)
+        {
+            isInvincible = true;
+            yield return new WaitForSeconds(time);
+            isInvincible = false;
         }
     }
 }

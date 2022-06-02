@@ -23,6 +23,7 @@ namespace RuneProject.UserInterfaceSystem
         [SerializeField] private RPlayerInventory playerInventory = null;
         [SerializeField] private RPlayerSpellHandler spellHandler = null;
         [SerializeField] private RPlayerMovement playerMovement = null;
+        [SerializeField] private RPlayerHealth playerHealth = null;
         [SerializeField] private GameObject consoleParent = null;
         [SerializeField] private TMP_InputField consoleInputField = null;
         [SerializeField] private TMP_Text consoleResolveText = null;
@@ -155,6 +156,12 @@ namespace RuneProject.UserInterfaceSystem
                     ResolveInput();
                     return;
                 }
+            }
+            else if (consoleInputField.text.Equals("k"))
+            {
+                playerHealth.ForceKill();
+                consoleResolveText.text = $"Killing Player";
+                return;
             }
             else
             {

@@ -7,56 +7,67 @@ namespace RuneProject.CameraSystem
 {
     public class RPlayerCameraComponent : MonoBehaviour
     {
-        [Header("Values")]
-        [SerializeField] private bool resetForeshadowing = true;
-        [SerializeField] private float foreshadowingResetDelay = 0.05f;
-        [SerializeField] private float foreshadowingResetDelta = 10f;
-        [SerializeField] private float foreshadowingMoveDelta = 10f;
-        [SerializeField] private float foreshadowingMoveRange = 1f;
-        [Space]
-        [SerializeField] private float foreshadowingMaximumDistanceFront = 1f;
-        [SerializeField] private float foreshadowingMaximumDistanceBehind = 1f;
-        [SerializeField] private float foreshadowingMaximumDistanceSide = 1f;
-        
         [Header("References")]
-        [SerializeField] private Transform cameraViewTarget = null;
-        [Space]
-        [SerializeField] private RPlayerMovement playerMovement = null;
+        [SerializeField] private Transform cameraShakeParent = null;
 
-        private Vector2 currentForeshadowingDirection = Vector2.zero;
-        private float resetCooldown = 0f;
+        private int currentShakePriority = -1;
+        private Coroutine currentShakeRoutine = null;
 
-        private void Start()
+        /// <summary>
+        /// Work In Progress, Don't Use!
+        /// </summary>
+        /// <param name="intensity"></param>
+        /// <param name="magnitude"></param>
+        /// <param name="swayPower"></param>
+        /// <param name="time"></param>
+        /// <param name="priority"></param>
+        [System.Obsolete("Work In Progress, Don't Use")]
+        public void Shake(float intensity, float magnitude, float swayPower, float time, int priority)
         {
-            playerMovement.OnMove += PlayerMovement_OnMove;
+            if (priority < currentShakePriority) return;
+
+            if (currentShakeRoutine != null)
+                StopCoroutine(currentShakeRoutine);
+
+            currentShakeRoutine = StartCoroutine(IShakeCamera(intensity, magnitude, swayPower, time));
         }
 
-        private void OnDestroy()
+        private IEnumerator IShakeCamera(float intensity, float magnitude, float swayPower, float time)
         {
-            playerMovement.OnMove -= PlayerMovement_OnMove;
-        }
+            float timeLeft = time;
+            float magnitudeTime = 1f / magnitude;
+            float magnitudeTimeLeft = 0f;
+            Vector3 currentTargetEulers = Vector3.zero;
 
-        private void Update()
-        {
-            if (resetForeshadowing)
+            while (timeLeft > 0f)
             {
-                if (resetCooldown > 0f)
-                    resetCooldown -= Time.deltaTime;
-                else
-                    currentForeshadowingDirection = Vector2.Lerp(currentForeshadowingDirection, Vector2.zero, Time.deltaTime * foreshadowingResetDelta);
-            }
-            
-            cameraViewTarget.localPosition = Vector3.Lerp(cameraViewTarget.localPosition, 
-                new Vector3(foreshadowingMaximumDistanceSide * currentForeshadowingDirection.x, 0f,
-                (currentForeshadowingDirection.y > 0f ? foreshadowingMaximumDistanceFront : foreshadowingMaximumDistanceBehind) * currentForeshadowingDirection.y)
-                * foreshadowingMoveRange, 
-                Time.deltaTime * foreshadowingMoveDelta);
-        }
+                magnitudeTimeLeft -= Time.deltaTime;
+                timeLeft -= Time.deltaTime;
 
-        private void PlayerMovement_OnMove(object sender, Vector2 e)
-        {
-            resetCooldown = foreshadowingResetDelay;
-            currentForeshadowingDirection = e.normalized;
+                if (magnitudeTimeLeft <= 0f)
+                {
+                    magnitudeTimeLeft += magnitudeTime;
+                    currentTargetEulers = Random.insideUnitSphere * intensity;
+                    currentTargetEulers = new Vector3(Mathf.Abs(currentTargetEulers.x), Mathf.Abs(currentTargetEulers.y), Mathf.Abs(currentTargetEulers.z));
+                }
+
+                cameraShakeParent.localEulerAngles += (currentTargetEulers- cameraShakeParent.localEulerAngles) * Time.deltaTime * swayPower;
+
+                yield return null;
+            }
+
+            timeLeft = 0.3f;
+            while (timeLeft > 0f)
+            {
+                timeLeft -= Time.deltaTime;
+                cameraShakeParent.localEulerAngles = Vector3.Lerp(cameraShakeParent.localEulerAngles, Vector3.zero, 1f - (timeLeft/0.3f));
+                yield return null;
+            }
+
+            cameraShakeParent.localEulerAngles = Vector3.zero;
+
+            currentShakePriority = -1;
+            currentShakeRoutine = null;
         }
     }
 }
