@@ -45,6 +45,13 @@ namespace RuneProject.ActorSystem
                 agent = healthRigidbody.GetComponent<NavMeshAgent>();
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.K))
+                Die(null);
+
+        }
+
         public void TakeDamage(GameObject source, int damage, Vector3 knockback)
         {
             if (!isAlive)

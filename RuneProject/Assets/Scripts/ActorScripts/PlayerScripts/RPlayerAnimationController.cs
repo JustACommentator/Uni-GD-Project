@@ -11,6 +11,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private RPlayerMovement movement = null;
         [SerializeField] private RPlayerDash dash = null;
         [SerializeField] private RPlayerBasicAttack basicAttack = null;
+        [SerializeField] private RPlayerHealth playerHealth = null;
 
         private float lastTimeSinceMove = 0f;
 
@@ -21,6 +22,13 @@ namespace RuneProject.ActorSystem
             basicAttack.OnBeginCharge += BasicAttack_OnBeginCharge;
             basicAttack.OnEndCharge += BasicAttack_OnEndCharge;
             basicAttack.OnFireAutoAttack += BasicAttack_OnFireAutoAttack;
+            playerHealth.OnDeath += PlayerHealth_OnDeath;
+        }
+
+        private void PlayerHealth_OnDeath(object sender, GameObject e)
+        {
+            playerAnimator.Play("Death");
+            //Timescale-Sp‰ﬂchen
         }
 
         private void BasicAttack_OnFireAutoAttack(object sender, System.EventArgs e)

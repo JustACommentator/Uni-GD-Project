@@ -13,6 +13,7 @@ namespace RuneProject.ActorSystem
 
         [Header("References")]
         [SerializeField] private RPlayerMovement movement = null;
+        [SerializeField] private RPlayerHealth playerHealth = null;
         [SerializeField] private Transform playerCharacterTransform = null;
         [Space]
         [SerializeField] private Transform dashDirectionIndicator = null;
@@ -22,6 +23,18 @@ namespace RuneProject.ActorSystem
         private const KeyCode DASH_INPUT = KeyCode.LeftShift;
 
         private float currentDashCooldown = 0f;
+        private bool isDead = false;
+
+        private void Start()
+        {
+            playerHealth.OnDeath += PlayerHealth_OnDeath;
+        }
+
+        private void PlayerHealth_OnDeath(object sender, GameObject e)
+        {
+            isDead = true;
+            Destroy(dashDirectionIndicator.gameObject);
+        }
 
         private void Update()
         {
@@ -59,6 +72,8 @@ namespace RuneProject.ActorSystem
 
         private void HandleIndicator()
         {
+            if (isDead) return;
+
             Vector3 dir = playerCharacterTransform.forward;
 
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
