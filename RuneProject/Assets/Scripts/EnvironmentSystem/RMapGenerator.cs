@@ -28,31 +28,84 @@ namespace RuneProject.EnvironmentSystem
         [SerializeField] private Vector2 tileSize;
         [SerializeField] private GameObject[] tileObjects;
 
+        [Header("Enemies")]
+        [SerializeField] private GameObject slime;
+        [SerializeField] private GameObject fairy;
+
+        private Dictionary<char, Vector2> waypoints = new Dictionary<char, Vector2>();
+
         internal KeyValuePair<TileType, Orientation>[][] TileMap { get => tileMap; set => tileMap = value; }
 
         void Start()
         {
             tileMap = tileMapFromString(
-                "IIIIIIIIIIIIIIIIIIII#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "I                  I#" +
-                "IIIIII        IIIIII#");
+                "||||||||||||||||||||#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|                  |#" +
+                "|    1        2    |#" +
+                "|                  |#" +
+                "||||||        ||||||#");
+
+            string enemyLayout =
+                "S1,2#" +
+                "S2,1#";
+
+            GameObject enemyType = null;
+            char idx = ' ';
+            List<Transform> path = new List<Transform>();
+            Dictionary<char, Transform> instantiated = new Dictionary<char, Transform>();
+
+            foreach (char c in enemyLayout)
+            {
+                switch (c)
+                {
+                    case 'S':
+                        enemyType = slime;
+                        break;
+                    case 'F':
+                        enemyType = fairy;
+                        break;
+                    case ',':
+                    case '#':
+                        Transform waypoint;
+                        Vector2 xy = waypoints[idx];
+                        if (!instantiated.ContainsKey(idx))
+                        {
+                            waypoint = Instantiate(new GameObject(), tilePosition(xy.x,xy.y) + Vector3.up, new Quaternion(), transform).transform;
+                            instantiated.Add(idx, waypoint);
+                        } else
+                        {
+                            waypoint = instantiated[idx];
+                        }
+                        path.Add(waypoint);
+                        if (c == '#')
+                        {
+                            GameObject enemy = Instantiate(enemyType, path[0].position, new Quaternion(), transform);
+                            enemy.GetComponent<EnemySystem.REnemyAI>().Path = path;
+                            path = new List<Transform>();
+                        }
+                        break;
+                    default:
+                        idx = c;
+                        break;
+
+                }
+            }
+
             GenerateMap();
         }
 
@@ -65,7 +118,7 @@ namespace RuneProject.EnvironmentSystem
                     if (TileMap[x][y].Key != TileType.EMPTY)
                         Instantiate(
                             GetGameObject(TileMap[x][y].Key),
-                            new Vector3(transform.position.x + (x + 0.5f) * tileSize.x, transform.position.y, transform.position.z + (y + 0.5f) * tileSize.y),
+                            tilePosition(x, y),
                             GetQuaternion(TileMap[x][y].Value),
                             transform);
                 }
@@ -113,6 +166,7 @@ namespace RuneProject.EnvironmentSystem
             List<TileType[]> lookup_temp = new List<TileType[]>();
             List<TileType> lookup_row = new List<TileType>();
 
+            int ix = 0, iy = 0;
             foreach (char c in map)
             {
                 switch (c)
@@ -120,7 +174,7 @@ namespace RuneProject.EnvironmentSystem
                     case ' ':
                         lookup_row.Add(TileType.EMPTY);
                         break;
-                    case 'I':
+                    case '|':
                         lookup_row.Add(TileType.WALL);
                         break;
                     case ':':
@@ -129,14 +183,25 @@ namespace RuneProject.EnvironmentSystem
                     case '#':
                         lookup_temp.Add(lookup_row.ToArray());
                         lookup_row = new List<TileType>();
+                        ix = -1;
+                        iy++;
+                        break;
+                    default:
+                        waypoints.Add(c, new Vector2(ix, iy));
+                        lookup_row.Add(TileType.EMPTY);
                         break;
                 }
+                ix++;
             }
 
-            if (lookup_row.Count > 0)
-                lookup_temp.Add(lookup_row.ToArray());
-
             lookup_temp.Reverse();
+
+            Dictionary<char, Vector2> rwayp = new Dictionary<char, Vector2>();
+            foreach (KeyValuePair<char, Vector2> wp in waypoints)
+            {
+                rwayp[wp.Key] = new Vector2(wp.Value.x, lookup_temp.Count - wp.Value.y);
+            }
+            waypoints = rwayp;
 
             TileType[][] lookup = lookup_temp.ToArray();
 
@@ -208,6 +273,11 @@ namespace RuneProject.EnvironmentSystem
             }
 
             return o;
+        }
+
+        Vector3 tilePosition(float x, float y)
+        {
+            return new Vector3(transform.position.x + (x + 0.5f) * tileSize.x, transform.position.y, transform.position.z + (y + 0.5f) * tileSize.y);
         }
     }
 }

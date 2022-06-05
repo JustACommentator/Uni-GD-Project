@@ -60,6 +60,8 @@ namespace RuneProject.EnemySystem
             }
         }
 
+        public List<Transform> Path { get => path; set => path = value; }
+
         public enum EAlertState
         {
             IDLE,
