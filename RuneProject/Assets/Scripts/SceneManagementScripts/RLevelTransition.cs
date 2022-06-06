@@ -3,29 +3,50 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class RLevelTransition : MonoBehaviour
+namespace RuneProject.UserInterfaceSystem
 {
-    [SerializeField] private string targetSceneName = "SampleScene";
-
-    private bool isLoading = false;
-
-    public void LoadScene()
+    public class RLevelTransition : MonoBehaviour
     {
-        if (!isLoading)
-        {
-            isLoading = true;
+        [Header("Values")]
+        [SerializeField] private bool loadOnStart = false;
+        [SerializeField] private string targetSceneName = "SampleScene";                
 
-            StartCoroutine(ILoadScene());
+        private bool isLoading = false;
+
+        private void Start()
+        {
+            if (loadOnStart)
+                LoadScene();
         }
-    }
 
-    private IEnumerator ILoadScene()
-    {
-        AsyncOperation op = SceneManager.LoadSceneAsync(targetSceneName);
-
-        while (!op.isDone)
+        public void LoadScene()
         {
-            yield return null;
+            if (!isLoading)
+            {
+                isLoading = true;
+
+                StartCoroutine(ILoadScene());
+            }
+        }
+
+        public void LoadScene(string sceneName)
+        {
+            targetSceneName = sceneName;
+            LoadScene();
+        }
+
+        private IEnumerator ILoadScene()
+        {
+            transform.SetAsLastSibling();
+            DontDestroyOnLoad(gameObject);
+            AsyncOperation op = SceneManager.LoadSceneAsync(targetSceneName);
+
+            while (!op.isDone)
+            {
+                yield return null;
+            }
+
+            Destroy(gameObject, 0.1f);
         }
     }
 }

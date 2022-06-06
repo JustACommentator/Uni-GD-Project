@@ -1,11 +1,3 @@
-Rune Project
-
-Developed by TLT Games
-Published by TLT Games
---
-FH Aachen
---
-
 Original Concept
 Lyx
 
@@ -26,7 +18,8 @@ Tim Bering
 VFX
 Tim Bering
 
---
+Voice Acting
+Rose S.
 
 Special thanks to
 Bayat Games
