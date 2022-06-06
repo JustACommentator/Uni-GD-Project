@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3165739cf94e04e4bae5561327dd6877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadOnStart: 0
+  loadOnStart: 1
   minLoadTime: 5
   targetSceneName: SampleScene
 --- !u!1 &4095368054331961825
