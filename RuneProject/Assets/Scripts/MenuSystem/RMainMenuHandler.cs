@@ -24,11 +24,13 @@ namespace RuneProject.MainMenuSystem
 
         [Header("Prefabs")]
         [SerializeField] private RUI_Alert alertPrefab = null;
+        [SerializeField] private RLevelTransition levelTransitionPrefab = null;
 
         [Header("Sound Effects")]
         [SerializeField] private AudioClip startUpSFX = null;
         [SerializeField] private AudioClip clickSFX = null;
 
+        private bool isLoading = false;
         private RUI_Alert currentAlert = null;
         private Coroutine currentLoadCreditsContentRoutine = null;
         private EMainMenuState currentMenuState = EMainMenuState.INITIAL_MENU;
@@ -37,6 +39,7 @@ namespace RuneProject.MainMenuSystem
 
         private const KeyCode ESCAPE_KEY_CODE = KeyCode.Escape;
         private const string CREDITS_PATH = "TextFileData/credits";
+        private const string LOADING_LEVEL = "TimTestScene";
 
         private void Start()
         {
@@ -132,7 +135,15 @@ namespace RuneProject.MainMenuSystem
 
         public void OnClick_LoadLevel()
         {
+            if (!isLoading)
+            {
+                isLoading = true;
 
+                musicSource.Stop();
+                //rainSFXSource.Stop();
+                RLevelTransition instance = Instantiate(levelTransitionPrefab, canvasTransform);
+                instance.LoadScene(LOADING_LEVEL);
+            }
         }
 
         public void OnClick_ShowEndGameDecision()

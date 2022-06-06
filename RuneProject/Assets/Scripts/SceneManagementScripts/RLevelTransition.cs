@@ -7,9 +7,17 @@ namespace RuneProject.UserInterfaceSystem
 {
     public class RLevelTransition : MonoBehaviour
     {
-        [SerializeField] private string targetSceneName = "SampleScene";
+        [Header("Values")]
+        [SerializeField] private bool loadOnStart = false;
+        [SerializeField] private string targetSceneName = "SampleScene";                
 
         private bool isLoading = false;
+
+        private void Start()
+        {
+            if (loadOnStart)
+                LoadScene();
+        }
 
         public void LoadScene()
         {
@@ -21,14 +29,24 @@ namespace RuneProject.UserInterfaceSystem
             }
         }
 
+        public void LoadScene(string sceneName)
+        {
+            targetSceneName = sceneName;
+            LoadScene();
+        }
+
         private IEnumerator ILoadScene()
         {
+            transform.SetAsLastSibling();
+            DontDestroyOnLoad(gameObject);
             AsyncOperation op = SceneManager.LoadSceneAsync(targetSceneName);
 
             while (!op.isDone)
             {
                 yield return null;
             }
+
+            Destroy(gameObject, 0.1f);
         }
     }
 }
