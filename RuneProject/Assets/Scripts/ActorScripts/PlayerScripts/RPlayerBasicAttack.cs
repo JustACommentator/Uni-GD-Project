@@ -29,7 +29,8 @@ namespace RuneProject.ActorSystem
         [SerializeField] private RPlayerMovement playerMovement = null;
         [SerializeField] private RPlayerDash playerDash = null;
 
-        [Header("Values")]         
+        [Header("Values")]
+        [SerializeField] private bool tryToWallCheckAutoAttacks = false;
         [SerializeField] private LayerMask playerMask = new LayerMask();                
         [SerializeField] private LayerMask defaultMask = new LayerMask();                
         [SerializeField] private float attacksPerSecond = 2f;
@@ -64,7 +65,7 @@ namespace RuneProject.ActorSystem
         private const float AUTO_ATTACK_HITBOX_WARMUP_TIME = 0.1f;
         private const float LIGHTNING_RANDOM_INTERVAL = 0.3f;
         private const float LIGHTNING_UPDATE_INTERVAL = 0.05f;
-        private const float LIGHTNING_MIN_DISTANCE = 0.25f;
+        private const float LIGHTNING_MIN_DISTANCE = 0.01f;
         private const KeyCode PICKUP_DROP_KEYCODE = KeyCode.F;
         private const KeyCode WORLD_ITEM_ACTIVE_EFFECT_KEYCODE = KeyCode.R;
 
@@ -276,7 +277,7 @@ namespace RuneProject.ActorSystem
             if (Physics.Raycast(raycastStartPos, dir, out RaycastHit hit, Vector3.Distance(raycastStartPos, endPos), defaultMask))
                 endPos = hit.point;
 
-            if (Vector3.Distance(startPos, endPos) < LIGHTNING_MIN_DISTANCE) return;
+            if (Vector3.Distance(startPos, endPos) < LIGHTNING_MIN_DISTANCE && tryToWallCheckAutoAttacks) return;
 
             for (int i=0; i< autoAttackLineRenderers.Count; i++)
             {

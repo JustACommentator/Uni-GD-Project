@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadOnStart: 0
+  minLoadTime: 5
   targetSceneName: SampleScene
 --- !u!1 &4095368054331961825
 GameObject:

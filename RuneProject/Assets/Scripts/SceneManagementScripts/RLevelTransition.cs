@@ -9,9 +9,12 @@ namespace RuneProject.UserInterfaceSystem
     {
         [Header("Values")]
         [SerializeField] private bool loadOnStart = false;
+        [SerializeField] private float minLoadTime = 3f;
         [SerializeField] private string targetSceneName = "SampleScene";                
 
         private bool isLoading = false;
+
+        private const float MAX_PROGRESS_WITHOUT_SCENE_ACTIVATION = 0.9f;
 
         private void Start()
         {
@@ -40,13 +43,27 @@ namespace RuneProject.UserInterfaceSystem
             transform.SetAsLastSibling();
             DontDestroyOnLoad(gameObject);
             AsyncOperation op = SceneManager.LoadSceneAsync(targetSceneName);
+            op.allowSceneActivation = false;
+            float time = 0f;
 
-            while (!op.isDone)
+            while (op.progress < MAX_PROGRESS_WITHOUT_SCENE_ACTIVATION)
             {
+                time += Time.deltaTime;
                 yield return null;
             }
 
-            Destroy(gameObject, 0.1f);
+            while(time < minLoadTime)
+            {
+                time += Time.deltaTime;
+                yield return null;
+            }
+
+            op.allowSceneActivation = true;
+
+            while (!op.isDone)
+                yield return null;
+
+            Destroy(gameObject);
         }
     }
 }
