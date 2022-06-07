@@ -23,6 +23,7 @@ namespace RuneProject.EnvironmentSystem
         KEY,
         SPIKES,
         SWITCH,
+        BOSS_GATE
     }
 
     enum Orientation
@@ -161,127 +162,157 @@ namespace RuneProject.EnvironmentSystem
 
             // 4 Doors
             roomLayouts.Add(roomLayoutFromString(
-                "|||  |||#" +
-                "|V-  -V|#" +
-                "  1  2  #" +
-                "  3  4  #" +
-                "|Vi  iV|#" +
-                "|||  |||#")
+                "||||X ||||#" +
+                "|V-    -V|#" +
+                "|        |#" +
+                "  1    2  #" +
+                "  3    4  #" +
+                "|        |#" +
+                "|Vi    iV|#" +
+                "||||  ||||#")
             );
             // 3 Doors
             roomLayouts.Add(roomLayoutFromString(
-                "|||  |||#" +
-                "|      |#" +
-                "       |#" +
-                "       |#" +
-                "|      |#" +
-                "|||  |||#")
+                "||||  ||||#" +
+                "|        |#" +
+                "|        |#" +
+                "         |#" +
+                "         |#" +
+                "|        |#" +
+                "|        |#" +
+                "||||  ||||#")
             );
             roomLayouts.Add(roomLayoutFromString(
-                "||||||||#" +
-                "|      |#" +
-                "        #" +
-                "        #" +
-                "|      |#" +
-                "|||  |||#")
+                "||||||||||#" +
+                "|        |#" +
+                "|        |#" +
+                "          #" +
+                "          #" +
+                "|        |#" +
+                "|        |#" +
+                "||||  ||||#")
             );
             roomLayouts.Add(roomLayoutFromString(
-                "|||  |||#" +
-                "|      |#" +
-                "|       #" +
-                "|       #" +
-                "|      |#" +
-                "|||  |||#")
+                "||||  ||||#" +
+                "|        |#" +
+                "|        |#" +
+                "|         #" +
+                "|         #" +
+                "|        |#" +
+                "|        |#" +
+                "||||  ||||#")
             );
             roomLayouts.Add(roomLayoutFromString(
-                "|||  |||#" +
-                "|      |#" +
-                "        #" +
-                "        #" +
-                "|      |#" +
-                "||||||||#")
+                "||||  ||||#" +
+                "|        |#" +
+                "|        |#" +
+                "          #" +
+                "          #" +
+                "|        |#" +
+                "|        |#" +
+                "||||||||||#")
             );
             // 2 Doors
             roomLayouts.Add(roomLayoutFromString(
-                "|||  |||#" +
-                "|      |#" +
-                "|      |#" +
-                "|      |#" +
-                "|      |#" +
-                "|||  |||#")
+                "||||  ||||#" +
+                "|        |#" +
+                "|        |#" +
+                "|        |#" +
+                "|        |#" +
+                "|        |#" +
+                "|        |#" +
+                "||||  ||||#")
             );
             roomLayouts.Add(roomLayoutFromString(
-                "||||||||#" +
-                "|      |#" +
-                "        #" +
-                "        #" +
-                "|      |#" +
-                "||||||||#")
+                "||||||||||#" +
+                "|        |#" +
+                "|        |#" +
+                "          #" +
+                "          #" +
+                "|        |#" +
+                "|        |#" +
+                "||||||||||#")
             );
             roomLayouts.Add(roomLayoutFromString(
-                "|||  |||#" +
-                "|      |#" +
-                "|       #" +
-                "|       #" +
-                "|      |#" +
-                "||||||||#")
+                "||||  ||||#" +
+                "|        |#" +
+                "|        |#" +
+                "|         #" +
+                "|         #" +
+                "|        |#" +
+                "|        |#" +
+                "||||||||||#")
             );
             roomLayouts.Add(roomLayoutFromString(
-                "|||  |||#" +
-                "|      |#" +
-                "       |#" +
-                "       |#" +
-                "|      |#" +
-                "||||||||#")
+                "||||  ||||#" +
+                "|        |#" +
+                "|        |#" +
+                "         |#" +
+                "         |#" +
+                "|        |#" +
+                "|        |#" +
+                "||||||||||#")
             );
             roomLayouts.Add(roomLayoutFromString(
-                "||||||||#" +
-                "|      |#" +
-                "|       #" +
-                "|       #" +
-                "|      |#" +
-                "|||  |||#")
+                "||||||||||#" +
+                "|        |#" +
+                "|        |#" +
+                "|         #" +
+                "|         #" +
+                "|        |#" +
+                "|        |#" +
+                "||||  ||||#")
             );
             roomLayouts.Add(roomLayoutFromString(
-                "||||||||#" +
-                "|      |#" +
-                "       |#" +
-                "       |#" +
-                "|      |#" +
-                "|||  |||#")
+                "||||||||||#" +
+                "|        |#" +
+                "|        |#" +
+                "         |#" +
+                "         |#" +
+                "|        |#" +
+                "|        |#" +
+                "||||  ||||#")
             );
             // 1 Door
             roomLayouts.Add(roomLayoutFromString(
-                "|||  |||#" +
-                "|      |#" +
-                "|      |#" +
-                "|      |#" +
-                "|      |#" +
-                "||||||||#")
+                "||||  ||||#" +
+                "|        |#" +
+                "|        |#" +
+                "|        |#" +
+                "|        |#" +
+                "|        |#" +
+                "|        |#" +
+                "||||||||||#")
             );
             roomLayouts.Add(roomLayoutFromString(
-                "||||||||#" +
-                "|      |#" +
-                "       |#" +
-                "       |#" +
-                "|      |#" +
-                "||||||||#")
+                "||||||||||#" +
+                "|        |#" +
+                "|        |#" +
+                "         |#" +
+                "         |#" +
+                "|        |#" +
+                "|        |#" +
+                "||||||||||#")
             );
             roomLayouts.Add(roomLayoutFromString(
-                "||||||||#" +
-                "|      |#" +
-                "|      |#" +
-                "|VV  VV|#" +
-                "|VV  VV|#" +
-                "|||  |||#")
+                "||||||||||#" +
+                "|        |#" +
+                "|        |#" +
+                "|        |#" +
+                "|        |#" +
+                "|VV    VV|#" +
+                "|VV    VV|#" +
+                "||||  ||||#")
             );
             roomLayouts.Add(roomLayoutFromString(
-                "||||||||#" +
-                "|      |#" +
-                "|       #" +
-                "| L     #" +
-                "|      |#" +
-                "||||||||#")
+                "||||||||||#" +
+                "|        |#" +
+                "|        |#" +
+                "|        X#" +
+                "| L       #" +
+                "|        |#" +
+                "|        |#" +
+                "||||||||||#")
             );
 
             return roomLayouts;
@@ -314,6 +345,15 @@ namespace RuneProject.EnvironmentSystem
                             GetQuaternion(tileMap[y][x].Value),
                             parent);
                     tile.name = "Tile " + tileMap[y][x].Key;
+                    if (tileMap[y][x].Key != TileType.WALL)
+                    {
+                        GameObject tilef = Instantiate(
+                                GetGameObject(TileType.FLOOR),
+                                tilePosition(x, y, room_x, room_y),
+                                GetQuaternion(tileMap[y][x].Value),
+                                parent);
+                        tilef.name = "Tile " + tileMap[y][x].Key;
+                    }
                 }
             }
         }
@@ -406,6 +446,8 @@ namespace RuneProject.EnvironmentSystem
                     return tileObjects[15];
                 case TileType.SWITCH:
                     return tileObjects[16];
+                case TileType.BOSS_GATE:
+                    return tileObjects[17];
                 default:
                     return null;
             }
@@ -491,6 +533,9 @@ namespace RuneProject.EnvironmentSystem
                     case '%':
                         lookup_row.Add(TileType.SWITCH);
                         break;
+                    case 'H':
+                        lookup_row.Add(TileType.BOSS_GATE);
+                        break;
                     case '#':
                         lookup_temp.Add(lookup_row.ToArray());
                         lookup_row = new List<TileType>();
@@ -523,21 +568,28 @@ namespace RuneProject.EnvironmentSystem
                 List<KeyValuePair<TileType, Orientation>> row = new List<KeyValuePair<TileType, Orientation>>();
                 for (int x = 0; x < lookup[y].Length; x++)
                 {
-                    row.Add(new KeyValuePair<TileType, Orientation>(lookup[y][x], Orientation.NORTH));
+                    if (lookup[y][x] == TileType.LOCKED_DOOR || lookup[y][x] == TileType.BOSS_GATE)
+                    {
+                        if (x == 0 || x == 9)
+                            row.Add(new KeyValuePair<TileType, Orientation>(lookup[y][x], Orientation.EAST));
+                        else
+                            row.Add(new KeyValuePair<TileType, Orientation>(lookup[y][x], Orientation.NORTH));
+                    } else
+                        row.Add(new KeyValuePair<TileType, Orientation>(lookup[y][x], Orientation.NORTH));
                 }
                 o[y] = row.ToArray();
             }
 
             RoomLayout layout = new RoomLayout();
             layout.room = o;
-            layout.doormap = new bool[4] { o[5][3].Key != TileType.WALL, o[2][7].Key != TileType.WALL, o[0][3].Key != TileType.WALL, o[2][0].Key != TileType.WALL };
+            layout.doormap = new bool[4] { o[7][4].Key != TileType.WALL, o[3][9].Key != TileType.WALL, o[0][4].Key != TileType.WALL, o[3][0].Key != TileType.WALL };
 
             return layout;
         }
 
         Vector3 tilePosition(float x, float y, float room_x, float room_y)
         {
-            return new Vector3(transform.position.x + (x + room_x * 8 + 0.5f) * tileSize.x, transform.position.y, transform.position.z + (y + room_y * 6 + 0.5f) * tileSize.y);
+            return new Vector3(transform.position.x + (x + room_x * 9 + 0.5f) * tileSize.x, transform.position.y, transform.position.z + (y + room_y * 7 + 0.5f) * tileSize.y);
         }
     }
 }
