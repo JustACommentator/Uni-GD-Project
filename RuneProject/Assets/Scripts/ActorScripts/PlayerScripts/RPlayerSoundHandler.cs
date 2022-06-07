@@ -55,6 +55,10 @@ namespace RuneProject.ActorSystem
             if (e == EPlayerAttackAnimationType.CHARGED)
             {
                 voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.autoAttackFireVoiceClips), false);
+                sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.swingClip, true, randomizePitch: true, delay:0.2f);
+                sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.swingClip, true, randomizePitch: true, delay:0.4f);
+                sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.swingClip, true, randomizePitch: true, delay:0.6f);
+                sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.swingClip, true, randomizePitch: true, delay:0.8f);
             }
             else
             {

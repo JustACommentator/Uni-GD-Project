@@ -29,6 +29,9 @@ namespace RuneProject.ActorSystem
         [SerializeField] private RPlayerHealth playerHealth = null;
         [SerializeField] private RPlayerMovement playerMovement = null;
         [SerializeField] private RPlayerDash playerDash = null;
+        [Space]
+        [SerializeField] private GameObject staffHandInstance = null;
+        [SerializeField] private GameObject staffBeltInstance = null;
 
         [Header("Values")]
         [SerializeField] private bool tryToWallCheckAutoAttacks = false;
@@ -65,7 +68,7 @@ namespace RuneProject.ActorSystem
         public event System.EventHandler<RWorldItem> OnPickUp;
         public event System.EventHandler<RPlayerHealth> OnHitWithItemAttack;
 
-        private const int ATTACK_MOUSE_BUTTON = 1;
+        private const int ATTACK_MOUSE_BUTTON = 0;
         private const float MIN_AUTO_ATTACK_CHARGE_TIME = 0.5f;
         private const float MAX_AUTO_ATTACK_CHARGE_TIME = 2f;
         private const float AUTO_ATTACK_STAND_TIME = 0.6f;
@@ -264,6 +267,8 @@ namespace RuneProject.ActorSystem
             currentPickedUpWorldItem.transform.SetParent(null);
             currentPickedUpWorldItem.EnableAllColliders();
             currentPickedUpWorldItem.Rigidbody.isKinematic = false;
+            staffHandInstance.SetActive(true);
+            staffBeltInstance.SetActive(false);
             attackHitbox.Damage = 0;
             spinAttackHitbox.Damage = 0;
 
@@ -321,6 +326,8 @@ namespace RuneProject.ActorSystem
                 currentPickedUpWorldItemBeforeBreakCounter = currentPickedUpWorldItem.AttacksBeforeBeingBroken;
                 attackHitbox.Damage = currentPickedUpWorldItem.AttackDamage;
                 spinAttackHitbox.Damage = currentPickedUpWorldItem.SpinAttackDamage;
+                staffHandInstance.SetActive(false);
+                staffBeltInstance.SetActive(true);
                 OnPickUp?.Invoke(this, currentPickedUpWorldItem);
             }
         }
