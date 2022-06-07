@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,7 +11,7 @@ namespace RuneProject.UserInterfaceSystem
         [Header("Values")]
         [SerializeField] private bool loadOnStart = false;
         [SerializeField] private float minLoadTime = 3f;
-        [SerializeField] private string targetSceneName = "SampleScene";                
+        [SerializeField] private string targetSceneName = "SampleScene";
 
         private bool isLoading = false;
 
