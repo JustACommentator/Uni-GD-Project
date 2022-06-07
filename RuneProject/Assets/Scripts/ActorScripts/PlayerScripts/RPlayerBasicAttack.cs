@@ -16,6 +16,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private List<Transform> handTransforms = new List<Transform>();
         [SerializeField] private Transform characterTransform = null;
         [SerializeField] private RHitboxComponent attackHitbox = null;
+        [SerializeField] private RHitboxComponent spinAttackHitbox = null;
         [SerializeField] private GameObject autoAttackHitboxParent = null;
         [SerializeField] private Transform autoAttackHitboxScaler = null;
         [Space]
@@ -39,6 +40,7 @@ namespace RuneProject.ActorSystem
         [Space]
         [SerializeField] private Vector2 throwAwayForce = new Vector2(30f, 10f);
         [SerializeField] private float hitboxUptime = 0.1f;
+        [SerializeField] private float spinHitboxUptime = 2f;
         [SerializeField] private float pickupDetectionRange = 0.7f;
         [SerializeField] private LayerMask worldItemMask = new LayerMask();
         [SerializeField] private bool cantPickUpOnAttackCooldown = false;
@@ -53,19 +55,30 @@ namespace RuneProject.ActorSystem
         private bool chargingAttack = false;
         private int currentPickedUpWorldItemBeforeBreakCounter = 0;
         private RWorldItem currentPickedUpWorldItem = null;
+        private Coroutine currentHitboxRoutine = null;
 
-        public event System.EventHandler OnBeginCharge;
-        public event System.EventHandler OnEndCharge;
+        public event System.EventHandler<bool> OnBeginCharge; //bool ASAUTOATTACK
+        public event System.EventHandler<bool> OnEndCharge;
         public event System.EventHandler OnFireAutoAttack;
+        public event System.EventHandler<EPlayerAttackAnimationType> OnFireItemAttack;
+        public event System.EventHandler<RWorldItem> OnThrow;
+        public event System.EventHandler<RWorldItem> OnPickUp;
+        public event System.EventHandler<RPlayerHealth> OnHitWithItemAttack;
 
         private const int ATTACK_MOUSE_BUTTON = 1;
         private const float MIN_AUTO_ATTACK_CHARGE_TIME = 0.5f;
         private const float MAX_AUTO_ATTACK_CHARGE_TIME = 2f;
         private const float AUTO_ATTACK_STAND_TIME = 0.6f;
         private const float AUTO_ATTACK_HITBOX_WARMUP_TIME = 0.1f;
+        private const float MIN_ITEM_ATTACK_CHARGE_TIME = 0.05f;
+        private const float SPIN_ITEM_ATTACK_CHARGE_TIME = 1f;
+        private const float ITEM_ATTACK_STAND_TIME = 0.4f;
+        private const float ITEM_ATTACK_HITBOX_WARMUP_TIME = 0.1f;
+        private const float ITEM_SPIN_STAND_TIME = 2.85f;
         private const float LIGHTNING_RANDOM_INTERVAL = 0.3f;
         private const float LIGHTNING_UPDATE_INTERVAL = 0.05f;
         private const float LIGHTNING_MIN_DISTANCE = 0.01f;
+        private const float THROW_OFFSET = 0.5f;
         private const KeyCode PICKUP_DROP_KEYCODE = KeyCode.F;
         private const KeyCode WORLD_ITEM_ACTIVE_EFFECT_KEYCODE = KeyCode.R;
 
@@ -73,11 +86,14 @@ namespace RuneProject.ActorSystem
         {
             playerHealth.OnDeath += PlayerHealth_OnDeath;
             playerDash.OnDash += PlayerDash_OnDash;
-        }
-        
+            attackHitbox.OnHitTarget += AttackHitbox_OnHitTarget;
+        }        
+
         private void OnDestroy()
         {
             playerHealth.OnDeath -= PlayerHealth_OnDeath;
+            playerDash.OnDash -= PlayerDash_OnDash;
+            attackHitbox.OnHitTarget -= AttackHitbox_OnHitTarget;
         }
 
         void Update()
@@ -110,18 +126,14 @@ namespace RuneProject.ActorSystem
                     currentAttackChargeTime = 0f;
                     autoAttackIndicatorTransform.localScale = new Vector3(0.3f, 0.3f, 0f);
                     autoAttackIndicatorParent.SetActive(true);
-                    OnBeginCharge?.Invoke(this, null);
                 }
                 else if (!currentPickedUpWorldItem.CantBeUsedAsWeapon)
                 {
-                    StartCoroutine(IToggleHitbox());
-                    currentAttackCooldown = 1f / currentPickedUpWorldItem.AttacksPerSecond;
-                    //Später: Nur bei Hit
-                    //currentPickedUpWorldItemBeforeBreakCounter--;
-
-                    //if (currentPickedUpWorldItemBeforeBreakCounter <= 0)
-                    //    BreakCurrentItem();
+                    chargingAttack = true;
+                    currentAttackChargeTime = 0f;
                 }
+
+                OnBeginCharge?.Invoke(this, !currentPickedUpWorldItem);
             }
             else if (Input.GetMouseButton(ATTACK_MOUSE_BUTTON) && !blockAttackInput && chargingAttack)
             {
@@ -138,6 +150,11 @@ namespace RuneProject.ActorSystem
                         autoAttackIndicatorTransform.LookAt(autoAttackIndicatorTransform.position + dir);
                     }
                 }
+                else
+                {
+                    //Falls > SpinAttackChargeTime: Einmalig indicator
+                    //ChargeAttack-VoiceClip abspielen
+                }
             }
             else if (Input.GetMouseButtonUp(ATTACK_MOUSE_BUTTON) && !blockAttackInput && chargingAttack)
             {
@@ -145,19 +162,50 @@ namespace RuneProject.ActorSystem
 
                 if (!currentPickedUpWorldItem)
                 {
-                    autoAttackIndicatorParent.SetActive(false);
-                    OnEndCharge?.Invoke(this, null);
+                    autoAttackIndicatorParent.SetActive(false);                    
 
                     if (currentAttackChargeTime >= MIN_AUTO_ATTACK_CHARGE_TIME)
                     {
                         autoAttackHitboxScaler.localScale = new Vector3(1f, 1f, GetAutoAttackDistance()/4+0.4f);
-                        StartCoroutine(IToggleAutoAttackHitbox());
+                        ForceDisableAllHitboxes();
+                        currentHitboxRoutine = StartCoroutine(IToggleAutoAttackHitbox());
                         playerMovement.ResetMovementMomentum();
                         playerMovement.LookAtMouse();
                         playerMovement.BlockMovementInput(AUTO_ATTACK_STAND_TIME);
                         OnFireAutoAttack?.Invoke(this, null);
                     }
                 }
+                else
+                {
+                    if (currentAttackChargeTime >= MIN_ITEM_ATTACK_CHARGE_TIME)
+                    {
+                        EPlayerAttackAnimationType usedAnimationType = currentPickedUpWorldItem.ContactPoints.Count == 2 ? 
+                            EPlayerAttackAnimationType.TWO_HANDED : EPlayerAttackAnimationType.ONE_HANDED;
+
+                        if (currentAttackChargeTime >= SPIN_ITEM_ATTACK_CHARGE_TIME)
+                        {
+                            usedAnimationType = EPlayerAttackAnimationType.CHARGED;
+                            ForceDisableAllHitboxes();
+                            currentHitboxRoutine = StartCoroutine(IToggleSpinHitbox());
+                            currentPickedUpWorldItem.EnableTrail(ITEM_SPIN_STAND_TIME, ITEM_ATTACK_HITBOX_WARMUP_TIME);
+                            playerMovement.BlockMovementInput(ITEM_SPIN_STAND_TIME);
+                        }
+                        else
+                        {
+                            ForceDisableAllHitboxes();
+                            currentHitboxRoutine = StartCoroutine(IToggleHitbox());
+                            currentPickedUpWorldItem.EnableTrail(ITEM_ATTACK_STAND_TIME, ITEM_ATTACK_HITBOX_WARMUP_TIME);
+                            playerMovement.LookAtMouse();
+                            playerMovement.BlockMovementInput(ITEM_ATTACK_STAND_TIME);
+                        }
+
+                        playerMovement.ResetMovementMomentum();
+                        currentAttackCooldown = 1f / currentPickedUpWorldItem.AttacksPerSecond;
+                        OnFireItemAttack?.Invoke(this, usedAnimationType);
+                    }
+                }
+
+                OnEndCharge?.Invoke(this, !currentPickedUpWorldItem);
             }
         }
 
@@ -209,12 +257,23 @@ namespace RuneProject.ActorSystem
         {
             if (cantDropOnAttackCooldown && currentAttackCooldown > 0f) return;
 
+            currentPickedUpWorldItem.transform.position = transform.position + playerMovement.MouseDirection * THROW_OFFSET;
             currentPickedUpWorldItem.transform.SetParent(null);
             currentPickedUpWorldItem.EnableAllColliders();
             currentPickedUpWorldItem.Rigidbody.isKinematic = false;
             attackHitbox.Damage = 0;
+            spinAttackHitbox.Damage = 0;
+
             if (throwItem)
-                currentPickedUpWorldItem.Rigidbody.AddForce(characterTransform.forward * throwAwayForce.x + Vector3.up * throwAwayForce.y, ForceMode.VelocityChange);
+            {
+                //Polish
+                //If MOVING: throwAwayForce * 2
+                playerMovement.BlockMovementInput(0.1f);
+                playerMovement.LookAtMouse();
+                currentPickedUpWorldItem.EnableTrail();
+                currentPickedUpWorldItem.Rigidbody.AddForce(playerMovement.MouseDirection * throwAwayForce.x + Vector3.up * throwAwayForce.y, ForceMode.VelocityChange);
+                OnThrow?.Invoke(this, currentPickedUpWorldItem);
+            }
 
             currentPickedUpWorldItem = null;
         }
@@ -223,7 +282,7 @@ namespace RuneProject.ActorSystem
         {
             chargingAttack = false;
             autoAttackIndicatorParent.SetActive(false);
-            OnEndCharge?.Invoke(this, null);
+            OnEndCharge?.Invoke(this, !currentPickedUpWorldItem);
         }
 
         private void TryPickUpWorldItem()
@@ -250,6 +309,7 @@ namespace RuneProject.ActorSystem
             if (nearestInRange)
             {
                 currentPickedUpWorldItem = nearestInRange;
+                currentPickedUpWorldItem.ForceDisableTrail();
                 currentPickedUpWorldItem.DisableAllColliders();
                 currentPickedUpWorldItem.transform.SetParent(handTransforms[0]);
                 currentPickedUpWorldItem.transform.localPosition = Vector3.zero;
@@ -257,6 +317,8 @@ namespace RuneProject.ActorSystem
                 currentPickedUpWorldItem.Rigidbody.isKinematic = true;
                 currentPickedUpWorldItemBeforeBreakCounter = currentPickedUpWorldItem.AttacksBeforeBeingBroken;
                 attackHitbox.Damage = currentPickedUpWorldItem.AttackDamage;
+                spinAttackHitbox.Damage = currentPickedUpWorldItem.SpinAttackDamage;
+                OnPickUp?.Invoke(this, currentPickedUpWorldItem);
             }
         }
 
@@ -307,6 +369,16 @@ namespace RuneProject.ActorSystem
             return Mathf.Clamp(Mathf.Lerp(0f, attackRange, (currentAttackChargeTime-MIN_AUTO_ATTACK_CHARGE_TIME) / MAX_AUTO_ATTACK_CHARGE_TIME), 0f, attackRange);            
         }
 
+        public void ForceDisableAllHitboxes()
+        {
+            if (currentHitboxRoutine != null)
+                StopCoroutine(currentHitboxRoutine);
+
+            attackHitbox.gameObject.SetActive(false);
+            spinAttackHitbox.gameObject.SetActive(false);
+            autoAttackHitboxParent.SetActive(false);
+        }
+
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.blue;
@@ -328,11 +400,30 @@ namespace RuneProject.ActorSystem
             CancelAttackCharge();
         }
 
+        private void AttackHitbox_OnHitTarget(object sender, RPlayerHealth e)
+        {
+            currentPickedUpWorldItemBeforeBreakCounter--;
+
+            if (currentPickedUpWorldItemBeforeBreakCounter <= 0)
+                BreakCurrentItem();
+
+            OnHitWithItemAttack?.Invoke(this, e);
+        }        
+
         private IEnumerator IToggleHitbox()
         {
+            yield return new WaitForSeconds(ITEM_ATTACK_HITBOX_WARMUP_TIME);
             attackHitbox.gameObject.SetActive(true);
             yield return new WaitForSeconds(hitboxUptime);
             attackHitbox.gameObject.SetActive(false);
+        }
+
+        private IEnumerator IToggleSpinHitbox()
+        {
+            yield return new WaitForSeconds(ITEM_ATTACK_HITBOX_WARMUP_TIME);
+            spinAttackHitbox.gameObject.SetActive(true);
+            yield return new WaitForSeconds(spinHitboxUptime);
+            spinAttackHitbox.gameObject.SetActive(false);
         }
 
         private IEnumerator IToggleAutoAttackHitbox()
@@ -352,5 +443,12 @@ namespace RuneProject.ActorSystem
                 yield return new WaitForSeconds(LIGHTNING_UPDATE_INTERVAL);
             }
         }
+    }
+
+    public enum EPlayerAttackAnimationType
+    {
+        ONE_HANDED,
+        TWO_HANDED,
+        CHARGED
     }
 }

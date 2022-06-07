@@ -22,13 +22,29 @@ namespace RuneProject.ActorSystem
             basicAttack.OnBeginCharge += BasicAttack_OnBeginCharge;
             basicAttack.OnEndCharge += BasicAttack_OnEndCharge;
             basicAttack.OnFireAutoAttack += BasicAttack_OnFireAutoAttack;
+            basicAttack.OnFireItemAttack += BasicAttack_OnFireItemAttack;
             playerHealth.OnDeath += PlayerHealth_OnDeath;
+        }
+
+        private void BasicAttack_OnFireItemAttack(object sender, EPlayerAttackAnimationType e)
+        {
+            switch (e)
+            {
+                case EPlayerAttackAnimationType.ONE_HANDED:
+                    playerAnimator.Play("ItemAttack");
+                    break;
+                case EPlayerAttackAnimationType.TWO_HANDED:
+                    playerAnimator.Play("2HandedItemAttack");
+                    break;
+                case EPlayerAttackAnimationType.CHARGED:
+                    playerAnimator.Play("ItemSpinAttack");
+                    break;
+            }
         }
 
         private void PlayerHealth_OnDeath(object sender, GameObject e)
         {
             playerAnimator.Play("Death");
-            //Timescale-Sp‰ﬂchen
         }
 
         private void BasicAttack_OnFireAutoAttack(object sender, System.EventArgs e)
@@ -36,12 +52,12 @@ namespace RuneProject.ActorSystem
             playerAnimator.Play("CastSpell");
         }
 
-        private void BasicAttack_OnEndCharge(object sender, System.EventArgs e)
+        private void BasicAttack_OnEndCharge(object sender, bool e)
         {
             playerAnimator.SetBool("charging", false);
         }
 
-        private void BasicAttack_OnBeginCharge(object sender, System.EventArgs e)
+        private void BasicAttack_OnBeginCharge(object sender, bool e)
         {
             playerAnimator.SetBool("charging", true);
         }

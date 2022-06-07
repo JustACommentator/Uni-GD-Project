@@ -20,6 +20,8 @@ namespace RuneProject.ActorSystem
         [SerializeField] private float groundCheckSize = 0.3f;
         [SerializeField] private Vector3 groundCheckOffset = Vector3.zero;
         [SerializeField] private LayerMask playerLayer = new LayerMask();
+        [Space]
+        [SerializeField] private LayerMask mouseDirectionCheckLayerMask = new LayerMask();
 
         [Header("References")]
         [SerializeField] private Transform cameraTransform = null;
@@ -29,6 +31,7 @@ namespace RuneProject.ActorSystem
 
         private Vector3 currentDesiredMovement = Vector3.zero;
         private Vector3 currentImpulseMovement = Vector3.zero;
+        private Vector3 currentMouseDirection = Vector3.zero;
         private bool isGrounded = false;
         private float airTime = 0f;
         private int blockMovement = 0;
@@ -47,6 +50,7 @@ namespace RuneProject.ActorSystem
         public bool IsGrounded { get => isGrounded; }
         public Vector3 Forward { get => characterParentTransform.forward; }
         public Vector3 Right { get => characterParentTransform.right; }
+        public Vector3 MouseDirection { get { if (currentMouseDirection == Vector3.zero) { currentMouseDirection += Vector3.right * 0.00001f; } return currentMouseDirection; } }
 
         private void Start()
         {
@@ -61,6 +65,7 @@ namespace RuneProject.ActorSystem
         private void Update()
         {
             HandleMovementAndTurnaround();
+            HandleUpdateCurrentMouseDirection();
         }
 
         private void FixedUpdate()
@@ -115,6 +120,18 @@ namespace RuneProject.ActorSystem
             Quaternion targetRotation = smoothTurnaround ? Quaternion.Slerp(characterParentTransform.rotation, Quaternion.LookRotation(targetDir), Time.deltaTime * characterTurnaroundDelta) : Quaternion.LookRotation(targetDir);
             characterParentTransform.rotation = targetRotation;
         }       
+
+        private void HandleUpdateCurrentMouseDirection()
+        {            
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, float.PositiveInfinity, mouseDirectionCheckLayerMask))
+            {
+                Vector3 dir = hit.point - transform.position;
+                dir.y = 0f;
+                dir.Normalize();
+
+                currentMouseDirection = dir;
+            }
+        }
 
         private void HandleGravity()
         {
@@ -205,14 +222,7 @@ namespace RuneProject.ActorSystem
 
         public void LookAtMouse()
         {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
-            {
-                Vector3 dir = hit.point - transform.position;
-                dir.y = 0f;
-                dir.Normalize();
-
-                characterParentTransform.rotation = Quaternion.LookRotation(dir);
-            }
+            characterParentTransform.rotation = Quaternion.LookRotation(currentMouseDirection);            
         }
 
         public void ResetMovementMomentum()

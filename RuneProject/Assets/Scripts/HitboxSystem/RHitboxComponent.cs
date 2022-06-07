@@ -21,6 +21,8 @@ namespace RuneProject.HitboxSystem
 
         protected Dictionary<Collider, Tuple<RPlayerHealth, float>> damageDictionary = new Dictionary<Collider, Tuple<RPlayerHealth, float>>();
 
+        public event EventHandler<RPlayerHealth> OnHitTarget;
+
         public int Damage { get => damage; set => damage = value; }
         public bool IsMultihitHitbox { get => isMultihitHitbox; set => isMultihitHitbox = value; }
         public bool ResetDamageInstanceOnTriggerExit { get => resetDamageInstanceOnTriggerExit; set => resetDamageInstanceOnTriggerExit = value; }
@@ -43,6 +45,7 @@ namespace RuneProject.HitboxSystem
                 {
                     otherHealth.TakeDamage(owner, damage, RVectorUtility.ConvertKnockbackToWorldSpace(owner.transform.position, other.transform.position, knockback));
                     damageDictionary.Add(other, new Tuple<RPlayerHealth, float>(otherHealth, Time.time + 1f / maxDamageInstancesPerSecond));
+                    OnHitTarget?.Invoke(this, otherHealth);
                 }
             }
         }
