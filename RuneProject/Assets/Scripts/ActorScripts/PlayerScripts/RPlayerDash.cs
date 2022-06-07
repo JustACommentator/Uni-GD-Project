@@ -81,7 +81,7 @@ namespace RuneProject.ActorSystem
 
         private bool CanDash()
         {
-            return currentDashCooldown <= 0f;
+            return currentDashCooldown <= 0f && movement.CanMove;
         }
 
         private IEnumerator IDisableTrailAfter()

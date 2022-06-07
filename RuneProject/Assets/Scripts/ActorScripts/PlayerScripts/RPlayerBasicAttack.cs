@@ -74,6 +74,7 @@ namespace RuneProject.ActorSystem
         private const float SPIN_ITEM_ATTACK_CHARGE_TIME = 1f;
         private const float ITEM_ATTACK_STAND_TIME = 0.4f;
         private const float ITEM_ATTACK_HITBOX_WARMUP_TIME = 0.1f;
+        private const float SPIN_ITEM_ATTACK_HITBOX_WARMUP_TIME = 0.28f;
         private const float ITEM_SPIN_STAND_TIME = 2.85f;
         private const float LIGHTNING_RANDOM_INTERVAL = 0.3f;
         private const float LIGHTNING_UPDATE_INTERVAL = 0.05f;
@@ -257,6 +258,8 @@ namespace RuneProject.ActorSystem
         {
             if (cantDropOnAttackCooldown && currentAttackCooldown > 0f) return;
 
+            ForceDisableAllHitboxes();
+            CancelAttackCharge();
             currentPickedUpWorldItem.transform.position = transform.position + playerMovement.MouseDirection * THROW_OFFSET;
             currentPickedUpWorldItem.transform.SetParent(null);
             currentPickedUpWorldItem.EnableAllColliders();
@@ -420,7 +423,7 @@ namespace RuneProject.ActorSystem
 
         private IEnumerator IToggleSpinHitbox()
         {
-            yield return new WaitForSeconds(ITEM_ATTACK_HITBOX_WARMUP_TIME);
+            yield return new WaitForSeconds(SPIN_ITEM_ATTACK_HITBOX_WARMUP_TIME);
             spinAttackHitbox.gameObject.SetActive(true);
             yield return new WaitForSeconds(spinHitboxUptime);
             spinAttackHitbox.gameObject.SetActive(false);

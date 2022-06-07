@@ -9,6 +9,9 @@ namespace RuneProject.ActorSystem
         [Header("References")]
         [SerializeField] private RAudioEmitComponent sfxSource = null;
         [SerializeField] private RPlayerHealth playerHealth = null;
+        [Space]
+        [SerializeField] private ParticleSystem walkDustParticleSystem = null;
+        [SerializeField] private ParticleSystem landDustParticleSystem = null;
 
         private const float INVINCIBLE_TIME = 0.3f;
 
@@ -20,6 +23,16 @@ namespace RuneProject.ActorSystem
         public void Anim_SetInvincible()
         {
             playerHealth.SetInvincible(INVINCIBLE_TIME);
+        }
+
+        public void Anim_PlayWalkDustParticles()
+        {
+            walkDustParticleSystem.Play();
+        }
+
+        public void Anim_PlayLandDustParticles()
+        {
+            landDustParticleSystem.Play();
         }
     }
 }

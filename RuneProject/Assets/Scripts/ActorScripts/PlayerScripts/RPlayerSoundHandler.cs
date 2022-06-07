@@ -29,15 +29,29 @@ namespace RuneProject.ActorSystem
             basicAttack.OnFireAutoAttack += BasicAttack_OnFireAutoAttack;
             basicAttack.OnThrow += BasicAttack_OnThrow;
             basicAttack.OnFireItemAttack += BasicAttack_OnFireItemAttack;
+            basicAttack.OnHitWithItemAttack += BasicAttack_OnHitWithItemAttack;
+            basicAttack.OnPickUp += BasicAttack_OnPickUp;
             dash.OnDash += Dash_OnDash;
             playerHealth.OnDamageTaken += PlayerHealth_OnDamageTaken;
             playerHealth.OnHealReceived += PlayerHealth_OnHealReceived;
             playerHealth.OnDeath += PlayerHealth_OnDeath;
         }
 
+        private void BasicAttack_OnPickUp(object sender, RWorldItem e)
+        {
+            sfxSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RSFXIdentifierLibrary.Singleton.pickUpClips), true);
+        }
+
+        private void BasicAttack_OnHitWithItemAttack(object sender, RPlayerHealth e)
+        {
+            //Fragen, ob physischer oder magischer Angriff
+            sfxSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RSFXIdentifierLibrary.Singleton.physicalImpactClips), true);
+        }
+
         private void BasicAttack_OnFireItemAttack(object sender, EPlayerAttackAnimationType e)
         {
-            //SFX
+            sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.swingClip, true, randomizePitch: true);
+
             if (e == EPlayerAttackAnimationType.CHARGED)
             {
                 voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.autoAttackFireVoiceClips), false);
@@ -50,6 +64,7 @@ namespace RuneProject.ActorSystem
 
         private void BasicAttack_OnThrow(object sender, RWorldItem e)
         {
+            sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.throwClip, true, randomizePitch: true);
             voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.hitClips), false);
         }
 

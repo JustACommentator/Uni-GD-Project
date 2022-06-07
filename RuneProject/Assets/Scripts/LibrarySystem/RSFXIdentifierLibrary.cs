@@ -13,6 +13,13 @@ namespace RuneProject.LibrarySystem
         [Space]
         public AudioClip walkClip = null;
         public AudioClip dashClip = null;
+        [Space]
+        public AudioClip swingClip = null;
+        public AudioClip throwClip = null;
+        public List<AudioClip> pickUpClips = new List<AudioClip>();
+        [Space]
+        public List<AudioClip> physicalImpactClips = new List<AudioClip>();
+        public List<AudioClip> magicImpactClips = new List<AudioClip>();
 
         private static RSFXIdentifierLibrary singleton = null;
 

@@ -48,6 +48,7 @@ namespace RuneProject.ActorSystem
         private const float IMPULSE_THRESHOLD = 0.1f;
 
         public bool IsGrounded { get => isGrounded; }
+        public bool CanMove { get => blockMovement == 0; }
         public Vector3 Forward { get => characterParentTransform.forward; }
         public Vector3 Right { get => characterParentTransform.right; }
         public Vector3 MouseDirection { get { if (currentMouseDirection == Vector3.zero) { currentMouseDirection += Vector3.right * 0.00001f; } return currentMouseDirection; } }
