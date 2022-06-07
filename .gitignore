@@ -55,6 +55,12 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
+# Unneccesary Blend Files
+*.blend1
+
+# Editor Settings
+EditorUserSettings.asset
+
 # Crashlytics generated file
 crashlytics-build.properties
 

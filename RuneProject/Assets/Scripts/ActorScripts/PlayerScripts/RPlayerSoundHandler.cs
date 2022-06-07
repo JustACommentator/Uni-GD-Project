@@ -34,23 +34,23 @@ namespace RuneProject.ActorSystem
 
         private void PlayerHealth_OnDeath(object sender, GameObject e)
         {
-            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.deathClips), true, delay: 0.4f);
+            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.deathClips), false, delay: 0.4f);
         }
 
         private void PlayerHealth_OnHealReceived(object sender, int e)
         {
-            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.laughClips), true);
+            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.laughClips), false);
         }
 
         private void PlayerHealth_OnDamageTaken(object sender, int e)
         {
-            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.hurtClips), true);
+            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.hurtClips), false);
         }
 
         private void Dash_OnDash(object sender, System.EventArgs e)
         {
             sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.dashClip, true, randomizePitch: true);
-            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.dashClips), true);
+            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.dashClips), false);
         }
 
         private void BasicAttack_OnEndCharge(object sender, System.EventArgs e)
@@ -62,14 +62,14 @@ namespace RuneProject.ActorSystem
         private void BasicAttack_OnFireAutoAttack(object sender, System.EventArgs e)
         {
             sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.autoAttackFireClip, true, delay: ADDITIONAL_FIRE_TIME);           
-            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.autoAttackFireVoiceClips), true);
+            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.autoAttackFireVoiceClips), false);
         }
 
         private void BasicAttack_OnBeginCharge(object sender, System.EventArgs e)
         {
             AudioClip startSFX = RSFXIdentifierLibrary.Singleton.autoAttackChargeStartClip;
             sfxSource.PlayClip(startSFX, true);
-            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.autoAttackChargeStartVoiceClips), true);
+            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.autoAttackChargeStartVoiceClips), false);
             autoAttackChargeSource = sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.autoAttackChargeSustainClip, true, true, startSFX.length);
         }
     }
