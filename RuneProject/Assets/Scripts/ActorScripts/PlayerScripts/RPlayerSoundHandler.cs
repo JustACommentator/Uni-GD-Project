@@ -1,4 +1,5 @@
 using RuneProject.AudioSystem;
+using RuneProject.ItemSystem;
 using RuneProject.LibrarySystem;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,10 +27,30 @@ namespace RuneProject.ActorSystem
             basicAttack.OnBeginCharge += BasicAttack_OnBeginCharge;
             basicAttack.OnEndCharge += BasicAttack_OnEndCharge;
             basicAttack.OnFireAutoAttack += BasicAttack_OnFireAutoAttack;
+            basicAttack.OnThrow += BasicAttack_OnThrow;
+            basicAttack.OnFireItemAttack += BasicAttack_OnFireItemAttack;
             dash.OnDash += Dash_OnDash;
             playerHealth.OnDamageTaken += PlayerHealth_OnDamageTaken;
             playerHealth.OnHealReceived += PlayerHealth_OnHealReceived;
             playerHealth.OnDeath += PlayerHealth_OnDeath;
+        }
+
+        private void BasicAttack_OnFireItemAttack(object sender, EPlayerAttackAnimationType e)
+        {
+            //SFX
+            if (e == EPlayerAttackAnimationType.CHARGED)
+            {
+                voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.autoAttackFireVoiceClips), false);
+            }
+            else
+            {
+                voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.hitClips), false);
+            }            
+        }
+
+        private void BasicAttack_OnThrow(object sender, RWorldItem e)
+        {
+            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.hitClips), false);
         }
 
         private void PlayerHealth_OnDeath(object sender, GameObject e)
@@ -53,10 +74,10 @@ namespace RuneProject.ActorSystem
             voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.dashClips), false);
         }
 
-        private void BasicAttack_OnEndCharge(object sender, System.EventArgs e)
+        private void BasicAttack_OnEndCharge(object sender, bool e)
         {
             if (autoAttackChargeSource)            
-                Destroy(autoAttackChargeSource.gameObject, ADDITIONAL_FIRE_TIME);            
+                Destroy(autoAttackChargeSource.gameObject, e ? ADDITIONAL_FIRE_TIME : 0f);            
         }
 
         private void BasicAttack_OnFireAutoAttack(object sender, System.EventArgs e)
@@ -65,12 +86,15 @@ namespace RuneProject.ActorSystem
             voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.autoAttackFireVoiceClips), false);
         }
 
-        private void BasicAttack_OnBeginCharge(object sender, System.EventArgs e)
+        private void BasicAttack_OnBeginCharge(object sender, bool e)
         {
-            AudioClip startSFX = RSFXIdentifierLibrary.Singleton.autoAttackChargeStartClip;
-            sfxSource.PlayClip(startSFX, true);
-            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.autoAttackChargeStartVoiceClips), false);
-            autoAttackChargeSource = sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.autoAttackChargeSustainClip, true, true, startSFX.length);
+            if (e)
+            {
+                AudioClip startSFX = RSFXIdentifierLibrary.Singleton.autoAttackChargeStartClip;
+                sfxSource.PlayClip(startSFX, true);
+                voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.autoAttackChargeStartVoiceClips), false);
+                autoAttackChargeSource = sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.autoAttackChargeSustainClip, true, true, startSFX.length);
+            }
         }
     }
 }

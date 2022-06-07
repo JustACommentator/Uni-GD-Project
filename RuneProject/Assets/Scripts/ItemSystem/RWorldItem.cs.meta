@@ -3,7 +3,12 @@ guid: 6b803dcd3ad831543ac7bef9ebf66082
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - rangedProjectilePrefab: {instanceID: 0}
+  - placeholder: {instanceID: 0}
+  - worldMesh: {instanceID: 0}
+  - rigidbody: {instanceID: 0}
+  - worldTrail: {fileID: 2813435977674579271, guid: ac1b9807aa9fa2241ab13e40391e33d7, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

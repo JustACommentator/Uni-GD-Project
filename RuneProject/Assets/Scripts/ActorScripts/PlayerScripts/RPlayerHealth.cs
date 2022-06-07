@@ -122,18 +122,21 @@ namespace RuneProject.ActorSystem
 
         private IEnumerator IDisplayDamageMaterial()
         {
-            List<Material[]> materials = new List<Material[]>();
-
-            for (int i = 0; i < characterRenderers.Count; i++)
+            if (characterRenderers != null && characterRenderers.Count > 0)
             {
-                materials.Add(characterRenderers[i].materials);
-                characterRenderers[i].materials = new Material[] { damageMaterial };
+                List<Material[]> materials = new List<Material[]>();
+
+                for (int i = 0; i < characterRenderers.Count; i++)
+                {
+                    materials.Add(characterRenderers[i].materials);
+                    characterRenderers[i].materials = new Material[] { damageMaterial };
+                }
+
+                yield return new WaitForSeconds(DAMAGE_MATERIAL_DISPLAY_TIME);
+
+                for (int i = 0; i < characterRenderers.Count; i++)
+                    characterRenderers[i].materials = materials[i];
             }
-
-            yield return new WaitForSeconds(DAMAGE_MATERIAL_DISPLAY_TIME);
-
-            for (int i = 0; i < characterRenderers.Count; i++)
-                characterRenderers[i].materials = materials[i];
 
             currentDamageMaterialRoutine = null;         
         }

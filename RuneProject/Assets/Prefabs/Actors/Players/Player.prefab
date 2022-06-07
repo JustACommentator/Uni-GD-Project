@@ -2041,7 +2041,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4283229434368284143}
   - component: {fileID: 7604996772502856409}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: cape.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2295,7 +2295,7 @@ RectTransform:
   m_GameObject: {fileID: 602522942761881547}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children:
   - {fileID: 3060503237961637006}
   - {fileID: 2930639859395935245}
@@ -2305,7 +2305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -275, y: 75}
+  m_AnchoredPosition: {x: -220, y: 60}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &613152209217766597
@@ -2333,7 +2333,7 @@ RectTransform:
   m_GameObject: {fileID: 613152209217766597}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children:
   - {fileID: 7689507589986188398}
   - {fileID: 4782648834703052202}
@@ -2343,7 +2343,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -175, y: -150}
+  m_AnchoredPosition: {x: -150, y: -100}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &710532145764265042
@@ -2785,6 +2785,69 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &900385214133487182
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9115694401435712664}
+  - component: {fileID: 3002155712080164598}
+  - component: {fileID: 3179858891802483705}
+  m_Layer: 3
+  m_Name: SpinAttackHitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &9115694401435712664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900385214133487182}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6559920152583261675}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &3002155712080164598
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900385214133487182}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.8
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3179858891802483705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900385214133487182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e009fd2530aa294bbc22674d19a795c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 4091881722017645194}
+  damage: 0
+  isMultihitHitbox: 1
+  resetDamageInstanceOnTriggerExit: 0
+  maxDamageInstancesPerSecond: 2
+  knockback: {x: 600, y: 0, z: 0}
 --- !u!1 &916832212078106797
 GameObject:
   m_ObjectHideFlags: 0
@@ -7905,7 +7968,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7252207942273679866}
   - component: {fileID: 636273952814067816}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8326,7 +8389,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1816094759270344732}
   - component: {fileID: 3367498877377335342}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.016
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8647,7 +8710,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3903318825011664510}
   - component: {fileID: 2777993355283789555}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13678,7 +13741,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8624104977622057207}
   - component: {fileID: 145259510355384618}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.017
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14195,7 +14258,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6438378123886026140}
   - component: {fileID: 5983863212092082148}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.014
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14457,7 +14520,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 70, y: -200}
+  m_AnchoredPosition: {x: 10, y: -60}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2396245951856831014
@@ -14866,7 +14929,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7566745972230642344}
   - component: {fileID: 5318911558796782602}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15169,7 +15232,7 @@ GameObject:
   m_Component:
   - component: {fileID: 481530276200047338}
   - component: {fileID: 3623078378602562067}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.015
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15565,7 +15628,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5987913332232406824}
   - component: {fileID: 8431002015949550690}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16359,6 +16422,9 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
+  mouseDirectionCheckLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
   cameraTransform: {fileID: 2431479995733997952}
   characterParentTransform: {fileID: 8049069945842501455}
   playerRigidbody: {fileID: 5389130759954965137}
@@ -16379,6 +16445,7 @@ MonoBehaviour:
   - {fileID: 3288369011468832871}
   characterTransform: {fileID: 8049069945842501455}
   attackHitbox: {fileID: 4931063760063140946}
+  spinAttackHitbox: {fileID: 3179858891802483705}
   autoAttackHitboxParent: {fileID: 8000842095474639049}
   autoAttackHitboxScaler: {fileID: 6081133859935236525}
   autoAttackIndicatorParent: {fileID: 3561624464452074625}
@@ -16392,6 +16459,7 @@ MonoBehaviour:
   playerHealth: {fileID: 238541623528839758}
   playerMovement: {fileID: 1081399610661986200}
   playerDash: {fileID: 1780196458}
+  tryToWallCheckAutoAttacks: 0
   playerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -16403,6 +16471,7 @@ MonoBehaviour:
   autoAttackHitboxUptime: 0.5
   throwAwayForce: {x: 3, y: 1.5}
   hitboxUptime: 0.1
+  spinHitboxUptime: 2
   pickupDetectionRange: 0.7
   worldItemMask:
     serializedVersion: 2
@@ -16424,31 +16493,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthRigidbody: {fileID: 5389130759954965137}
   characterRenderers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 4553793107734779754}
+  - {fileID: 7604996772502856409}
+  - {fileID: 636273952814067816}
+  - {fileID: 1348647897860230358}
+  - {fileID: 3854320954957860992}
+  - {fileID: 1285636923640355991}
+  - {fileID: 8431002015949550690}
+  - {fileID: 5189949213692128079}
+  - {fileID: 2777993355283789555}
+  - {fileID: 252434089725750238}
+  - {fileID: 5318911558796782602}
+  - {fileID: 9172626475327899023}
+  - {fileID: 5022421085263630997}
+  - {fileID: 2090887780962080593}
+  - {fileID: 3683049106943517902}
+  - {fileID: 5983863212092082148}
+  - {fileID: 3623078378602562067}
+  - {fileID: 3367498877377335342}
+  - {fileID: 145259510355384618}
+  - {fileID: 2845552885731826287}
+  - {fileID: 881639665821471284}
+  - {fileID: 6053774619038652786}
+  - {fileID: 1815987427723245447}
+  - {fileID: 6311216349579760986}
+  - {fileID: 6996254966404692982}
+  - {fileID: 8984404987281186571}
+  - {fileID: 7394598876490882333}
+  - {fileID: 5055526149792031054}
   damageMaterial: {fileID: 2100000, guid: ebe5301ac99cc34428642d9ee5956a96, type: 2}
   isAI: 0
   maxHealth: 12
@@ -16505,6 +16577,7 @@ MonoBehaviour:
   movementBlockTime: 0.3
   movement: {fileID: 1081399610661986200}
   playerHealth: {fileID: 238541623528839758}
+  basicAttack: {fileID: 481307052763625887}
   playerCharacterTransform: {fileID: 8049069945842501455}
   cameraComponent: {fileID: 2795098500544885727}
   dashDirectionIndicator: {fileID: 1515792808792937898}
@@ -21594,7 +21667,7 @@ GameObject:
   m_Component:
   - component: {fileID: 346901910268100414}
   - component: {fileID: 6996254966404692982}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21725,6 +21798,7 @@ Transform:
   m_Children:
   - {fileID: 2243298578098258865}
   - {fileID: 3098024660619483337}
+  - {fileID: 9115694401435712664}
   m_Father: {fileID: 8049069945842501455}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -22042,7 +22116,7 @@ GameObject:
   - component: {fileID: 2487614930470657960}
   - component: {fileID: 1887318736422681171}
   - component: {fileID: 7394598876490882333}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: belt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27403,7 +27477,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3590122469209344688}
   - component: {fileID: 1815987427723245447}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: hat_top.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27621,7 +27695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8787226311970671428}
   - component: {fileID: 1348647897860230358}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27733,7 +27807,7 @@ GameObject:
   m_Component:
   - component: {fileID: 360065239141792002}
   - component: {fileID: 3683049106943517902}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.013
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27957,7 +28031,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6450767882000544444}
   - component: {fileID: 1285636923640355991}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28069,7 +28143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3922158374269467671}
   - component: {fileID: 2845552885731826287}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.018
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28283,7 +28357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4507882724619844205}
   - component: {fileID: 6311216349579760986}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28521,7 +28595,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2777787040870622354
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28553,7 +28627,7 @@ GameObject:
   - component: {fileID: 225261787690028483}
   - component: {fileID: 8555051368697419210}
   - component: {fileID: 8984404987281186571}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: hat_base.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28665,7 +28739,7 @@ GameObject:
   - component: {fileID: 512383945448606720}
   - component: {fileID: 8793791198512446099}
   - component: {fileID: 5055526149792031054}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Buckle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28826,7 +28900,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7155462376881018165}
   - component: {fileID: 881639665821471284}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.019
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28969,7 +29043,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2199850626275513257}
   - component: {fileID: 6053774619038652786}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.020
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29367,7 +29441,7 @@ RectTransform:
   m_GameObject: {fileID: 6808968303410498009}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children:
   - {fileID: 4664050144311185378}
   - {fileID: 5002632125383691932}
@@ -29377,7 +29451,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -100, y: 100}
+  m_AnchoredPosition: {x: -80, y: 80}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6835156352536849035
@@ -29451,7 +29525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8889824003924413744}
   - component: {fileID: 3854320954957860992}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29563,7 +29637,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5674001667663705145}
   - component: {fileID: 9172626475327899023}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29901,7 +29975,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7663409706510883713}
-  m_LocalRotation: {x: 0, y: 0, z: 0.17364816, w: 0.9848078}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -29910,7 +29984,7 @@ RectTransform:
   - {fileID: 625450855862670107}
   m_Father: {fileID: 8194050526260824772}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 20}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 50, y: 0}
@@ -29936,8 +30010,8 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
-  m_Spacing: {x: 20, y: 0}
+  m_CellSize: {x: 60, y: 60}
+  m_Spacing: {x: 0, y: 0}
   m_Constraint: 1
   m_ConstraintCount: 5
 --- !u!222 &9068519100890618351
@@ -29958,7 +30032,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1933097233667690518}
   - component: {fileID: 5189949213692128079}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30101,7 +30175,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3736967054021020861}
   - component: {fileID: 4553793107734779754}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: body.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30447,7 +30521,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6017538546491031101}
   - component: {fileID: 5022421085263630997}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30920,7 +30994,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4409718783129649365}
   - component: {fileID: 252434089725750238}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31032,7 +31106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8337233576644458852}
   - component: {fileID: 2090887780962080593}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hair_000.012
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36400,6 +36474,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
+--- !u!224 &625450855862670107 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1483533563886927092, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
+  m_PrefabInstance: {fileID: 2033548782124265455}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6684416030239649688 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4682421042024382583, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
@@ -36411,11 +36490,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &625450855862670107 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1483533563886927092, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
-  m_PrefabInstance: {fileID: 2033548782124265455}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4937754440465889791
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36513,6 +36587,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
+--- !u!224 &5769388655324611851 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1483533563886927092, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
+  m_PrefabInstance: {fileID: 4937754440465889791}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &323450626362980744 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4682421042024382583, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
@@ -36524,11 +36603,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &5769388655324611851 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1483533563886927092, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
-  m_PrefabInstance: {fileID: 4937754440465889791}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6032997555945422354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36778,6 +36852,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
+--- !u!224 &8609154354088724275 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1483533563886927092, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
+  m_PrefabInstance: {fileID: 7201059743676120007}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2527645900990561200 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4682421042024382583, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
@@ -36789,8 +36868,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &8609154354088724275 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1483533563886927092, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
-  m_PrefabInstance: {fileID: 7201059743676120007}
-  m_PrefabAsset: {fileID: 0}

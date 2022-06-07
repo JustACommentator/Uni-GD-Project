@@ -21,6 +21,7 @@ namespace RuneProject.ItemSystem
         [SerializeField] private bool dontTumbleOnInstantiate = false;
         [SerializeField] private bool cantBePickedUp = false;
         [SerializeField] private float pickupRange = 0.25f;
+        [SerializeField] private List<Transform> contactPoints = new List<Transform>();
 
         [Header("Weapon Values")]
         [SerializeField] private bool cantBeUsedAsWeapon = false;
@@ -29,6 +30,7 @@ namespace RuneProject.ItemSystem
         [SerializeField] private GameObject rangedProjectilePrefab = null;
         [SerializeField] private Vector3 rangedProjectileSpawnOffset = Vector3.forward;
         [SerializeField] private int attackDamage = 1;
+        [SerializeField] private int spinAttackDamage = 3;
         [SerializeField] private float attacksPerSecond = 2f;
         [SerializeField] private int attacksBeforeBeingBroken = 8;
         [Space]
@@ -41,10 +43,16 @@ namespace RuneProject.ItemSystem
         [SerializeField] private GameObject placeholder = null;
         [SerializeField] private GameObject worldMesh = null;
         [SerializeField] private new Rigidbody rigidbody = null;
+        [SerializeField] private TrailRenderer worldTrail = null; 
 
         private string itemName = string.Empty;
         private string itemDescription = string.Empty;
         private bool isPreview = false;
+        private Coroutine currentTrailRoutine = null;
+
+        private const float TRAIL_BASE_TIME = 0.5f;
+        private const float TRAIL_MIN_TIME = 0.5f;
+        private const float TRAIL_DEFAULT_TIME = 2f;
 
         public EWorldItemCategory ItemCategory { get => itemCategory; }
         public List<EPlaceCondition> PlaceConditions { get => placeConditions; }
@@ -57,12 +65,14 @@ namespace RuneProject.ItemSystem
         public bool CantBeUsedAsWeapon { get => cantBeUsedAsWeapon; }
         public bool IsRangedWeapon { get => isRangedWeapon; }
         public int AttackDamage { get => attackDamage; }
+        public int SpinAttackDamage { get => spinAttackDamage; }
         public float AttacksPerSecond { get => attacksPerSecond; }
         public GameObject RangedProjectilePrefab { get => rangedProjectilePrefab; }
         public Vector3 RangedProjectileSpawnOffset { get => rangedProjectileSpawnOffset; }
         public EWorldItemActiveEffect ActiveEffect { get => activeEffect; }
         public List<float> ActiveEffectParameters { get => activeEffectParameters; }
         public int AttacksBeforeBeingBroken { get => attacksBeforeBeingBroken; }
+        public List<Transform> ContactPoints { get => contactPoints; }
 
         private void Awake()
         {
@@ -104,10 +114,47 @@ namespace RuneProject.ItemSystem
                 colliders[i].enabled = false;
         }
 
+        public void EnableTrail(float time = TRAIL_DEFAULT_TIME, float minTime = TRAIL_MIN_TIME)
+        {
+            if (currentTrailRoutine != null)
+                StopCoroutine(currentTrailRoutine);
+
+            currentTrailRoutine = StartCoroutine(IEnableTrail(time, minTime));
+        }
+
+        public void ForceDisableTrail()
+        {
+            if (currentTrailRoutine != null)
+                StopCoroutine(currentTrailRoutine);
+
+            worldTrail.gameObject.SetActive(false);
+        }
+
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, pickupRange);
+        }
+
+        private IEnumerator IEnableTrail(float time, float minTime)
+        {
+            worldTrail.gameObject.SetActive(true);
+            worldTrail.time = TRAIL_BASE_TIME;
+
+            yield return new WaitForSeconds(minTime);
+
+            float timeLeft = time;
+
+            while (timeLeft > 0f)
+            {
+                timeLeft -= Time.deltaTime;
+
+                worldTrail.time = TRAIL_BASE_TIME * (timeLeft / time);
+
+                yield return null;
+            }
+
+            worldTrail.gameObject.SetActive(false);
         }
     }
 

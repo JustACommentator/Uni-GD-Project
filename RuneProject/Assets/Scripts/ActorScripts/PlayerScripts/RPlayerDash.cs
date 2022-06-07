@@ -15,6 +15,7 @@ namespace RuneProject.ActorSystem
         [Header("References")]
         [SerializeField] private RPlayerMovement movement = null;
         [SerializeField] private RPlayerHealth playerHealth = null;
+        [SerializeField] private RPlayerBasicAttack basicAttack = null;
         [SerializeField] private Transform playerCharacterTransform = null;
         [SerializeField] private RPlayerCameraComponent cameraComponent = null;
         [Space]
@@ -58,20 +59,14 @@ namespace RuneProject.ActorSystem
         {
             if (Input.GetKeyDown(DASH_INPUT) && CanDash())
             {
-                currentDashCooldown += dashCooldown + movementBlockTime;
-                Vector3 dir = playerCharacterTransform.forward;
-
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))                
-                    dir = hit.point - transform.position;                
-
-                dir.y = 0f;
-                dir.Normalize();
+                currentDashCooldown += dashCooldown + movementBlockTime;                
 
                 StartCoroutine(IDisableTrailAfter());
+                basicAttack.ForceDisableAllHitboxes();
                 movement.BlockMovementInput(movementBlockTime);
                 movement.ResetMovementMomentum();
                 movement.LookAtMouse();
-                movement.AddImpulse(dir * dashPower);
+                movement.AddImpulse(movement.MouseDirection * dashPower);
                 //cameraComponent.Shake(5f, 2f, 6f, 0.2f, 0);
                 OnDash?.Invoke(this, null);
             }
@@ -81,15 +76,7 @@ namespace RuneProject.ActorSystem
         {
             if (isDead) return;
 
-            Vector3 dir = playerCharacterTransform.forward;
-
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
-                dir = hit.point - transform.position;
-
-            dir.y = 0f;
-            dir.Normalize();
-
-            dashDirectionIndicator.rotation = Quaternion.LookRotation(dir);
+            dashDirectionIndicator.rotation = Quaternion.LookRotation(movement.MouseDirection);
         }
 
         private bool CanDash()
