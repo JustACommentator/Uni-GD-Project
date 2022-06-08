@@ -2043,7 +2043,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Controlls
+  m_text: Controls
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 47ffecaa07ed4e5409e20fb50fcd0ae8, type: 2}
   m_sharedMaterial: {fileID: -7412537208917098277, guid: 47ffecaa07ed4e5409e20fb50fcd0ae8, type: 2}
@@ -8654,7 +8654,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1298194147}
   m_Layer: 5
-  m_Name: ControllsOptionsPanelParent
+  m_Name: ControlsOptionsPanelParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11782,11 +11782,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7188744449635043470, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_text
-      value: Controlls
+      value: Controls
       objectReference: {fileID: 0}
     - target: {fileID: 7188744450116519747, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_Name
-      value: ControllsOptionsButton
+      value: ControlsOptionsButton
       objectReference: {fileID: 0}
     - target: {fileID: 7188744450116519748, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_Pivot.x

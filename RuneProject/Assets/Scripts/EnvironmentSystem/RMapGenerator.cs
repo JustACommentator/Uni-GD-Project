@@ -49,24 +49,58 @@ namespace RuneProject.EnvironmentSystem
         private List<GameObject> rooms;
         [SerializeField] private int seed = 69420;
         [SerializeField] private float roomProb = 0.5f;
+        [SerializeField] private bool loadOnStart = false;
 
         [Header("Tiles")]
         [SerializeField] private GameObject[] tileObjects;
         [Header("Enemies")]
         [SerializeField] private GameObject[] enemies;
 
-        private Vector2 tileSize;
+        private Vector2 tileSize = Vector2.one;
 
         public int Seed { get => seed; set { seed = value; LoadMap();  } }
 
         void Start()
         {
+            if (loadOnStart)
+                Create();
+        }
 
-            tileSize = new Vector2(1, 1);
-
+        public void Create()
+        {
+            tileSize = Vector2.one;
             roomLayouts = AddRooms();
-
             LoadMap();
+        }
+
+        public void Delete()
+        {
+            if (Application.isEditor)
+            {
+                List<Transform> ts = new List<Transform>();
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    ts.Add(transform.GetChild(i));
+                }
+
+                foreach(Transform t in ts)
+                {
+                    DestroyImmediate(t.gameObject);
+                }
+            }
+            else
+            {
+                List<Transform> ts = new List<Transform>();
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    ts.Add(transform.GetChild(i));
+                }
+
+                foreach (Transform t in ts)
+                {
+                    Destroy(t.gameObject);
+                }
+            }
         }
 
         private void LoadMap()
@@ -131,8 +165,8 @@ namespace RuneProject.EnvironmentSystem
                 {
                     if (idx != "")
                     {
-                        GameObject room = Instantiate(new GameObject(), transform);
-                        room.name = "Room " + rx + ":" + ry;
+                        GameObject room = new GameObject("Room " + rx + ":" + ry);
+                        room.transform.SetParent(transform);
                         GenerateRoom(roomLayouts[int.Parse(idx)], rx, ry, room.transform);
                         idx = "";
                     }
@@ -154,8 +188,8 @@ namespace RuneProject.EnvironmentSystem
                 "||||: ||||#" +
                 "|-      -|#" +
                 "| 1    2 |#" +
-                "    VV    #" +
                 ":   VV   :#" +
+                "    VV    #" +
                 "| 4    3 |#" +
                 "|-      -|#" +
                 "||||: ||||#" +
@@ -425,8 +459,9 @@ namespace RuneProject.EnvironmentSystem
                         Vector2 xy = waypoints[idx];
                         if (!instantiated.ContainsKey(idx))
                         {
-                            GameObject wp = Instantiate(new GameObject(), tilePosition(xy.x, xy.y, room_x, room_y) + Vector3.up, new Quaternion(), parent);
-                            wp.name = "Waypoint " + xy.x + ":" + xy.y;
+                            GameObject wp = new GameObject("Waypoint " + xy.x + ":" + xy.y);
+                            wp.transform.position = tilePosition(xy.x, xy.y, room_x, room_y) + Vector3.up;
+                            wp.transform.SetParent(parent);
 
                             waypoint = wp.transform;
                             instantiated.Add(idx, waypoint);
@@ -438,7 +473,7 @@ namespace RuneProject.EnvironmentSystem
                         path.Add(waypoint);
                         if (c == '#')
                         {
-                            GameObject enemy = Instantiate(enemyType, path[0].position, new Quaternion(), parent);
+                            GameObject enemy = Instantiate(enemyType, path[0].position, Quaternion.identity, parent);
                             enemy.GetComponent<EnemySystem.REnemyAI>().Path = path;
                             enemy.name = enemyType.name;
                             path = new List<Transform>();
@@ -501,7 +536,7 @@ namespace RuneProject.EnvironmentSystem
 
         private Quaternion GetQuaternion(Orientation orientation)
         {
-            Quaternion quat = new Quaternion();
+            Quaternion quat = Quaternion.identity;
             switch (orientation)
             {
                 case Orientation.EAST:

@@ -10,16 +10,16 @@ public class RMapGeneratorEditor : Editor
     public override void OnInspectorGUI()
     {        
         DrawDefaultInspector();
-        //EditorGUILayout.Space();
+        EditorGUILayout.Space();
 
-        //RMapGenerator generator = (RMapGenerator)target;
-        //if (GUILayout.Button("Generate Level"))
-        //{
-            
-        //}
-        //if (GUILayout.Button("Reset Level"))
-        //{
-
-        //}
+        RMapGenerator generator = (RMapGenerator)target;
+        if (GUILayout.Button("Generate Level"))
+        {
+            generator.Create();
+        }
+        if (GUILayout.Button("Reset Level"))
+        {
+            generator.Delete();
+        }
     }
 }
