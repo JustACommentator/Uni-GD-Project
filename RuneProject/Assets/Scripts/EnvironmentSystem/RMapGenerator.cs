@@ -205,40 +205,40 @@ namespace RuneProject.EnvironmentSystem
             );
             // 3 Doors
             roomLayouts.Add(
-                "||||  ||||#" +
+                "||||: ||||#" +
                 "|        |#" +
                 "|        |#" +
+                ":        |#" +
                 "         |#" +
-                "         |#" +
                 "|        |#" +
                 "|        |#" +
-                "||||  ||||#"
+                "||||: ||||#"
             );
             roomLayouts.Add(
                 "||||||||||#" +
                 "|        |#" +
                 "|        |#" +
-                "          #" +
+                ":        :#" +
                 "          #" +
                 "|        |#" +
                 "|        |#" +
-                "||||  ||||#"
+                "||||: ||||#"
             );
             roomLayouts.Add(
-                "||||  ||||#" +
-                "|xxxxxxxx|#" +
-                "|xxxxx xx|#" +
-                "|xxxx xxx #" +
-                "|xxxx x   #" +
-                "|xxxxx xx|#" +
-                "| xxxx xx|#" +
-                "||||  ||||#"
+                "||||: ||||#" +
+                "|xxxx  xx|#" +
+                "|xxx x xx|#" +
+                "|xcx   xx:#" +
+                "|  x  x   #" +
+                "|xxxx  xx|#" +
+                "|xxx x xx|#" +
+                "||||: ||||#"
             );
             roomLayouts.Add(
-                "||||  ||||#" +
+                "||||: ||||#" +
                 "|2      3|#" +
                 "|  i||i  |#" +
-                "   ||||   #" +
+                ":  ||||  :#" +
                 "   ||||   #" +
                 "|  i||i  |#" +
                 "|1      4|#" +
@@ -253,11 +253,11 @@ namespace RuneProject.EnvironmentSystem
                 "||||X ||||#" +
                 "|VVi  iVV|#" +
                 "|VV    VV|#" +
-                "| 1    2 |#" +
+                "|:1    2:|#" +
                 "| 3    4 |#" +
                 "|VVV  VVV|#" +
                 "|VVV  VVV|#" +
-                "||||  ||||#" +
+                "||||: ||||#" +
                 "S1,2#" +
                 "S3,4#"
             );
@@ -265,7 +265,7 @@ namespace RuneProject.EnvironmentSystem
                 "||||||||||#" +
                 "|  ****  |#" +
                 "|        |#" +
-                "     xx   #" +
+                ":    xx  :#" +
                 "    |Kx   #" +
                 "|   ||   |#" +
                 "|        |#" +
@@ -275,7 +275,7 @@ namespace RuneProject.EnvironmentSystem
                 "||||||||||#" +
                 "|  ****  |#" +
                 "|        |#" +
-                "     xx   #" +
+                ":    xx  :#" +
                 "    |cx   #" +
                 "|   ||   |#" +
                 "|        |#" +
@@ -286,20 +286,20 @@ namespace RuneProject.EnvironmentSystem
                 "||||||||||#" +
                 "|  ****  |#" +
                 "|        |#" +
-                "     xx   #" +
+                ":    xx  :#" +
                 "    |gx   #" +
                 "|   ||   |#" +
                 "|        |#" +
                 "||||||||||#"
             );
             roomLayouts.Add(
-                "||||  ||||#" +
+                "||||: ||||#" +
                 "|       ||#" +
-                "| xxxxxx |#" +
-                "|      x  #" +
+                "|xxxxx x |#" +
+                "|        :#" +
                 "|2 4 6 x  #" +
                 "|  g   x |#" +
-                "|1 3 5   |#" +
+                "|1 3 5 x |#" +
                 "||||||||||#" +
                 "S1#" +
                 "S2#" +
@@ -309,20 +309,20 @@ namespace RuneProject.EnvironmentSystem
                 "S6#"
             );
             roomLayouts.Add(
-                "||||  ||||#" +
+                "||||: ||||#" +
                 "|  x  x  |#" +
                 "|       x|#" +
-                "|  -      #" +
+                "|  -     :#" +
                 "|  -      #" +
                 "|   --  x|#" +
                 "|        |#" +
                 "||||||||||#"
             );
             roomLayouts.Add(
-                "||||  ||||#" +
+                "||||: ||||#" +
                 "|VVV  VVV|#" +
                 "|V 1  2 V|#" +
-                "    ||  c|#" +
+                ":   ||  c|#" +
                 "    ||  V|#" +
                 "|V 4  3 V|#" +
                 "|VVcVVVVV|#" +
@@ -336,7 +336,7 @@ namespace RuneProject.EnvironmentSystem
                 "||||||||||#" +
                 "|        |#" +
                 "|        |#" +
-                "| *    *  #" +
+                "| *    * :#" +
                 "|         #" +
                 "| *    * |#" +
                 "| 1    2 |#" +
@@ -347,15 +347,15 @@ namespace RuneProject.EnvironmentSystem
                 "||||||||||#" +
                 "|g      u|#" +
                 "||||||X ||#" +
-                "         |#" +
+                ":        |#" +
                 "         |#" +
                 "|*       |#" +
                 "|K*      |#" +
-                "||||  ||||#"
+                "||||: ||||#"
             );
             // 1 Door
             roomLayouts.Add(
-                "||||  ||||#" +
+                "||||: ||||#" +
                 "|i      i|#" +
                 "|        |#" +
                 "|   uu   |#" +
@@ -365,7 +365,7 @@ namespace RuneProject.EnvironmentSystem
                 "||||||||||#"
             );
             roomLayouts.Add(
-                "||||  ||||#" +
+                "||||: ||||#" +
                 "|i      i|#" +
                 "|        |#" +
                 "|   uu   |#" +
@@ -378,7 +378,7 @@ namespace RuneProject.EnvironmentSystem
                 "||||||||||#" +
                 "|   V  1 |#" +
                 "| V V   3|#" +
-                "  V2  V  |#" +
+                ": V2  V  |#" +
                 "  VVVVV  |#" +
                 "|VV   V  |#" +
                 "|g  V 4  |#" +
@@ -390,7 +390,7 @@ namespace RuneProject.EnvironmentSystem
                 "||||||||||#" +
                 "|   V  1 |#" +
                 "| V V   3|#" +
-                "  V2  V  |#" +
+                ": V2  V  |#" +
                 "  VVVVV  |#" +
                 "|VV   V  |#" +
                 "|L  V 4  |#" +
@@ -406,7 +406,7 @@ namespace RuneProject.EnvironmentSystem
                 "VVVV  VVVV#" +
                 "VVVV  VVVV#" +
                 "VVVV  VVVV#" +
-                "||||  ||||#"
+                "||||: ||||#"
             );
             roomLayouts.Add(
                 "VVVVVVVVVV#" +
@@ -416,7 +416,7 @@ namespace RuneProject.EnvironmentSystem
                 "VVVV  VVVV#" +
                 "VVVV  VVVV#" +
                 "VVVV  VVVV#" +
-                "||||  ||||#"
+                "||||: ||||#"
             );
             roomLayouts.Add(
                 "VVVVVVVVVV#" +
@@ -426,7 +426,7 @@ namespace RuneProject.EnvironmentSystem
                 "VVVV  VVVV#" +
                 "VVVV  VVVV#" +
                 "VVVV  VVVV#" +
-                "||||  ||||#" +
+                "||||: ||||#" +
                 "F1,2#"
             );
             roomLayouts.Add(
