@@ -27,5 +27,9 @@ public class RMapGeneratorEditor : Editor
             generator.Delete();
             generator.Create(generator.InputMapLayout);
         }
+        if (GUILayout.Button("Show / Hide Props"))
+        {
+            generator.TogglePropVisibility();
+        }
     }
 }
