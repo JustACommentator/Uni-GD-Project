@@ -14,6 +14,7 @@ namespace RuneProject.EnvironmentSystem
 
         private bool waitingForUnload = false;
         private float unloadTimer = 0f;
+        public event System.EventHandler OnClearRoom;
 
         private const float MAX_UNLOAD_TIMER = 3f;
 
@@ -43,7 +44,10 @@ namespace RuneProject.EnvironmentSystem
                     enemiesLeft--;
 
             if (enemiesLeft == 0)
+            {
                 UnlockRoom();
+                OnClearRoom?.Invoke(this, null);
+            }
         }
 
         private void LockRoom()
