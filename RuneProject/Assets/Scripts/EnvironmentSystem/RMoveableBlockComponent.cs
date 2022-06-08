@@ -64,7 +64,7 @@ namespace RuneProject.EnvironmentSystem
 
                 movement.SignalPushLevelObject(gameObject);
                 movement.BlockMovementInput(PUSH_TIME);
-                pushParticleSystem.transform.localPosition = dir3 * PARTICLE_SYSTEM_DISTANCE; //0 = oben
+                pushParticleSystem.transform.localPosition = dir3 * PARTICLE_SYSTEM_DISTANCE;
                 pushParticleSystem.transform.localEulerAngles = new Vector3(pushParticleSystem.transform.localEulerAngles.x, dir.x < 0f ? 90f : dir.x > 0f ? 270f : dir.y < 0f ? 0f : 180f, pushParticleSystem.transform.localEulerAngles.z);
                 pushParticleSystem.Play();
                 pushAudioSource.Play();

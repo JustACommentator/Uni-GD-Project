@@ -39,11 +39,11 @@ namespace RuneProject.MainMenuSystem
 
         private const KeyCode ESCAPE_KEY_CODE = KeyCode.Escape;
         private const string CREDITS_PATH = "TextFileData/credits";
-        private const string LOADING_LEVEL = "Tutorial";
+        private const string LOADING_LEVEL = "SampleScene";
 
         private void Start()
         {
-            print("Bitte noch einf�gen: Zur�cksetzen des LockModes, je nach Einstellung! (Methode: FreeCursor)");
+            print("Bitte noch einfügen: Zurücksetzen des LockModes, je nach Einstellung! (Methode: FreeCursor)");
 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
