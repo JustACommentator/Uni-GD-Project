@@ -15,8 +15,11 @@ namespace RuneProject.ActorSystem
         private int currentKeys = 0;
         private int currentBossKeys = 0;
 
-        public int CurrentKeys { get => currentKeys; set => currentKeys = value; }
-        public int CurrentBossKeys { get => currentBossKeys; set => currentBossKeys = value; }
+        public event System.EventHandler<int> OnKeyCountChange;
+        public event System.EventHandler<int> OnBossKeyCountChange;
+
+        public int CurrentKeys { get => currentKeys; set { currentKeys = value; OnKeyCountChange?.Invoke(this, CurrentKeys); } }
+        public int CurrentBossKeys { get => currentBossKeys; set { currentBossKeys = value; OnKeyCountChange?.Invoke(this, CurrentBossKeys); } }
 
         public void AddPowerUp(RPowerUpItem item)
         {
