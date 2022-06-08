@@ -56,10 +56,14 @@ namespace RuneProject.EnvironmentSystem
         [SerializeField] private GameObject[] tileObjects;
         [Header("Enemies")]
         [SerializeField] private GameObject[] enemies;
+        [Header("Editor")]
+        [SerializeField] private string inputMapLayout = "";
 
         private Vector2 tileSize = Vector2.one;
 
         public int Seed { get => seed; set { seed = value; Create();  } }
+
+        public string InputMapLayout { get => inputMapLayout; set => inputMapLayout = value; }
 
         void Start()
         {
@@ -70,8 +74,15 @@ namespace RuneProject.EnvironmentSystem
         public void Create()
         {
             tileSize = Vector2.one;
-            roomLayouts = AddRooms();
+            roomLayouts = AddRooms(false);
             LoadMap();
+        }
+
+        public void Create(string mapLayout)
+        {
+            tileSize = Vector2.one;
+            roomLayouts = AddRooms(true);
+            LoadMap(mapLayout);
         }
 
         public void Delete()
@@ -189,9 +200,115 @@ namespace RuneProject.EnvironmentSystem
             }
         }
 
-        private List<string> AddRooms()
+        private void LoadMap(string mapLayout)
+        {
+            int rx = 0, ry = 7;
+            string idx = "";
+            foreach (char c in mapLayout)
+            {
+                if (c == '#')
+                {
+                    rx = 0;
+                    ry--;
+                }
+                else if (c == ',')
+                {
+                    if (idx != "")
+                    {
+                        GameObject room = new GameObject("Room " + rx + ":" + ry);
+                        room.transform.SetParent(transform);
+                        room.transform.position = tilePosition(4.5f, 3.5f, rx, ry);
+                        BoxCollider trigger = room.AddComponent<BoxCollider>();
+                        trigger.isTrigger = true;
+                        trigger.size = new Vector3(8.25f, 4f, 6.25f);
+                        RPlayerRoomTrigger roomTrigger = room.AddComponent<RPlayerRoomTrigger>();
+                        GenerateRoom(roomLayouts[int.Parse(idx)], rx, ry, room.transform, roomTrigger);
+                        idx = "";
+                    }
+                    rx++;
+                }
+                else
+                {
+                    idx += c;
+                }
+            }
+        }
+
+        private List<string> AddRooms(bool useAllRooms)
         {
             List<string> roomLayouts = new List<string>();
+
+            if (useAllRooms)
+            {
+                //Movement
+                roomLayouts.Add(
+                    "||||: ||||#" +
+                    "|        |#" +
+                    "|  i  i  |#" +
+                    "|        |#" +
+                    "|        |#" +
+                    "|  i  i  |#" +
+                    "|        |#" +
+                    "||||||||||#"
+                );
+                //Dash
+                roomLayouts.Add(
+                    "||||: ||||#" +
+                    "|        |#" +
+                    "| x    x |#" +
+                    "|        |#" +
+                    "|        |#" +
+                    "| x    x |#" +
+                    "|        |#" +
+                    "||||: ||||#"
+                 );
+                //WorldItems
+                roomLayouts.Add(
+                    "||||H ||||#" +
+                    "|  i  i  |#" +
+                    "|        |#" +
+                    "|        |#" +
+                    "|        |#" +
+                    "|        |#" +
+                    "|        |#" +
+                    "||||: ||||#"
+                );
+                //Enemies
+                roomLayouts.Add(
+                    "||||H ||||#" +
+                    "|VVV  VVV|#" +
+                    "|i1    3i|#" +
+                    "|*      *|#" +
+                    "|i2    4i|#" +
+                    "|VVV  VVV|#" +
+                    "|VVV  VVV|#" +
+                    "||||H ||||#" +
+                    "S1,2#" +
+                    "F3,4#"
+                );
+                //Loot
+                roomLayouts.Add(
+                    "||||: ||||#" +
+                    "||||  ||||#" +
+                    "||||  ||||#" +
+                    "|-c-  -g-|#" +
+                    "|        |#" +
+                    "|        |#" +
+                    "|        |#" +
+                    "||||H ||||#"
+                );
+                //Goal
+                roomLayouts.Add(
+                    "||||||||||#" +
+                    "|       i|#" +
+                    "|g     L||#" +
+                    "|     i|||#" +
+                    "||||X ||||#" +
+                    "|      K |#" +
+                    "|        |#" +
+                    "||||: ||||#"
+                );
+            }
 
             // 4 Doors
             roomLayouts.Add(
