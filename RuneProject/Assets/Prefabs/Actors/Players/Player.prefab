@@ -27238,6 +27238,10 @@ MonoBehaviour:
     leftEyeMaterial: {fileID: 2100000, guid: 6e736faae363c394989df08a9098599c, type: 2}
     rightEyeMaterial: {fileID: 2100000, guid: 171b39c891665f64581d633ba44d31f6, type: 2}
     mouthMaterial: {fileID: 2100000, guid: 6360d7a5c4e5b0b47bfd8991800ef5cc, type: 2}
+  angryExpression:
+    leftEyeMaterial: {fileID: 2100000, guid: 6e736faae363c394989df08a9098599c, type: 2}
+    rightEyeMaterial: {fileID: 2100000, guid: 171b39c891665f64581d633ba44d31f6, type: 2}
+    mouthMaterial: {fileID: 2100000, guid: b91b3e132d90bb94da3368965d2b149f, type: 2}
 --- !u!1 &5069532880693471100
 GameObject:
   m_ObjectHideFlags: 0

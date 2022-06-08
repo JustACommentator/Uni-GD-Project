@@ -16,6 +16,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private SPlayerExpression happyExpression = new SPlayerExpression();
         [SerializeField] private SPlayerExpression dizzyExpression = new SPlayerExpression();
         [SerializeField] private SPlayerExpression forcedExpression = new SPlayerExpression();
+        [SerializeField] private SPlayerExpression angryExpression = new SPlayerExpression();
 
         public void SetExpression(SPlayerExpression expression)
         {
@@ -37,6 +38,11 @@ namespace RuneProject.ActorSystem
         public void SetExpressionToForced()
         {
             SetExpression(forcedExpression);
+        }
+
+        public void SetExpressionToAngry()
+        {
+            SetExpression(angryExpression);
         }
     }
 
