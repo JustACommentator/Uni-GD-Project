@@ -35,6 +35,12 @@ namespace RuneProject.ActorSystem
             playerHealth.OnDamageTaken += PlayerHealth_OnDamageTaken;
             playerHealth.OnHealReceived += PlayerHealth_OnHealReceived;
             playerHealth.OnDeath += PlayerHealth_OnDeath;
+            movement.OnPushLevelObject += Movement_OnPushLevelObject;
+        }
+
+        private void Movement_OnPushLevelObject(object sender, GameObject e)
+        {
+            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.hitClips), false);
         }
 
         private void BasicAttack_OnPickUp(object sender, RWorldItem e)

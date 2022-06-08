@@ -40,6 +40,7 @@ namespace RuneProject.ActorSystem
         public event System.EventHandler<Vector2> OnMove;
         public event System.EventHandler OnLand;
         public event System.EventHandler OnLeaveGround;
+        public event System.EventHandler<GameObject> OnPushLevelObject;
 
         private const string INPUT_AXIS_HORIZONTAL = "Horizontal";
         private const string INPUT_AXIS_VERTICAL = "Vertical";
@@ -237,6 +238,11 @@ namespace RuneProject.ActorSystem
         public void ResetMovementMomentum()
         {
             currentDesiredMovement = Vector3.zero;
+        }
+
+        public void SignalPushLevelObject(GameObject target)
+        {
+            OnPushLevelObject?.Invoke(this, target);
         }
 
         private void PlayerHealth_OnDeath(object sender, GameObject e)

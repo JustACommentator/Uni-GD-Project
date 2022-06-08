@@ -184,7 +184,7 @@ namespace RuneProject.EnvironmentSystem
                 }
                 else
                 {
-                    idx += c;
+                    idx += c;                    
                 }
             }
         }
