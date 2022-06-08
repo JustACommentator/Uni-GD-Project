@@ -4,28 +4,28 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 638871020782273274
-    second: spriteAtlas_0
+    second: lmb
   - first:
       213: 2857013342496122823
-    second: spriteAtlas_1
+    second: w
   - first:
       213: 4902502675723142554
-    second: spriteAtlas_2
+    second: s
   - first:
       213: -6947983592680257370
-    second: spriteAtlas_3
+    second: left_shift
   - first:
       213: 3657211207690224228
-    second: spriteAtlas_4
+    second: d
   - first:
       213: -6961328010070990769
-    second: spriteAtlas_5
+    second: a
   - first:
       213: -7890863228543928878
-    second: spriteAtlas_6
+    second: f
   - first:
       213: -4533889627468213763
-    second: spriteAtlas_7
+    second: rmb
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -163,14 +163,14 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: spriteAtlas_0
+      name: lmb
       rect:
         serializedVersion: 2
         x: 231
         y: 2782
         width: 911
         height: 1171
-      alignment: 0
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -184,14 +184,14 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spriteAtlas_1
+      name: w
       rect:
         serializedVersion: 2
         x: 1424
-        y: 2787
+        y: 2774
         width: 1250
         height: 1250
-      alignment: 0
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -205,14 +205,14 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spriteAtlas_2
+      name: s
       rect:
         serializedVersion: 2
         x: 2787
         y: 2787
         width: 1250
         height: 1250
-      alignment: 0
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -226,14 +226,14 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spriteAtlas_3
+      name: left_shift
       rect:
         serializedVersion: 2
-        x: 59
+        x: 72
         y: 1422
         width: 1250
         height: 1250
-      alignment: 0
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -247,14 +247,14 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spriteAtlas_4
+      name: d
       rect:
         serializedVersion: 2
         x: 1424
         y: 1419
         width: 1253
         height: 1253
-      alignment: 0
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -268,14 +268,14 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spriteAtlas_5
+      name: a
       rect:
         serializedVersion: 2
         x: 2790
         y: 1424
         width: 1247
         height: 1248
-      alignment: 0
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -289,14 +289,14 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spriteAtlas_6
+      name: f
       rect:
         serializedVersion: 2
         x: 59
-        y: 59
+        y: 46
         width: 1253
         height: 1253
-      alignment: 0
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -310,14 +310,14 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: spriteAtlas_7
+      name: rmb
       rect:
         serializedVersion: 2
-        x: 1596
+        x: 1622
         y: 59
         width: 912
         height: 1171
-      alignment: 0
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []

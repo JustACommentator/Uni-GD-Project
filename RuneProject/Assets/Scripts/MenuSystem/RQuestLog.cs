@@ -32,7 +32,7 @@ namespace RuneProject.UserInterfaceSystem
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                RemoveQuests( new List<string> { "Dash with LEFT SHIFT" } );
+                RemoveQuests( new List<string> { "Dash with <sprite name=\"left_shift\">" } );
             }
         }
 
