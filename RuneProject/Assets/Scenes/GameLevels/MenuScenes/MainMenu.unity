@@ -1135,7 +1135,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -2488}
+  m_AnchoredPosition: {x: 0, y: -3440}
   m_SizeDelta: {x: 1200, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &323840262
@@ -9920,6 +9920,8 @@ MonoBehaviour:
   clickSFX: {fileID: 8300000, guid: fb543742802221d4e8b844aaa3cb5b84, type: 3}
   hoverSFX: {fileID: 8300000, guid: f5d6b989d593d894aafce272fe4fcee4, type: 3}
   alertSFX: {fileID: 8300000, guid: c1f337579509c0b48aa131b75d153c31, type: 3}
+  defaultMusic: {fileID: 8300000, guid: da8bafe19069aad489d7a29eb47d8cad, type: 3}
+  creditsMusic: {fileID: 8300000, guid: f508fa89ba8c6d7479ac04d556754556, type: 3}
 --- !u!114 &1253464034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10971,7 +10973,113 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 'Original Concept
+
+    Lyx
+
+    
+
+    Planning
+
+    Lyx
+
+    Tim Bering
+
+    Tarik
+    Glasmacher
+
+    
+
+    Lead Programming
+
+    Tim Bering
+
+    
+
+    Programming
+
+    Lyx
+
+    Tarik
+    Glasmacher
+
+    
+
+    AI Programming
+
+    Lyx
+
+    
+
+    Combat Programming
+
+    Tim
+    Bering
+
+    
+
+    Illustrations
+
+    Tarik Glasmacher
+
+    
+
+    Lead Composing
+
+    Tarik
+    Glasmacher
+
+    
+
+    Modelling
+
+    Lyx
+
+    Tarik Glasmacher
+
+    
+
+    Sound
+    Effects
+
+    Tarik Glasmacher
+
+    Tim Bering
+
+    
+
+    User Interface
+
+    Lyx
+
+    Tim
+    Bering
+
+    
+
+    VFX
+
+    Tim Bering
+
+    
+
+    Voice Coordination
+
+    Tim
+    Bering
+
+    
+
+    Voice Acting
+
+    Rose S.
+
+    
+
+    Special thanks to
+
+    Bayat
+    Games'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 47ffecaa07ed4e5409e20fb50fcd0ae8, type: 2}
   m_sharedMaterial: {fileID: -7412537208917098277, guid: 47ffecaa07ed4e5409e20fb50fcd0ae8, type: 2}
@@ -11548,7 +11656,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -2568}
+  m_AnchoredPosition: {x: 0, y: -3520}
   m_SizeDelta: {x: 1200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1539350325
@@ -11571,7 +11679,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\xA92022, TLT Games"
+  m_text: "\xA92022 TLT Games"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 47ffecaa07ed4e5409e20fb50fcd0ae8, type: 2}
   m_sharedMaterial: {fileID: -7412537208917098277, guid: 47ffecaa07ed4e5409e20fb50fcd0ae8, type: 2}
@@ -12676,7 +12784,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creditsParent: {fileID: 418214046}
   startY: -720
-  endY: 2550
+  endY: 3460
   scrollDelta: 75
 --- !u!1001 &1804168242
 PrefabInstance:

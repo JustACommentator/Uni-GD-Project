@@ -410,7 +410,7 @@ MonoBehaviour:
   - {fileID: 1509413748181821619}
   damageMaterial: {fileID: 2100000, guid: ebe5301ac99cc34428642d9ee5956a96, type: 2}
   isAI: 1
-  maxHealth: 10
+  maxHealth: 3
   receivedKnockbackMultiplier: 1
 --- !u!114 &8499373906123317002
 MonoBehaviour:

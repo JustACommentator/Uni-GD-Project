@@ -1,6 +1,7 @@
 using RuneProject.AudioSystem;
 using RuneProject.ItemSystem;
 using RuneProject.LibrarySystem;
+using RuneProject.UserInterfaceSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,15 +18,11 @@ namespace RuneProject.ActorSystem
         [SerializeField] private RPlayerMovement movement = null;
         [SerializeField] private RPlayerDash dash = null;
         [SerializeField] private RPlayerHealth playerHealth = null;
+        [SerializeField] private RUI_Main userInterface = null;
 
         private AudioSource autoAttackChargeSource = null;
 
         private const float ADDITIONAL_FIRE_TIME = 0.15f;
-
-        public void Laugh()
-        {
-            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.laughClips), false);
-        }
 
         private void Start()
         {
@@ -41,6 +38,12 @@ namespace RuneProject.ActorSystem
             playerHealth.OnHealReceived += PlayerHealth_OnHealReceived;
             playerHealth.OnDeath += PlayerHealth_OnDeath;
             movement.OnPushLevelObject += Movement_OnPushLevelObject;
+            userInterface.OnReachEnd += UserInterface_OnReachEnd;
+        }
+
+        private void UserInterface_OnReachEnd(object sender, System.EventArgs e)
+        {
+            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.laughClips), false);        
         }
 
         private void Movement_OnPushLevelObject(object sender, GameObject e)

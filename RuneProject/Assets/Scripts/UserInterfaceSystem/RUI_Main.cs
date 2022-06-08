@@ -18,6 +18,8 @@ namespace RuneProject.UserInterfaceSystem
         private bool blockPlayerPause = false;
         private bool isLoading = false;
 
+        public event System.EventHandler OnReachEnd;
+
         private const string MENU_LEVEL = "MainMenu";
 
         private void Update()
@@ -44,7 +46,7 @@ namespace RuneProject.UserInterfaceSystem
             blockPlayerPause = true;
             playerMovement.BlockMovementInput();
             endOfVSliceParent.SetActive(true);
-            soundHandler.Laugh();
+            OnReachEnd?.Invoke(this, null);
         }
     }
 }

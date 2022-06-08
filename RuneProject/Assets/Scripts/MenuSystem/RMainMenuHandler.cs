@@ -31,6 +31,9 @@ namespace RuneProject.MainMenuSystem
         [SerializeField] private AudioClip clickSFX = null;
         [SerializeField] private AudioClip hoverSFX = null;
         [SerializeField] private AudioClip alertSFX = null;
+        [Space]
+        [SerializeField] private AudioClip defaultMusic = null;
+        [SerializeField] private AudioClip creditsMusic = null;
 
         private bool isLoading = false;
         private RUI_Alert currentAlert = null;
@@ -137,6 +140,19 @@ namespace RuneProject.MainMenuSystem
                 musicSource.Play();
                 rainSFXSource.Play();
                 audioEmitter.PlayClip(startUpSFX, true);
+            }
+            else if (oldState == EMainMenuState.CREDITS_PANEL)
+            {
+                musicSource.Stop();
+                musicSource.clip = defaultMusic;
+                musicSource.Play();
+            }
+
+            if (newState == EMainMenuState.CREDITS_PANEL)
+            {
+                musicSource.Stop();
+                musicSource.clip = creditsMusic;
+                musicSource.Play();
             }
 
             for (int i = 0; i<menuPanels.Count; i++)            

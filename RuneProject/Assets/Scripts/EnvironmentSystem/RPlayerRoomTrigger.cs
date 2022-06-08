@@ -13,6 +13,7 @@ namespace RuneProject.EnvironmentSystem
         [SerializeField] private List<GameObject> roomResources = new List<GameObject>();
 
         private bool waitingForUnload = false;
+        private bool solved = false;
         private float unloadTimer = 0f;
         public event System.EventHandler OnClearRoom;
 
@@ -45,6 +46,7 @@ namespace RuneProject.EnvironmentSystem
 
             if (enemiesLeft == 0)
             {
+                solved = true;
                 UnlockRoom();
                 OnClearRoom?.Invoke(this, null);
             }
@@ -126,7 +128,7 @@ namespace RuneProject.EnvironmentSystem
                 
                 EnableEnemies();
 
-                if (enemies.Count > 0)
+                if (enemies.Count > 0 && !solved)
                     LockRoom();
 
                 EnableRoomResources();

@@ -1,3 +1,4 @@
+using RuneProject.UserInterfaceSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private RPlayerDash dash = null;
         [SerializeField] private RPlayerBasicAttack basicAttack = null;
         [SerializeField] private RPlayerHealth playerHealth = null;
+        [SerializeField] private RUI_Main userInterface = null;
 
         private float lastTimeSinceMove = 0f;
 
@@ -24,6 +26,12 @@ namespace RuneProject.ActorSystem
             basicAttack.OnFireAutoAttack += BasicAttack_OnFireAutoAttack;
             basicAttack.OnFireItemAttack += BasicAttack_OnFireItemAttack;
             playerHealth.OnDeath += PlayerHealth_OnDeath;
+            userInterface.OnReachEnd += UserInterface_OnReachEnd;
+        }
+
+        private void UserInterface_OnReachEnd(object sender, System.EventArgs e)
+        {
+            playerAnimator.Play("Excited");
         }
 
         private void BasicAttack_OnFireItemAttack(object sender, EPlayerAttackAnimationType e)

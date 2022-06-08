@@ -407,7 +407,7 @@ MonoBehaviour:
   - {fileID: 220596062932970376}
   damageMaterial: {fileID: 2100000, guid: ebe5301ac99cc34428642d9ee5956a96, type: 2}
   isAI: 1
-  maxHealth: 10
+  maxHealth: 2
   receivedKnockbackMultiplier: 1
 --- !u!136 &5496557899318988453
 CapsuleCollider:

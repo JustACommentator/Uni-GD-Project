@@ -9,13 +9,38 @@ Tarik Glasmacher
 Lead Programming
 Tim Bering
 
+Programming
+Lyx
+Tarik Glasmacher
+
+AI Programming
+Lyx
+
+Combat Programming
+Tim Bering
+
+Illustrations
+Tarik Glasmacher
+
 Lead Composing
 Tarik Glasmacher
 
+Modelling and Character Design
+Lyx
+Tarik Glasmacher
+
+Sound Effects
+Tarik Glasmacher
+Tim Bering
+
 User Interface
+Lyx
 Tim Bering
 
 VFX
+Tim Bering
+
+Voice Coordination
 Tim Bering
 
 Voice Acting
