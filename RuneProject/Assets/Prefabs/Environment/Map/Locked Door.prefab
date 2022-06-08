@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 761966332383404942}
   m_Layer: 0
-  m_Name: Door
+  m_Name: Locked Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,10 +94,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -7146521406498821007, guid: e952f6a7248704a12831810e7bf18056, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -6093592463355912122, guid: e952f6a7248704a12831810e7bf18056, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -118,17 +114,9 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: dce3dacbdfd1646b398ee147a695cc16, type: 2}
-    - target: {fileID: -516098083770646512, guid: e952f6a7248704a12831810e7bf18056, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e952f6a7248704a12831810e7bf18056, type: 3}
       propertyPath: m_Name
       value: door
-      objectReference: {fileID: 0}
-    - target: {fileID: 8416272007918961125, guid: e952f6a7248704a12831810e7bf18056, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e952f6a7248704a12831810e7bf18056, type: 3}

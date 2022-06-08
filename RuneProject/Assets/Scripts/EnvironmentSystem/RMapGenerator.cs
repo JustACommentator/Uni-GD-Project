@@ -23,7 +23,8 @@ namespace RuneProject.EnvironmentSystem
         KEY,
         SPIKES,
         SWITCH,
-        BOSS_GATE
+        BOSS_GATE,
+        DOOR
     }
 
     enum Orientation
@@ -38,11 +39,13 @@ namespace RuneProject.EnvironmentSystem
     {
         public KeyValuePair<TileType, Orientation>[][] room;
         public bool[] doormap;
+        public Dictionary<char, Vector2> waypoints;
+        public string enemyLayout;
     }
 
     public class RMapGenerator : MonoBehaviour
     {
-        private List<RoomLayout> roomLayouts;
+        private List<string> roomLayouts;
         private List<GameObject> rooms;
         [SerializeField] private int seed = 69420;
         [SerializeField] private float roomProb = 0.5f;
@@ -52,37 +55,23 @@ namespace RuneProject.EnvironmentSystem
         [Header("Enemies")]
         [SerializeField] private GameObject[] enemies;
 
-        private Dictionary<char, Vector2> waypoints = new Dictionary<char, Vector2>();
         private Vector2 tileSize;
+
+        public int Seed { get => seed; set { seed = value; LoadMap();  } }
 
         void Start()
         {
 
-            Random.InitState(seed);
-
             tileSize = new Vector2(1, 1);
-            roomLayouts = new List<RoomLayout>();
+
             roomLayouts = AddRooms();
 
-            string[] enemyLayouts =
-            {
-                "S1,2#" +
-                "S2,1#",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                ""
-            };
+            LoadMap();
+        }
+
+        private void LoadMap()
+        {
+            Random.InitState(seed);
 
             bool[][] bitmap = new bool[8][];
 
@@ -137,42 +126,44 @@ namespace RuneProject.EnvironmentSystem
                 {
                     rx = 0;
                     ry--;
-                } else if(c == ',')
+                }
+                else if (c == ',')
                 {
                     if (idx != "")
                     {
                         GameObject room = Instantiate(new GameObject(), transform);
                         room.name = "Room " + rx + ":" + ry;
-                        GenerateEnemies(enemyLayouts[int.Parse(idx)], rx, ry, room.transform);
-
-                        GenerateMap(roomLayouts[int.Parse(idx)].room, rx, ry, room.transform);
+                        GenerateRoom(roomLayouts[int.Parse(idx)], rx, ry, room.transform);
                         idx = "";
                     }
                     rx++;
-                } else
+                }
+                else
                 {
                     idx += c;
                 }
             }
         }
 
-        private List<RoomLayout> AddRooms()
+        private List<string> AddRooms()
         {
-            List<RoomLayout> roomLayouts = new List<RoomLayout>();
+            List<string> roomLayouts = new List<string>();
 
             // 4 Doors
-            roomLayouts.Add(roomLayoutFromString(
-                "||||X ||||#" +
-                "|V-    -V|#" +
-                "|        |#" +
-                "  1    2  #" +
-                "  3    4  #" +
-                "|        |#" +
-                "|Vi    iV|#" +
-                "||||  ||||#")
+            roomLayouts.Add(
+                "||||: ||||#" +
+                "|-      -|#" +
+                "| 1    2 |#" +
+                "    VV    #" +
+                ":   VV   :#" +
+                "| 4    3 |#" +
+                "|-      -|#" +
+                "||||: ||||#" +
+                "S1,2,3,4#" +
+                "S3,4,1,2#"
             );
             // 3 Doors
-            roomLayouts.Add(roomLayoutFromString(
+            roomLayouts.Add(
                 "||||  ||||#" +
                 "|        |#" +
                 "|        |#" +
@@ -180,9 +171,9 @@ namespace RuneProject.EnvironmentSystem
                 "         |#" +
                 "|        |#" +
                 "|        |#" +
-                "||||  ||||#")
+                "||||  ||||#"
             );
-            roomLayouts.Add(roomLayoutFromString(
+            roomLayouts.Add(
                 "||||||||||#" +
                 "|        |#" +
                 "|        |#" +
@@ -190,9 +181,9 @@ namespace RuneProject.EnvironmentSystem
                 "          #" +
                 "|        |#" +
                 "|        |#" +
-                "||||  ||||#")
+                "||||  ||||#"
             );
-            roomLayouts.Add(roomLayoutFromString(
+            roomLayouts.Add(
                 "||||  ||||#" +
                 "|        |#" +
                 "|        |#" +
@@ -200,9 +191,9 @@ namespace RuneProject.EnvironmentSystem
                 "|         #" +
                 "|        |#" +
                 "|        |#" +
-                "||||  ||||#")
+                "||||  ||||#"
             );
-            roomLayouts.Add(roomLayoutFromString(
+            roomLayouts.Add(
                 "||||  ||||#" +
                 "|        |#" +
                 "|        |#" +
@@ -210,40 +201,63 @@ namespace RuneProject.EnvironmentSystem
                 "          #" +
                 "|        |#" +
                 "|        |#" +
-                "||||||||||#")
+                "||||||||||#"
             );
             // 2 Doors
-            roomLayouts.Add(roomLayoutFromString(
+            roomLayouts.Add(
+                "||||X ||||#" +
+                "|VVi  iVV|#" +
+                "|VV    VV|#" +
+                "| 1    2 |#" +
+                "| 3    4 |#" +
+                "|VVV  VVV|#" +
+                "|VVV  VVV|#" +
+                "||||  ||||#" +
+                "S1,2#" +
+                "S3,4#"
+            );
+            roomLayouts.Add(
+                "||||||||||#" +
+                "|  ****  |#" +
+                "|        |#" +
+                "     xx   #" +
+                "    |Kx   #" +
+                "|   ||   |#" +
+                "|        |#" +
+                "||||||||||#"
+            );
+            roomLayouts.Add(
+                "||||||||||#" +
+                "|  ****  |#" +
+                "|        |#" +
+                "     xx   #" +
+                "    |cx   #" +
+                "|   ||   |#" +
+                "|        |#" +
+                "||||||||||#"
+            );
+
+            roomLayouts.Add(
+                "||||||||||#" +
+                "|  ****  |#" +
+                "|        |#" +
+                "     xx   #" +
+                "    |gx   #" +
+                "|   ||   |#" +
+                "|        |#" +
+                "||||||||||#"
+            );
+            roomLayouts.Add(
                 "||||  ||||#" +
                 "|        |#" +
                 "|        |#" +
-                "|        |#" +
-                "|        |#" +
-                "|        |#" +
-                "|        |#" +
-                "||||  ||||#")
-            );
-            roomLayouts.Add(roomLayoutFromString(
-                "||||||||||#" +
-                "|        |#" +
-                "|        |#" +
-                "          #" +
-                "          #" +
-                "|        |#" +
-                "|        |#" +
-                "||||||||||#")
-            );
-            roomLayouts.Add(roomLayoutFromString(
-                "||||  ||||#" +
-                "|        |#" +
-                "|        |#" +
                 "|         #" +
                 "|         #" +
                 "|        |#" +
                 "|        |#" +
-                "||||||||||#")
+                "||||||||||#"
             );
-            roomLayouts.Add(roomLayoutFromString(
+            roomLayouts.Add(
                 "||||  ||||#" +
                 "|        |#" +
                 "|        |#" +
@@ -251,9 +265,9 @@ namespace RuneProject.EnvironmentSystem
                 "         |#" +
                 "|        |#" +
                 "|        |#" +
-                "||||||||||#")
+                "||||||||||#"
             );
-            roomLayouts.Add(roomLayoutFromString(
+            roomLayouts.Add(
                 "||||||||||#" +
                 "|        |#" +
                 "|        |#" +
@@ -261,50 +275,73 @@ namespace RuneProject.EnvironmentSystem
                 "|         #" +
                 "|        |#" +
                 "|        |#" +
-                "||||  ||||#")
+                "||||  ||||#"
             );
-            roomLayouts.Add(roomLayoutFromString(
+            roomLayouts.Add(
                 "||||||||||#" +
-                "|        |#" +
-                "|        |#" +
+                "|g      u|#" +
+                "||||||X ||#" +
                 "         |#" +
                 "         |#" +
-                "|        |#" +
-                "|        |#" +
-                "||||  ||||#")
+                "|*       |#" +
+                "|K*      |#" +
+                "||||  ||||#"
             );
             // 1 Door
-            roomLayouts.Add(roomLayoutFromString(
+            roomLayouts.Add(
                 "||||  ||||#" +
+                "|i      i|#" +
                 "|        |#" +
-                "|        |#" +
-                "|        |#" +
-                "|        |#" +
-                "|        |#" +
-                "|        |#" +
-                "||||||||||#")
+                "|   uu   |#" +
+                "|   uu   |#" +
+                "|     |X |#" +
+                "|i    | L|#" +
+                "||||||||||#"
             );
-            roomLayouts.Add(roomLayoutFromString(
+            roomLayouts.Add(
                 "||||||||||#" +
-                "|        |#" +
-                "|        |#" +
-                "         |#" +
-                "         |#" +
-                "|        |#" +
-                "|        |#" +
-                "||||||||||#")
-            );
-            roomLayouts.Add(roomLayoutFromString(
+                "|   V  1 |#" +
+                "| V V   3|#" +
+                "  V2  V  |#" +
+                "  VVVVV  |#" +
+                "|VV   V  |#" +
+                "|g  V 4  |#" +
                 "||||||||||#" +
-                "|        |#" +
-                "|        |#" +
-                "|        |#" +
-                "|        |#" +
-                "|VV    VV|#" +
-                "|VV    VV|#" +
-                "||||  ||||#")
+                "F1,2#" +
+                "F3,4#"
             );
-            roomLayouts.Add(roomLayoutFromString(
+            roomLayouts.Add(
+                "VVVVVVVVVV#" +
+                "VVVVVVVVVV#" +
+                "|VVVg VVV|#" +
+                "|VVV  VVV|#" +
+                "|VVV  VVV|#" +
+                "|VVV  VVV|#" +
+                "|VVV  VVV|#" +
+                "||||  ||||#"
+            );
+            roomLayouts.Add(
+                "VVVVVVVVVV#" +
+                "VVVVVVVVVV#" +
+                "|VVVc VVV|#" +
+                "|VVV  VVV|#" +
+                "|VVV  VVV|#" +
+                "|VVV  VVV|#" +
+                "|VVV  VVV|#" +
+                "||||  ||||#"
+            );
+            roomLayouts.Add(
+                "VVVVVVVVVV#" +
+                "VVVVVVVVVV#" +
+                "|VVV12VVV|#" +
+                "|VVV  VVV|#" +
+                "|VVV  VVV|#" +
+                "|VVV  VVV|#" +
+                "|VVV  VVV|#" +
+                "||||  ||||#" +
+                "F1,2#"
+            );
+            roomLayouts.Add(
                 "||||||||||#" +
                 "|        |#" +
                 "|        |#" +
@@ -312,19 +349,20 @@ namespace RuneProject.EnvironmentSystem
                 "| L       #" +
                 "|        |#" +
                 "|        |#" +
-                "||||||||||#")
+                "||||||||||#"
             );
 
             return roomLayouts;
         }
 
-        private List<int> FilterRooms(List<RoomLayout> roomLayouts, bool[] specs)
+        private List<int> FilterRooms(List<string> roomLayouts, bool[] specs)
         {
             List<int> filtered = new List<int>();
 
             for (int i = 0; i < roomLayouts.Count; i++)
             {
-                if (roomLayouts[i].doormap[0] == specs[0] && roomLayouts[i].doormap[1] == specs[1] && roomLayouts[i].doormap[2] == specs[2] && roomLayouts[i].doormap[3] == specs[3])
+                RoomLayout layout = roomLayoutFromString(roomLayouts[i]);
+                if (layout.doormap[0] == specs[0] && layout.doormap[1] == specs[1] && layout.doormap[2] == specs[2] && layout.doormap[3] == specs[3])
                 {
                     filtered.Add(i);
                 }
@@ -333,8 +371,11 @@ namespace RuneProject.EnvironmentSystem
             return filtered;
         }
 
-        private void GenerateMap(KeyValuePair<TileType, Orientation>[][] tileMap, float room_x, float room_y, Transform parent)
+        private void GenerateRoom(string room, float room_x, float room_y, Transform parent)
         {
+            RoomLayout rl = roomLayoutFromString(room);
+            KeyValuePair<TileType, Orientation>[][] tileMap = rl.room;
+
             for (int y = 0; y < tileMap.Length; y++)
             {
                 for (int x = 0; x < tileMap[y].Length; x++)
@@ -345,7 +386,7 @@ namespace RuneProject.EnvironmentSystem
                             GetQuaternion(tileMap[y][x].Value),
                             parent);
                     tile.name = "Tile " + tileMap[y][x].Key;
-                    if (tileMap[y][x].Key != TileType.WALL)
+                    if (tileMap[y][x].Key != TileType.WALL && tileMap[y][x].Key != TileType.VOID)
                     {
                         GameObject tilef = Instantiate(
                                 GetGameObject(TileType.FLOOR),
@@ -356,9 +397,12 @@ namespace RuneProject.EnvironmentSystem
                     }
                 }
             }
+
+
+            GenerateEnemies(rl.waypoints, rl.enemyLayout, room_x, room_y, parent.transform);
         }
 
-        private void GenerateEnemies(string enemyLayout, float room_x, float room_y, Transform parent)
+        private void GenerateEnemies(Dictionary<char, Vector2> waypoints, string enemyLayout, float room_x, float room_y, Transform parent)
         {
             GameObject enemyType = null;
             char idx = ' ';
@@ -448,6 +492,8 @@ namespace RuneProject.EnvironmentSystem
                     return tileObjects[16];
                 case TileType.BOSS_GATE:
                     return tileObjects[17];
+                case TileType.DOOR:
+                    return tileObjects[18];
                 default:
                     return null;
             }
@@ -476,6 +522,9 @@ namespace RuneProject.EnvironmentSystem
 
             List<TileType[]> lookup_temp = new List<TileType[]>();
             List<TileType> lookup_row = new List<TileType>();
+
+            Dictionary<char, Vector2> waypoints = new Dictionary<char, Vector2>();
+            string enemyLayout = "";
 
             int ix = 0, iy = 0;
             foreach (char c in map)
@@ -527,7 +576,7 @@ namespace RuneProject.EnvironmentSystem
                     case 'K':
                         lookup_row.Add(TileType.KEY);
                         break;
-                    case '"':
+                    case '*':
                         lookup_row.Add(TileType.SPIKES);
                         break;
                     case '%':
@@ -536,17 +585,34 @@ namespace RuneProject.EnvironmentSystem
                     case 'H':
                         lookup_row.Add(TileType.BOSS_GATE);
                         break;
+                    case ':':
+                        lookup_row.Add(TileType.DOOR);
+                        break;
                     case '#':
-                        lookup_temp.Add(lookup_row.ToArray());
-                        lookup_row = new List<TileType>();
-                        ix = -1;
-                        iy++;
+                        if (iy < 8)
+                        {
+                            lookup_temp.Add(lookup_row.ToArray());
+                            lookup_row = new List<TileType>();
+                            ix = -1;
+                            iy++;
+                        }
+                        else
+                        {
+                            enemyLayout += c;
+                        }
                         break;
                     default:
-                        waypoints.Add(c, new Vector2(ix, iy));
-                        lookup_row.Add(TileType.FLOOR);
+                        if (iy < 8)
+                        {
+                            waypoints.Add(c, new Vector2(ix, iy));
+                            lookup_row.Add(TileType.FLOOR);
+                        }
+                        else
+                        {
+                            enemyLayout += c;
+                        }
                         break;
-                }
+                    }
                 ix++;
             }
 
@@ -568,7 +634,7 @@ namespace RuneProject.EnvironmentSystem
                 List<KeyValuePair<TileType, Orientation>> row = new List<KeyValuePair<TileType, Orientation>>();
                 for (int x = 0; x < lookup[y].Length; x++)
                 {
-                    if (lookup[y][x] == TileType.LOCKED_DOOR || lookup[y][x] == TileType.BOSS_GATE)
+                    if (lookup[y][x] == TileType.LOCKED_DOOR || lookup[y][x] == TileType.BOSS_GATE || lookup[y][x] == TileType.DOOR)
                     {
                         if (x == 0 || x == 9)
                             row.Add(new KeyValuePair<TileType, Orientation>(lookup[y][x], Orientation.EAST));
@@ -583,6 +649,8 @@ namespace RuneProject.EnvironmentSystem
             RoomLayout layout = new RoomLayout();
             layout.room = o;
             layout.doormap = new bool[4] { o[7][4].Key != TileType.WALL, o[3][9].Key != TileType.WALL, o[0][4].Key != TileType.WALL, o[3][0].Key != TileType.WALL };
+            layout.waypoints = waypoints;
+            layout.enemyLayout = enemyLayout;
 
             return layout;
         }

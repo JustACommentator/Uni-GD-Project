@@ -230,6 +230,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnClick_OpenMain
       objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
 --- !u!224 &824027 stripped
@@ -8778,6 +8790,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnClick_ShowEndGameDecision
       objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
 --- !u!224 &1330236949 stripped
@@ -9788,6 +9812,18 @@ PrefabInstance:
     - target: {fileID: 7188744450116519749, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnClick_OpenOptions
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
@@ -11193,6 +11229,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnClick_OpenOptions
       objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
 --- !u!224 &1870215689 stripped
@@ -11381,6 +11429,18 @@ PrefabInstance:
     - target: {fileID: 7188744450116519749, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnClick_OpenOptions
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
@@ -12131,6 +12191,18 @@ PrefabInstance:
     - target: {fileID: 7188744450116519749, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: RuneProject.MainMenuSystem.RMainMenuCreditsHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519750, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
