@@ -167,6 +167,7 @@ namespace RuneProject.EnvironmentSystem
                     {
                         GameObject room = new GameObject("Room " + rx + ":" + ry);
                         room.transform.SetParent(transform);
+                        room.transform.position = tilePosition(4.5f, 3.5f, rx, ry);
                         GenerateRoom(roomLayouts[int.Parse(idx)], rx, ry, room.transform);
                         idx = "";
                     }
