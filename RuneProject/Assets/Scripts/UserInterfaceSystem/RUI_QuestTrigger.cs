@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine;
-using UnityEngine.Events;
 
 namespace RuneProject.UserInterfaceSystem
 {
@@ -10,7 +7,6 @@ namespace RuneProject.UserInterfaceSystem
     {
         [SerializeField] private List<string> Quests = new List<string>();
         [SerializeField] private bool absolve = false;
-        [SerializeField] private UnityAction absolveCheck;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -20,6 +16,8 @@ namespace RuneProject.UserInterfaceSystem
                     other.GetComponentInChildren<RQuestLog>().AddQuests(Quests);
                 else
                     other.GetComponentInChildren<RQuestLog>().RemoveQuests(Quests);
+
+                Destroy(gameObject);
             }
         }
     }

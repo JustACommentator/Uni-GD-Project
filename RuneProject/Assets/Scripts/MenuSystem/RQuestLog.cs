@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using RuneProject.EnvironmentSystem;
 using UnityEngine;
 
 namespace RuneProject.UserInterfaceSystem
@@ -15,7 +16,7 @@ namespace RuneProject.UserInterfaceSystem
         private bool isOpened = false;
         private float currentlyOpenFor = 0;
 
-        private List<string> quests;
+        private List<string> quests = new List<string>();
 
         private void Update()
         {
@@ -28,6 +29,11 @@ namespace RuneProject.UserInterfaceSystem
             {
                 Close();
             }
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                RemoveQuests( new List<string> { "Dash with LEFT SHIFT" } );
+            }
         }
 
         public void AddQuests(List<string> newQuests)
@@ -37,11 +43,17 @@ namespace RuneProject.UserInterfaceSystem
             questsDisplay.text = RenderQuests(quests);
         }
 
-        public void RemoveQuests(List<string> newQuests)
+        public void RemoveQuests(List<string> oldQuests)
         {
-            Open();
-            foreach (string q in newQuests)
-                quests.Remove(q);
+            foreach (string q in oldQuests)
+                if (quests.Contains(q))
+                {
+                    quests.Remove(q);
+                }
+            if (quests.Count > 0)
+            {
+                Open();
+            }
             questsDisplay.text = RenderQuests(quests);
         }
 
@@ -59,6 +71,7 @@ namespace RuneProject.UserInterfaceSystem
             if (!isOpened)
                 animator.SetBool("Open", true);
             isOpened = true;
+            currentlyOpenFor = 0f;
         }
 
         private void Close()

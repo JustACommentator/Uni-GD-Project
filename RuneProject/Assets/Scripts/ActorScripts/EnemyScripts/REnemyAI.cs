@@ -86,6 +86,8 @@ namespace RuneProject.EnemySystem
 
         private void Start()
         {
+            currentState = EAlertState.IDLE;
+
             if (path.Count > 1 && startAtFirstPathPosition)
                 transform.position = path[0].position;
 
