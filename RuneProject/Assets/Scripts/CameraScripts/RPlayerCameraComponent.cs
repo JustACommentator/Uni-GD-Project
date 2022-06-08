@@ -23,7 +23,6 @@ namespace RuneProject.CameraSystem
         private Transform playerTransform = null;
 
         private const float CAMERA_TRANSITION_TIME = 0.4f;
-        private const float TILT_THRESHOLD = 0.8f;
 
         private static RPlayerCameraComponent singleton = null;
 

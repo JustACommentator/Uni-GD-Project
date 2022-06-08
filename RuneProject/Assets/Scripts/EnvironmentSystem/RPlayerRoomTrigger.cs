@@ -10,11 +10,16 @@ namespace RuneProject.EnvironmentSystem
     {
         [SerializeField] private List<RPlayerHealth> enemies = new List<RPlayerHealth>();
         [SerializeField] private List<GameObject> doorBlockers = new List<GameObject>();
+        [SerializeField] private List<GameObject> roomResources = new List<GameObject>();
+
+        private bool waitingForUnload = false;
+        private float unloadTimer = 0f;
+
+        private const float MAX_UNLOAD_TIMER = 3f;
 
         public void SetEnemies(List<RPlayerHealth> _enemies)
         {
             enemies = new List<RPlayerHealth>(_enemies);            
-
             DisableEnemies();
         }
 
@@ -22,6 +27,12 @@ namespace RuneProject.EnvironmentSystem
         {
             doorBlockers = new List<GameObject>(_doorBlockers);
             UnlockRoom();
+        }
+
+        public void SetRoomResources(List<GameObject> _roomResources)
+        {
+            roomResources = new List<GameObject>(_roomResources);
+            DisableRoomResources();
         }
 
         private void RPlayerRoomTrigger_OnDeath(object sender, GameObject e)
@@ -83,6 +94,26 @@ namespace RuneProject.EnvironmentSystem
             }
         }
 
+        private void EnableRoomResources()
+        {
+            for (int i = 0; i < roomResources.Count; i++)
+            {
+                GameObject resource = roomResources[i];
+                if (resource)
+                    resource.SetActive(true);
+            }
+        }
+
+        private void DisableRoomResources()
+        {
+            for (int i = 0; i < roomResources.Count; i++)
+            {
+                GameObject resource = roomResources[i];
+                if (resource)
+                    resource.SetActive(false);
+            }
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
@@ -92,7 +123,31 @@ namespace RuneProject.EnvironmentSystem
                 EnableEnemies();
 
                 if (enemies.Count > 0)
-                    LockRoom();                             
+                    LockRoom();
+
+                EnableRoomResources();
+                waitingForUnload = false;
+                unloadTimer = 0f;
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                waitingForUnload = true;
+                unloadTimer = 0f;
+            }
+        }
+
+        private void Update()
+        {
+            if (waitingForUnload)
+            {
+                if (unloadTimer < MAX_UNLOAD_TIMER)
+                    unloadTimer += Time.deltaTime;
+                else
+                    DisableRoomResources();
             }
         }
     }

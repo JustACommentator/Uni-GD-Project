@@ -48,9 +48,11 @@ namespace RuneProject.EnvironmentSystem
     {
         private List<string> roomLayouts;
         private List<GameObject> rooms;
+        private List<GameObject> roomResourceProps = new List<GameObject>();
         [SerializeField] private int seed = 69420;
         [SerializeField] private float roomProb = 0.5f;
         [SerializeField] private bool loadOnStart = false;
+        [SerializeField] private bool mapPropsForCompleteUnload = true;
 
         [Header("Tiles")]
         [SerializeField] private GameObject[] tileObjects;
@@ -64,6 +66,12 @@ namespace RuneProject.EnvironmentSystem
         public int Seed { get => seed; set { seed = value; Create();  } }
 
         public string InputMapLayout { get => inputMapLayout; set => inputMapLayout = value; }
+
+        private void Awake()
+        {
+            if (roomResourceProps != null && roomResourceProps.Count > 0 && roomResourceProps[0].activeInHierarchy)
+                TogglePropVisibility();
+        }
 
         void Start()
         {
@@ -111,6 +119,26 @@ namespace RuneProject.EnvironmentSystem
                 foreach (Transform t in ts)
                 {
                     Destroy(t.gameObject);
+                }
+            }
+        }
+
+        public void TogglePropVisibility()
+        {
+            if (roomResourceProps == null || roomResourceProps.Count <= 0) return;
+
+            if (roomResourceProps[0].activeInHierarchy)
+            {
+                for (int i = 0; i < roomResourceProps.Count; i++)
+                {
+                    roomResourceProps[i].SetActive(false);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < roomResourceProps.Count; i++)
+                {
+                    roomResourceProps[i].SetActive(true);
                 }
             }
         }
@@ -595,6 +623,7 @@ namespace RuneProject.EnvironmentSystem
             RoomLayout rl = roomLayoutFromString(room);
             KeyValuePair<TileType, Orientation>[][] tileMap = rl.room;
             List<GameObject> usedDoorBlockers = new List<GameObject>();
+            List<GameObject> usedRoomResources = new List<GameObject>();
 
             for (int y = 0; y < tileMap.Length; y++)
             {
@@ -605,8 +634,12 @@ namespace RuneProject.EnvironmentSystem
                             tilePosition(x, y, room_x, room_y),
                             GetQuaternion(tileMap[y][x].Value),
                             parent);
-                    if (tileMap[y][x].Key == TileType.DOOR)
+                    TileType tt = tileMap[y][x].Key;
+                    if (tt == TileType.DOOR)
                         usedDoorBlockers.Add(tile.transform.GetChild(0).Find("DoorBlocker").gameObject);
+                    else if (tt == TileType.KEY || tt == TileType.SPIKES || (mapPropsForCompleteUnload && (tt == TileType.BOX || tt == TileType.CHEST_GOLD || tt == TileType.CHEST_WOOD || tt == TileType.MOVEABLE_STONE || tt == TileType.POT || tt == TileType.SOCKET || tt == TileType.STAIRS || tt == TileType.STATUE || tt == TileType.SWITCH || tt == TileType.TOURCH)))
+                        usedRoomResources.Add(tile);
+
                     tile.name = "Tile " + tileMap[y][x].Key;
                     if (tileMap[y][x].Key != TileType.WALL && tileMap[y][x].Key != TileType.VOID)
                     {
@@ -621,6 +654,8 @@ namespace RuneProject.EnvironmentSystem
             }
 
             roomTrigger.SetDoorBlockers(usedDoorBlockers);
+            roomTrigger.SetRoomResources(usedRoomResources);
+            roomResourceProps.AddRange(usedRoomResources);
             GenerateEnemies(rl.waypoints, rl.enemyLayout, room_x, room_y, parent.transform, roomTrigger);
         }
 

@@ -29,6 +29,8 @@ namespace RuneProject.MainMenuSystem
         [Header("Sound Effects")]
         [SerializeField] private AudioClip startUpSFX = null;
         [SerializeField] private AudioClip clickSFX = null;
+        [SerializeField] private AudioClip hoverSFX = null;
+        [SerializeField] private AudioClip alertSFX = null;
 
         private bool isLoading = false;
         private RUI_Alert currentAlert = null;
@@ -163,6 +165,7 @@ namespace RuneProject.MainMenuSystem
             {
                 isLoading = true;
 
+                audioEmitter.PlayClip(clickSFX, true);
                 musicSource.Stop();
                 //rainSFXSource.Stop();
                 RLevelTransition instance = Instantiate(levelTransitionPrefab, canvasTransform);
@@ -172,37 +175,49 @@ namespace RuneProject.MainMenuSystem
 
         public void OnClick_ShowEndGameDecision()
         {
+            audioEmitter.PlayClip(clickSFX, true);
             CreateAlert("Really Quit?", "Do you really want to quit the game? Unsaved progress will be <b>deleted</b>.", "Quit Game", Application.Quit);
         }
 
         public void OnClick_OpenCredits()
         {
+            audioEmitter.PlayClip(clickSFX, true);
             TransitionTo(EMainMenuState.CREDITS_PANEL);
         }
 
         public void OnClick_OpenOptions()
         {
+            audioEmitter.PlayClip(clickSFX, true);
             TransitionTo(EMainMenuState.OPTIONS_PANEL);
         }
 
         public void OnClick_OpenAudio()
         {
+            audioEmitter.PlayClip(clickSFX, true);
             TransitionTo(EMainMenuState.AUDIO_PANEL);
         }
 
         public void OnClick_OpenVideo()
         {
+            audioEmitter.PlayClip(clickSFX, true);
             TransitionTo(EMainMenuState.VIDEO_PANEL);
         }
 
         public void OnClick_OpenControlls()
         {
+            audioEmitter.PlayClip(clickSFX, true);
             TransitionTo(EMainMenuState.CONTROLLS_PANEL);
         }
 
         public void OnClick_OpenMain()
         {
+            audioEmitter.PlayClip(clickSFX, true);
             TransitionTo(EMainMenuState.MAIN_PANEL);
+        }
+
+        public void OnHover_PlayHoverSFX()
+        {
+            audioEmitter.PlayClip(hoverSFX, true);
         }
 
         #endregion
@@ -220,6 +235,7 @@ namespace RuneProject.MainMenuSystem
         {
             if (!currentAlert)
             {
+                audioEmitter.PlayClip(alertSFX, true);
                 currentAlert = Instantiate(alertPrefab, alertParentTransform);
                 currentAlert.Initialize(title, description, acceptActionButtonText, acceptAction);
             }
@@ -229,6 +245,7 @@ namespace RuneProject.MainMenuSystem
         {
             if (!currentAlert)
             {
+                audioEmitter.PlayClip(alertSFX, true);
                 currentAlert = Instantiate(alertPrefab, alertParentTransform);
                 currentAlert.Initialize(title, description, acceptActionButtonText, acceptAction, denyActionButtonText, denyAction);
             }

@@ -11,26 +11,12 @@ namespace RuneProject.ActorSystem
         [Header("References")]
         [SerializeField] private RPlayerHealth playerHealth = null;
 
-        [Header("Values")]
-        [SerializeField] private int initialCrystals = 0;
-
         private List<RPowerUpItem> powerUps = new List<RPowerUpItem>();
-        private int currentCrystals = 0;
+        private int currentKeys = 0;
+        private int currentBossKeys = 0;
 
-        private void Start()
-        {
-            currentCrystals = initialCrystals;
-        }
-
-        public void RemoveCrystals(int amount)
-        {
-            currentCrystals = currentCrystals - Mathf.Clamp(amount, -currentCrystals, 0);
-        }
-
-        public void AddCrystals(int amount)
-        {
-            currentCrystals += amount;
-        }
+        public int CurrentKeys { get => currentKeys; set => currentKeys = value; }
+        public int CurrentBossKeys { get => currentBossKeys; set => currentBossKeys = value; }
 
         public void AddPowerUp(RPowerUpItem item)
         {

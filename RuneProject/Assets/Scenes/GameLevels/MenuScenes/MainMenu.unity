@@ -130,6 +130,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 37649287}
     m_Modifications:
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1253464033}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHover_PlayHoverSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RuneProject.MainMenuSystem.RMainMenuHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7188744449635043470, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_text
       value: Back
@@ -677,6 +693,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2045615171}
     m_Modifications:
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1253464033}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHover_PlayHoverSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RuneProject.MainMenuSystem.RMainMenuHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7188744449635043470, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_text
       value: Play
@@ -768,6 +800,10 @@ PrefabInstance:
     - target: {fileID: 7188744450116519748, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188744450116519749, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7188744450116519749, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -1437,6 +1473,41 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -720}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &427720289 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7888551568799154975, guid: 2f90210ec6ec94ae29f40c0349ce22bc, type: 3}
+  m_PrefabInstance: {fileID: 594434205}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &427720292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427720289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1253464033}
+          m_TargetAssemblyTypeName: RuneProject.MainMenuSystem.RMainMenuHandler,
+            Assembly-CSharp
+          m_MethodName: OnHover_PlayHoverSFX
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &442902182
 GameObject:
   m_ObjectHideFlags: 0
@@ -1701,6 +1772,41 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &487374325 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7888551568799154975, guid: 2f90210ec6ec94ae29f40c0349ce22bc, type: 3}
+  m_PrefabInstance: {fileID: 7888551567777668466}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &487374328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 487374325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1253464033}
+          m_TargetAssemblyTypeName: RuneProject.MainMenuSystem.RMainMenuHandler,
+            Assembly-CSharp
+          m_MethodName: OnHover_PlayHoverSFX
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &511663101
 GameObject:
   m_ObjectHideFlags: 0
@@ -2438,7 +2544,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7888551568799154973, guid: 2f90210ec6ec94ae29f40c0349ce22bc, type: 3}
   m_PrefabInstance: {fileID: 594434205}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 427720289}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
@@ -7389,6 +7495,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &664063792 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7888551568799154975, guid: 2f90210ec6ec94ae29f40c0349ce22bc, type: 3}
+  m_PrefabInstance: {fileID: 1974510070}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &664063795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664063792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1253464033}
+          m_TargetAssemblyTypeName: RuneProject.MainMenuSystem.RMainMenuHandler,
+            Assembly-CSharp
+          m_MethodName: OnHover_PlayHoverSFX
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &687244453
 GameObject:
   m_ObjectHideFlags: 0
@@ -8137,6 +8278,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 37649287}
     m_Modifications:
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1253464033}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHover_PlayHoverSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RuneProject.MainMenuSystem.RMainMenuHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7188744449635043470, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_text
       value: Video
@@ -8648,7 +8805,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 3165115837890290358, guid: 113871317cb666a449a9c8d6d91d75e6, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 565fb30e0c98a8343b0f73169450f65b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: da8bafe19069aad489d7a29eb47d8cad, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -9459,7 +9616,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7888551568799154973, guid: 2f90210ec6ec94ae29f40c0349ce22bc, type: 3}
   m_PrefabInstance: {fileID: 7888551567777668466}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 487374325}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
@@ -9759,8 +9916,10 @@ MonoBehaviour:
   creditsContentText: {fileID: 1460444226}
   alertPrefab: {fileID: 6241760466305534277, guid: e147affa8b3269e428f48b642870f0c7, type: 3}
   levelTransitionPrefab: {fileID: 1068891780898844589, guid: 4ebd0ee22fb1e99429fd912b6b1278ac, type: 3}
-  startUpSFX: {fileID: 8300000, guid: 0e338b6316b0596418f102bc1194ccf5, type: 3}
-  clickSFX: {fileID: 8300000, guid: 0e338b6316b0596418f102bc1194ccf5, type: 3}
+  startUpSFX: {fileID: 8300000, guid: 2c003610338ecc646abab927bafd7b00, type: 3}
+  clickSFX: {fileID: 8300000, guid: fb543742802221d4e8b844aaa3cb5b84, type: 3}
+  hoverSFX: {fileID: 8300000, guid: f5d6b989d593d894aafce272fe4fcee4, type: 3}
+  alertSFX: {fileID: 8300000, guid: c1f337579509c0b48aa131b75d153c31, type: 3}
 --- !u!114 &1253464034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9789,7 +9948,7 @@ MonoBehaviour:
   enableTintShift: 1
   initialTintShift: {r: 0.105882354, g: 0.105882354, b: 0.105882354, a: 1}
   mainTintShift: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
-  secondTintShift: {r: 0.7647059, g: 0.7647059, b: 0.7647059, a: 1}
+  secondTintShift: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 1}
   mainMenuHandler: {fileID: 1253464033}
   backgroundSpriteRenderer: {fileID: 812297348}
   parallaxTransform: {fileID: 812297347}
@@ -9892,6 +10051,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2045615171}
     m_Modifications:
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1253464033}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHover_PlayHoverSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RuneProject.MainMenuSystem.RMainMenuHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7188744449635043470, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_text
       value: Quit
@@ -11204,6 +11379,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 416591596}
     m_Modifications:
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1253464033}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHover_PlayHoverSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RuneProject.MainMenuSystem.RMainMenuHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7188744449635043470, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_text
       value: Back
@@ -11544,6 +11735,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 37649287}
     m_Modifications:
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1253464033}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHover_PlayHoverSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RuneProject.MainMenuSystem.RMainMenuHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7188744449635043470, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_text
       value: Audio
@@ -11658,6 +11865,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2117171885}
     m_Modifications:
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1253464033}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHover_PlayHoverSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RuneProject.MainMenuSystem.RMainMenuHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7188744449635043469, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_SizeDelta.x
       value: 130
@@ -12462,6 +12685,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2045615171}
     m_Modifications:
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1253464033}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHover_PlayHoverSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RuneProject.MainMenuSystem.RMainMenuHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7188744449635043470, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_text
       value: 'Options
@@ -12871,6 +13110,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 821172812}
     m_Modifications:
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1253464033}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHover_PlayHoverSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RuneProject.MainMenuSystem.RMainMenuHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7188744449635043470, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_text
       value: Back
@@ -13633,7 +13888,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7888551568799154973, guid: 2f90210ec6ec94ae29f40c0349ce22bc, type: 3}
   m_PrefabInstance: {fileID: 1974510070}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 664063792}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
@@ -13651,6 +13906,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 37649287}
     m_Modifications:
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1253464033}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHover_PlayHoverSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RuneProject.MainMenuSystem.RMainMenuHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7188744449635043470, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_text
       value: Controls
@@ -13944,6 +14215,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1791262378}
     m_Modifications:
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1253464033}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHover_PlayHoverSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RuneProject.MainMenuSystem.RMainMenuHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7188744449635043469, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_SizeDelta.x
       value: -20
@@ -14230,6 +14517,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2052689429}
     m_Modifications:
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1253464033}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHover_PlayHoverSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RuneProject.MainMenuSystem.RMainMenuHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7188744449635043470, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_text
       value: Back
@@ -14513,6 +14816,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2045615171}
     m_Modifications:
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1253464033}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHover_PlayHoverSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RuneProject.MainMenuSystem.RMainMenuHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837628177088200406, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7188744450116519747, guid: 3766346abd0af457dbc5dfc2f7225282, type: 3}
       propertyPath: m_Name
       value: CreditsButton
