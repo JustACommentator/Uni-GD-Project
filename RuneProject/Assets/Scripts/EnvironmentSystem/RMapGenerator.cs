@@ -124,6 +124,7 @@ namespace RuneProject.EnvironmentSystem
             }
 
             string mapLayout = "";
+            bool stairsNeeded = true;
 
             for (int y = 0; y < 8; y++)
             {
@@ -138,19 +139,24 @@ namespace RuneProject.EnvironmentSystem
                     bool open_n = y != 0;
                     bool room_n = open_n && bitmap[y - 1][x];
 
-                    if (bitmap[y][x])
+                    if (bitmap[y][x] && (room_n || room_e || room_s || room_w))
                     {
-                        List<int> options = FilterRooms(roomLayouts, new bool[4] { room_n, room_e, room_s, room_w }, x == 0 && y == 0);
+                        List<int> options = FilterRooms(roomLayouts, new bool[4] { room_n, room_e, room_s, room_w }, x == 0 && y == 7, !stairsNeeded || (x == 0 && y == 7));
 
                         if (options.Count > 0)
                         {
-                            mapLayout += options[Random.Range(0, options.Count)];
+                            int choice = Random.Range(0, options.Count);
+                            mapLayout += options[choice];
+                            if (roomLayouts[options[choice]].Contains("L"))
+                                stairsNeeded = false;
                         }
                     }
                     mapLayout += ",";
                 }
                 mapLayout += "#";
             }
+
+            print(stairsNeeded);
 
             int rx = 0, ry = 7;
             string idx = "";
@@ -355,6 +361,16 @@ namespace RuneProject.EnvironmentSystem
                 "|   uu   |#" +
                 "|   uu   |#" +
                 "|     |X |#" +
+                "|i    | c|#" +
+                "||||||||||#"
+            );
+            roomLayouts.Add(
+                "||||  ||||#" +
+                "|i      i|#" +
+                "|        |#" +
+                "|   uu   |#" +
+                "|   uu   |#" +
+                "|     |X |#" +
                 "|i    | L|#" +
                 "||||||||||#"
             );
@@ -366,6 +382,18 @@ namespace RuneProject.EnvironmentSystem
                 "  VVVVV  |#" +
                 "|VV   V  |#" +
                 "|g  V 4  |#" +
+                "||||||||||#" +
+                "F1,2#" +
+                "F3,4#"
+            );
+            roomLayouts.Add(
+                "||||||||||#" +
+                "|   V  1 |#" +
+                "| V V   3|#" +
+                "  V2  V  |#" +
+                "  VVVVV  |#" +
+                "|VV   V  |#" +
+                "|L  V 4  |#" +
                 "||||||||||#" +
                 "F1,2#" +
                 "F3,4#"
@@ -411,11 +439,21 @@ namespace RuneProject.EnvironmentSystem
                 "|        |#" +
                 "||||||||||#"
             );
+            roomLayouts.Add(
+                "||||||||||#" +
+                "|        |#" +
+                "|        |#" +
+                "|        X#" +
+                "|         #" +
+                "|        |#" +
+                "|        |#" +
+                "||||||||||#"
+            );
 
             return roomLayouts;
         }
 
-        private List<int> FilterRooms(List<string> roomLayouts, bool[] specs, bool isPeacefull)
+        private List<int> FilterRooms(List<string> roomLayouts, bool[] specs, bool isPeacefull, bool noStairs)
         {
             List<int> filtered = new List<int>();
 
@@ -424,7 +462,7 @@ namespace RuneProject.EnvironmentSystem
                 RoomLayout layout = roomLayoutFromString(roomLayouts[i]);
                 if (layout.doormap[0] == specs[0] && layout.doormap[1] == specs[1] && layout.doormap[2] == specs[2] && layout.doormap[3] == specs[3])
                 {
-                    if (!(isPeacefull && layout.enemyLayout != ""))
+                    if (!(isPeacefull && layout.enemyLayout != "") && !(noStairs && roomLayouts[i].Contains("L")))
                         filtered.Add(i);
                 }
             }
