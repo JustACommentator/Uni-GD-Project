@@ -432,7 +432,7 @@ MonoBehaviour:
   - {fileID: 6860729249378902336}
   bouncyMaterial: {fileID: 13400000, guid: ecf59c5977e7eee4b93c100d2989a82e, type: 2}
   destroyParticleSystemPrefab: {fileID: 9013604096713952438, guid: 250900aa652d840c5a1680524c147eff, type: 3}
-  ragdollInitialBurstPower: 2000
+  ragdollInitialBurstPower: 1000
 --- !u!135 &6860729249378902336
 SphereCollider:
   m_ObjectHideFlags: 0

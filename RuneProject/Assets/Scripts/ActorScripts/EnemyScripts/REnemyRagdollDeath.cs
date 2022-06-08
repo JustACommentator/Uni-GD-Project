@@ -79,7 +79,7 @@ namespace RuneProject.EnemySystem
             while (enemyRigidbody.velocity.magnitude > MIN_VELOCITY_BEFORE_DESTROY)
                 yield return null;
 
-            Destroy(Instantiate(destroyParticleSystemPrefab, transform.position, Quaternion.identity), PARTICLE_LIFETIME);
+            Destroy(Instantiate(destroyParticleSystemPrefab, transform.position, Quaternion.identity).gameObject, PARTICLE_LIFETIME);
             Destroy(gameObject, DESTROY_DELAY);
         }
     }
