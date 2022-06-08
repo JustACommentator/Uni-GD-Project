@@ -40,28 +40,33 @@ namespace RuneProject.UserInterfaceSystem
         {
             Open();
             quests.AddRange(newQuests);
-            questsDisplay.text = RenderQuests(quests);
+            questsDisplay.text = RenderQuests(quests, newQuests, "yellow");
         }
 
         public void RemoveQuests(List<string> oldQuests)
         {
-            foreach (string q in oldQuests)
+            questsDisplay.text = RenderQuests(quests, oldQuests, "green");
+            Open();
+
+            foreach (string q in oldQuests) {
                 if (quests.Contains(q))
                 {
                     quests.Remove(q);
                 }
-            if (quests.Count > 0)
-            {
-                Open();
             }
-            questsDisplay.text = RenderQuests(quests);
         }
 
-        private string RenderQuests(List<string> quests)
+        private string RenderQuests(List<string> quests, List<string> completed, string color)
         {
             string o = "";
             foreach (string q in quests)
+            {
+                if (completed.Contains(q))
+                    o += "<color=\"" + color + "\">";
                 o += "\n- " + q;
+                if (completed.Contains(q))
+                    o += "</color>";
+            }
 
             return o;
         }
