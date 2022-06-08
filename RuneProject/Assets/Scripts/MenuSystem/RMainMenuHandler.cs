@@ -43,7 +43,7 @@ namespace RuneProject.MainMenuSystem
 
         private void Start()
         {
-            print("Bitte noch einfügen: Zurücksetzen des LockModes, je nach Einstellung! (Methode: FreeCursor)");
+            print("Bitte noch einfï¿½gen: Zurï¿½cksetzen des LockModes, je nach Einstellung! (Methode: FreeCursor)");
 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
@@ -82,8 +82,32 @@ namespace RuneProject.MainMenuSystem
                     {
                         if (Input.GetKeyDown(ESCAPE_KEY_CODE) && !currentAlert)
                         {
-                            //Alert: Optionen übernehmen? - Falls verändert
+                            //Alert: Optionen ï¿½bernehmen? - Falls verï¿½ndert
                             TransitionTo(EMainMenuState.MAIN_PANEL);
+                        }
+                    }
+                    break;
+                case EMainMenuState.AUDIO_PANEL:
+                    {
+                        if (Input.GetKeyDown(ESCAPE_KEY_CODE) && !currentAlert)
+                        {
+                            TransitionTo(EMainMenuState.OPTIONS_PANEL);
+                        }
+                    }
+                    break;
+                case EMainMenuState.VIDEO_PANEL:
+                    {
+                        if (Input.GetKeyDown(ESCAPE_KEY_CODE) && !currentAlert)
+                        {
+                            TransitionTo(EMainMenuState.OPTIONS_PANEL);
+                        }
+                    }
+                    break;
+                case EMainMenuState.CONTROLLS_PANEL:
+                    {
+                        if (Input.GetKeyDown(ESCAPE_KEY_CODE) && !currentAlert)
+                        {
+                            TransitionTo(EMainMenuState.OPTIONS_PANEL);
                         }
                     }
                     break;
@@ -161,6 +185,26 @@ namespace RuneProject.MainMenuSystem
             TransitionTo(EMainMenuState.OPTIONS_PANEL);
         }
 
+        public void OnClick_OpenAudio()
+        {
+            TransitionTo(EMainMenuState.AUDIO_PANEL);
+        }
+
+        public void OnClick_OpenVideo()
+        {
+            TransitionTo(EMainMenuState.VIDEO_PANEL);
+        }
+
+        public void OnClick_OpenControlls()
+        {
+            TransitionTo(EMainMenuState.CONTROLLS_PANEL);
+        }
+
+        public void OnClick_OpenMain()
+        {
+            TransitionTo(EMainMenuState.MAIN_PANEL);
+        }
+
         #endregion
 
         #region Callbacks
@@ -203,6 +247,9 @@ namespace RuneProject.MainMenuSystem
         INITIAL_MENU,
         MAIN_PANEL,
         OPTIONS_PANEL,
+        AUDIO_PANEL,
+        VIDEO_PANEL,
+        CONTROLLS_PANEL,
         CREDITS_PANEL
     }
 }

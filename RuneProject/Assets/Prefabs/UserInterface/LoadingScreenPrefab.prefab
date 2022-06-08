@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd997a75bcc6b5648a1bdc3be2c8b9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadFromCSV: 0
   loadingDetailsImage: {fileID: 3409256876936434329}
   loadingHintTitleText: {fileID: 4567567819201437716}
   loadingHintDescriptionText: {fileID: 4613457570668371094}
