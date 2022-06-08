@@ -58,7 +58,7 @@ namespace RuneProject.EnvironmentSystem
 
         private Vector2 tileSize = Vector2.one;
 
-        public int Seed { get => seed; set { seed = value; LoadMap();  } }
+        public int Seed { get => seed; set { seed = value; Create();  } }
 
         void Start()
         {
@@ -140,7 +140,7 @@ namespace RuneProject.EnvironmentSystem
 
                     if (bitmap[y][x])
                     {
-                        List<int> options = FilterRooms(roomLayouts, new bool[4] { room_n, room_e, room_s, room_w });
+                        List<int> options = FilterRooms(roomLayouts, new bool[4] { room_n, room_e, room_s, room_w }, x == 0 && y == 0);
 
                         if (options.Count > 0)
                         {
@@ -304,6 +304,16 @@ namespace RuneProject.EnvironmentSystem
             );
             roomLayouts.Add(
                 "||||  ||||#" +
+                "|  x  x  |#" +
+                "|       x|#" +
+                "|  -      #" +
+                "|  -      #" +
+                "|   --  x|#" +
+                "|        |#" +
+                "||||||||||#"
+            );
+            roomLayouts.Add(
+                "||||  ||||#" +
                 "|VVV  VVV|#" +
                 "|V 1  2 V|#" +
                 "    ||  c|#" +
@@ -405,7 +415,7 @@ namespace RuneProject.EnvironmentSystem
             return roomLayouts;
         }
 
-        private List<int> FilterRooms(List<string> roomLayouts, bool[] specs)
+        private List<int> FilterRooms(List<string> roomLayouts, bool[] specs, bool isPeacefull)
         {
             List<int> filtered = new List<int>();
 
@@ -414,7 +424,8 @@ namespace RuneProject.EnvironmentSystem
                 RoomLayout layout = roomLayoutFromString(roomLayouts[i]);
                 if (layout.doormap[0] == specs[0] && layout.doormap[1] == specs[1] && layout.doormap[2] == specs[2] && layout.doormap[3] == specs[3])
                 {
-                    filtered.Add(i);
+                    if (!(isPeacefull && layout.enemyLayout != ""))
+                        filtered.Add(i);
                 }
             }
 
@@ -699,7 +710,7 @@ namespace RuneProject.EnvironmentSystem
 
             RoomLayout layout = new RoomLayout();
             layout.room = o;
-            layout.doormap = new bool[4] { o[7][4].Key != TileType.WALL && o[7][4].Key != TileType.VOID, o[3][9].Key != TileType.WALL && o[3][9].Key != TileType.VOID, o[0][4].Key != TileType.WALL && o[0][4].Key != TileType.VOID, o[3][0].Key != TileType.WALL && o[3][0].Key != TileType.VOID };
+            layout.doormap = new bool[4] { o[7][5].Key != TileType.WALL && o[7][5].Key != TileType.VOID, o[3][9].Key != TileType.WALL && o[3][9].Key != TileType.VOID, o[0][5].Key != TileType.WALL && o[0][5].Key != TileType.VOID, o[3][0].Key != TileType.WALL && o[3][0].Key != TileType.VOID };
             layout.waypoints = waypoints;
             layout.enemyLayout = enemyLayout;
 
