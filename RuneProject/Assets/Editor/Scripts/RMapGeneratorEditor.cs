@@ -22,5 +22,10 @@ public class RMapGeneratorEditor : Editor
         {
             generator.Delete();
         }
+        if (GUILayout.Button("(Re-)Generate Level from string"))
+        {
+            generator.Delete();
+            generator.Create(generator.InputMapLayout);
+        }
     }
 }
