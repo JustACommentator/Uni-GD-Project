@@ -22800,7 +22800,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Power-Ups <sprite name="lmb">
+  m_text: Power-Ups
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7cb4e88349c21d4459c1b0f28ef86961, type: 2}
   m_sharedMaterial: {fileID: -8163930328514368658, guid: 7cb4e88349c21d4459c1b0f28ef86961, type: 2}
