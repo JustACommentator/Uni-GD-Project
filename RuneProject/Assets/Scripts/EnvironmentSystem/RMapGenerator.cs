@@ -1,3 +1,4 @@
+using RuneProject.ActorSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -156,8 +157,6 @@ namespace RuneProject.EnvironmentSystem
                 mapLayout += "#";
             }
 
-            print(stairsNeeded);
-
             int rx = 0, ry = 7;
             string idx = "";
             foreach (char c in mapLayout)
@@ -174,7 +173,11 @@ namespace RuneProject.EnvironmentSystem
                         GameObject room = new GameObject("Room " + rx + ":" + ry);
                         room.transform.SetParent(transform);
                         room.transform.position = tilePosition(4.5f, 3.5f, rx, ry);
-                        GenerateRoom(roomLayouts[int.Parse(idx)], rx, ry, room.transform);
+                        BoxCollider trigger = room.AddComponent<BoxCollider>();
+                        trigger.isTrigger = true;
+                        trigger.size = new Vector3(8.25f, 4f, 6.25f);
+                        RPlayerRoomTrigger roomTrigger = room.AddComponent<RPlayerRoomTrigger>();
+                        GenerateRoom(roomLayouts[int.Parse(idx)], rx, ry, room.transform, roomTrigger);
                         idx = "";
                     }
                     rx++;
@@ -253,7 +256,7 @@ namespace RuneProject.EnvironmentSystem
                 "||||X ||||#" +
                 "|VVi  iVV|#" +
                 "|VV    VV|#" +
-                "|:1    2:|#" +
+                "| 1    2 |#" +
                 "| 3    4 |#" +
                 "|VVV  VVV|#" +
                 "|VVV  VVV|#" +
@@ -470,10 +473,11 @@ namespace RuneProject.EnvironmentSystem
             return filtered;
         }
 
-        private void GenerateRoom(string room, float room_x, float room_y, Transform parent)
+        private void GenerateRoom(string room, float room_x, float room_y, Transform parent, RPlayerRoomTrigger roomTrigger)
         {
             RoomLayout rl = roomLayoutFromString(room);
             KeyValuePair<TileType, Orientation>[][] tileMap = rl.room;
+            List<GameObject> usedDoorBlockers = new List<GameObject>();
 
             for (int y = 0; y < tileMap.Length; y++)
             {
@@ -484,6 +488,8 @@ namespace RuneProject.EnvironmentSystem
                             tilePosition(x, y, room_x, room_y),
                             GetQuaternion(tileMap[y][x].Value),
                             parent);
+                    if (tileMap[y][x].Key == TileType.DOOR)
+                        usedDoorBlockers.Add(tile.transform.GetChild(0).Find("DoorBlocker").gameObject);
                     tile.name = "Tile " + tileMap[y][x].Key;
                     if (tileMap[y][x].Key != TileType.WALL && tileMap[y][x].Key != TileType.VOID)
                     {
@@ -497,16 +503,17 @@ namespace RuneProject.EnvironmentSystem
                 }
             }
 
-
-            GenerateEnemies(rl.waypoints, rl.enemyLayout, room_x, room_y, parent.transform);
+            roomTrigger.SetDoorBlockers(usedDoorBlockers);
+            GenerateEnemies(rl.waypoints, rl.enemyLayout, room_x, room_y, parent.transform, roomTrigger);
         }
 
-        private void GenerateEnemies(Dictionary<char, Vector2> waypoints, string enemyLayout, float room_x, float room_y, Transform parent)
+        private void GenerateEnemies(Dictionary<char, Vector2> waypoints, string enemyLayout, float room_x, float room_y, Transform parent, RPlayerRoomTrigger roomTrigger)
         {
             GameObject enemyType = null;
             char idx = ' ';
             List<Transform> path = new List<Transform>();
             Dictionary<char, Transform> instantiated = new Dictionary<char, Transform>();
+            List<RPlayerHealth> usedEnemies = new List<RPlayerHealth>();
 
             foreach (char c in enemyLayout)
             {
@@ -541,6 +548,7 @@ namespace RuneProject.EnvironmentSystem
                             GameObject enemy = Instantiate(enemyType, path[0].position, Quaternion.identity, parent);
                             enemy.GetComponent<EnemySystem.REnemyAI>().Path = path;
                             enemy.name = enemyType.name;
+                            usedEnemies.Add(enemy.GetComponent<RPlayerHealth>());
                             path = new List<Transform>();
                         }
                         break;
@@ -550,6 +558,8 @@ namespace RuneProject.EnvironmentSystem
 
                 }
             }
+
+            roomTrigger.SetEnemies(usedEnemies);
         }
 
         private GameObject GetGameObject(TileType tileType)

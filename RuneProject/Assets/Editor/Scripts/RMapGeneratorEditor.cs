@@ -13,8 +13,9 @@ public class RMapGeneratorEditor : Editor
         EditorGUILayout.Space();
 
         RMapGenerator generator = (RMapGenerator)target;
-        if (GUILayout.Button("Generate Level"))
+        if (GUILayout.Button("(Re-)Generate Level"))
         {
+            generator.Delete();
             generator.Create();
         }
         if (GUILayout.Button("Reset Level"))

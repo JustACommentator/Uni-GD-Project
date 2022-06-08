@@ -1,3 +1,4 @@
+using RuneProject.CameraSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -65,6 +66,7 @@ namespace RuneProject.ActorSystem
 
         private void Update()
         {
+            HandleFindCamera();
             HandleMovementAndTurnaround();
             HandleUpdateCurrentMouseDirection();
         }
@@ -87,6 +89,12 @@ namespace RuneProject.ActorSystem
             if (looseImpulseMomentumOnCollision && !collision.collider.GetComponent<Rigidbody>())
                 currentImpulseMovement = Vector3.zero;
         }      
+
+        private void HandleFindCamera()
+        {
+            if (!cameraTransform)
+                cameraTransform = RPlayerCameraComponent.Singleton.transform;
+        }
 
         private void HandleMovementAndTurnaround()
         {

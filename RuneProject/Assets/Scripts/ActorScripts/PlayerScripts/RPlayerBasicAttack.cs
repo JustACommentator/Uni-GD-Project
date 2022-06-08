@@ -146,13 +146,7 @@ namespace RuneProject.ActorSystem
                 if (!currentPickedUpWorldItem)
                 {
                     autoAttackIndicatorTransform.localScale = new Vector3(0.3f, 0.3f, GetAutoAttackDistance());
-
-                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
-                    {
-                        Vector3 dir = hit.point - transform.position;
-                        dir.y = 0f;
-                        autoAttackIndicatorTransform.LookAt(autoAttackIndicatorTransform.position + dir);
-                    }
+                    autoAttackIndicatorTransform.LookAt(autoAttackIndicatorTransform.position + playerMovement.MouseDirection);                    
                 }
                 else
                 {
