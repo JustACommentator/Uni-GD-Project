@@ -623,6 +623,7 @@ GameObject:
   - component: {fileID: 313397261}
   - component: {fileID: 6522915108923291365}
   - component: {fileID: 313397262}
+  - component: {fileID: 800573948681555678}
   m_Layer: 3
   m_Name: PlayerCanvas
   m_TagString: Untagged
@@ -786,6 +787,22 @@ MonoBehaviour:
   playerHealth: {fileID: 238541623528839758}
   gameOverCanvas: {fileID: 6522377957978106031}
   vignette: {fileID: 5963942531350311694}
+--- !u!114 &800573948681555678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441239336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d9963f318e74fa4a53a9ccd2e9d556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovement: {fileID: 1081399610661986200}
+  soundHandler: {fileID: 3945336572207755386}
+  endOfVSliceParent: {fileID: 1533648182157195437}
+  loadingScreenPrefab: {fileID: 1068891780898844589, guid: 4ebd0ee22fb1e99429fd912b6b1278ac, type: 3}
 --- !u!1 &621722881
 GameObject:
   m_ObjectHideFlags: 0
@@ -17110,7 +17127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHealth: {fileID: 238541623528839758}
-  initialCrystals: 0
 --- !u!114 &2752603098364448998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29286,7 +29302,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press ESC to Play Again
+  m_text: PRESS ESC TO RETURN TO THE MAIN MENU
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7cb4e88349c21d4459c1b0f28ef86961, type: 2}
   m_sharedMaterial: {fileID: -8163930328514368658, guid: 7cb4e88349c21d4459c1b0f28ef86961, type: 2}
@@ -29319,7 +29335,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -32163,10 +32179,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'This is the end of our VSlice
+  m_text: 'It seems like an unpassable force blocks the way,
 
-
-    Thank you for playing!'
+    telling you to
+    be patient until your time to shine comes.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7cb4e88349c21d4459c1b0f28ef86961, type: 2}
   m_sharedMaterial: {fileID: -8163930328514368658, guid: 7cb4e88349c21d4459c1b0f28ef86961, type: 2}
@@ -37817,11 +37833,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
---- !u!224 &625450855862670107 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1483533563886927092, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
-  m_PrefabInstance: {fileID: 2033548782124265455}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6684416030239649688 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4682421042024382583, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
@@ -37833,6 +37844,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &625450855862670107 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1483533563886927092, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
+  m_PrefabInstance: {fileID: 2033548782124265455}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3151653639765556993
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37918,14 +37934,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e12f7bcb5eeb6a4cbc36e31b4fa9bb3, type: 3}
---- !u!4 &4876942265664470102 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7499211838518592343, guid: 7e12f7bcb5eeb6a4cbc36e31b4fa9bb3, type: 3}
-  m_PrefabInstance: {fileID: 3151653639765556993}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &4876942265664470103 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 7499211838518592342, guid: 7e12f7bcb5eeb6a4cbc36e31b4fa9bb3, type: 3}
+  m_PrefabInstance: {fileID: 3151653639765556993}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4876942265664470102 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7499211838518592343, guid: 7e12f7bcb5eeb6a4cbc36e31b4fa9bb3, type: 3}
   m_PrefabInstance: {fileID: 3151653639765556993}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4937754440465889791
@@ -38025,11 +38041,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
---- !u!224 &5769388655324611851 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1483533563886927092, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
-  m_PrefabInstance: {fileID: 4937754440465889791}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &323450626362980744 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4682421042024382583, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
@@ -38041,6 +38052,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &5769388655324611851 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1483533563886927092, guid: ffd70473bf062474693855ed987e8ea3, type: 3}
+  m_PrefabInstance: {fileID: 4937754440465889791}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6032997555945422354
 PrefabInstance:
   m_ObjectHideFlags: 0

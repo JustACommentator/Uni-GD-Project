@@ -22,6 +22,11 @@ namespace RuneProject.ActorSystem
 
         private const float ADDITIONAL_FIRE_TIME = 0.15f;
 
+        public void Laugh()
+        {
+            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.laughClips), false);
+        }
+
         private void Start()
         {
             basicAttack.OnBeginCharge += BasicAttack_OnBeginCharge;
