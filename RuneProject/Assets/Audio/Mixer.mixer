@@ -96,7 +96,17 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: a8a70f6ba541f4748b144360895ac75e
+    name: EnemyVoice
+  - guid: 7972ad3a3bf76e7438be00c71219a477
+    name: Master
+  - guid: 6932bd1ecad12de4293667e122cd770f
+    name: Music
+  - guid: 8d85ae9e43bb5f841a0cbb6ea866ba35
+    name: PlayerVoice
+  - guid: 91638df57ba747d449e2f76bc729a5b7
+    name: SFX
   m_AudioMixerGroupViews:
   - guids:
     - 6547cdefaff894540a2ac2599ace5257
@@ -106,7 +116,7 @@ AudioMixerController:
     - f3ba9f6b814a0cc4b8b649ba642f4b3f
     name: View
   m_CurrentViewIndex: 0
-  m_TargetSnapshot: {fileID: 7132001446081197061}
+  m_TargetSnapshot: {fileID: 24500006}
 --- !u!243 &24300002
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
