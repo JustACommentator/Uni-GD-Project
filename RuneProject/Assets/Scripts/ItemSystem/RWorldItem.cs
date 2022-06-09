@@ -14,6 +14,7 @@ namespace RuneProject.ItemSystem
     {
         [Header("Values")]
         [SerializeField] private string csv_key = string.Empty;
+        [SerializeField] private Sprite itemSprite = null;
         [SerializeField] private EWorldItemCategory itemCategory = EWorldItemCategory.NONE;
         [SerializeField] private List<EPlaceCondition> placeConditions = new List<EPlaceCondition>();
         [SerializeField] private Vector3 spawnOffset = Vector3.up;
@@ -73,6 +74,7 @@ namespace RuneProject.ItemSystem
         public List<float> ActiveEffectParameters { get => activeEffectParameters; }
         public int AttacksBeforeBeingBroken { get => attacksBeforeBeingBroken; }
         public List<Transform> ContactPoints { get => contactPoints; }
+        public Sprite ItemSprite { get => itemSprite; }
 
         private void Awake()
         {

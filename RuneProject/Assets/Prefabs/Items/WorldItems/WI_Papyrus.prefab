@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   csv_key: papyrus
+  itemSprite: {fileID: 21300000, guid: e2b1bc56a2c25cb40acca04e51616c90, type: 3}
   itemCategory: 1
   placeConditions: 
   spawnOffset: {x: 0, y: 1, z: 0}

@@ -11,6 +11,7 @@ namespace RuneProject.EnvironmentSystem
         [Header("References")]
         [SerializeField] private Transform playerOpenTransform = null;
         [SerializeField] private Animator chestAnimator = null;
+        [SerializeField] private AudioSource chestAudioSource = null;
 
         [Header("Values")]
         [SerializeField] private RPowerUpItem content = null;
@@ -27,6 +28,7 @@ namespace RuneProject.EnvironmentSystem
                 open = true;
                 collision.collider.GetComponent<RPlayerInventory>().OpenChest(this);
                 chestAnimator.SetTrigger("open");
+                chestAudioSource.PlayDelayed(0.82f);
             }
         }
     }

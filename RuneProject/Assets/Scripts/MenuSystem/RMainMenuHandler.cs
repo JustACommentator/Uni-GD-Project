@@ -44,7 +44,7 @@ namespace RuneProject.MainMenuSystem
 
         private const KeyCode ESCAPE_KEY_CODE = KeyCode.Escape;
         private const string CREDITS_PATH = "TextFileData/credits";
-        private const string LOADING_LEVEL = "SampleScene";
+        private const string LOADING_LEVEL = "Tutorial";
 
         private void Start()
         {
@@ -87,7 +87,7 @@ namespace RuneProject.MainMenuSystem
                     {
                         if (Input.GetKeyDown(ESCAPE_KEY_CODE) && !currentAlert)
                         {
-                            //Alert: Optionen �bernehmen? - Falls ver�ndert
+                            //Alert: Optionen übernehmen? - Falls verändert
                             TransitionTo(EMainMenuState.MAIN_PANEL);
                         }
                     }

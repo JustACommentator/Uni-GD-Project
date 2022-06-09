@@ -79,6 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   csv_key: picture
+  itemSprite: {fileID: 21300000, guid: ea3c9f9fcbe85f744af7c33d0ec5e395, type: 3}
   itemCategory: 1
   placeConditions: 
   spawnOffset: {x: 0, y: 1, z: 0}
