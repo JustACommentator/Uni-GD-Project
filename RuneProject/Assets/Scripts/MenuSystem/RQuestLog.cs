@@ -45,8 +45,19 @@ namespace RuneProject.UserInterfaceSystem
 
         public void RemoveQuests(List<string> oldQuests)
         {
-            questsDisplay.text = RenderQuests(quests, oldQuests, "green");
+            bool completed = false;
 
+            foreach (string q in oldQuests)
+            {
+                if (quests.Contains(q))
+                {
+                    completed = true;
+                }
+            }
+            if (completed)
+            {
+                questsDisplay.text = RenderQuests(quests, oldQuests, "green");
+            }
             foreach (string q in oldQuests) {
                 if (quests.Contains(q))
                 {

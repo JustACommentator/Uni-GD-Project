@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using RuneProject.ActorSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,18 +15,28 @@ namespace RuneProject.EnemySystem
 
         private Vector3 origin;
         private Transform vcam;
+        private RPlayerHealth player = null;
 
         private void Start()
         {
             origin = transform.localPosition;
+            player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<RPlayerHealth>();
         }
 
         void Update()
         {
             if (!vcam) vcam = CameraSystem.RPlayerCameraComponent.Singleton.VirtualCam.transform;
+
+            if (!player)
+            {
+                player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<RPlayerHealth>();
+            }
+
             transform.forward = vcam.forward;
             transform.localPosition = origin;
             transform.position += offset * vcam.up.normalized;
+
+            if (!player.IsAlive) switchState(REnemyAI.EAlertState.IDLE);
         }
 
         public void switchState(REnemyAI.EAlertState state)
