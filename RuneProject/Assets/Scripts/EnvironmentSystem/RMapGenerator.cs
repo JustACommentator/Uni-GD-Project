@@ -100,7 +100,8 @@ namespace RuneProject.EnvironmentSystem
                 List<Transform> ts = new List<Transform>();
                 for (int i = 0; i < transform.childCount; i++)
                 {
-                    ts.Add(transform.GetChild(i));
+                    if (!transform.name.Contains("WI"))
+                        ts.Add(transform.GetChild(i));
                 }
 
                 foreach(Transform t in ts)
