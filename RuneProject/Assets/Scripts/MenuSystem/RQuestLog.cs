@@ -25,9 +25,16 @@ namespace RuneProject.UserInterfaceSystem
                 currentlyOpenFor += Time.deltaTime;
             }
 
-            if (currentlyOpenFor > staysOpenFor || Input.GetKey(KeyCode.Escape))
+            if (currentlyOpenFor > staysOpenFor || Input.GetKey(KeyCode.Tab))
             {
-                Close();
+                if(isOpened)
+                    Close();
+            }
+
+            if (Input.GetKey(KeyCode.Tab))
+            {
+                if (!isOpened)
+                    Open();
             }
 
             if (Input.GetKey(KeyCode.LeftShift))
