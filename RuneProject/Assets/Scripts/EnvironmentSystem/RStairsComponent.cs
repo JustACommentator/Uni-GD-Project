@@ -14,7 +14,10 @@ namespace RuneProject.EnvironmentSystem
             if (collision.collider.CompareTag("Player"))
             {
                 if (!showEndOfShowcaseScreen)
+                {
+                    GameObject.Find("LevelManager").transform.GetChild(0).gameObject.SetActive(false);
                     collision.collider.GetComponentInChildren<RUI_Main>().LoadScene(nextLevel);
+                }
                 else
                     collision.collider.GetComponentInChildren<RUI_Main>().ShowEndOfVSlice();
             }
