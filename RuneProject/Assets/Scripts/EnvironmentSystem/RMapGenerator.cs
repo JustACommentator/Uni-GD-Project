@@ -384,6 +384,28 @@ namespace RuneProject.EnvironmentSystem
             );
             roomLayouts.Add(
                 "||||: ||||#" +
+                "|        |#" +
+                "| 1|* VV |#" +
+                "|  |*cVV :#" +
+                "|  |* VV  #" +
+                "| 2|* VV |#" +
+                "|        |#" +
+                "||||: ||||#" +
+                "S1,2#"
+            );
+            roomLayouts.Add(
+                "||||: ||||#" +
+                "|        |#" +
+                "| 1|* VV |#" +
+                "|  |*gVV :#" +
+                "|  |* VV  #" +
+                "| 2|* VV |#" +
+                "|        |#" +
+                "||||: ||||#" +
+                "S1,2#"
+            );
+            roomLayouts.Add(
+                "||||: ||||#" +
                 "|2      3|#" +
                 "|  i||i  |#" +
                 ":  ||||  :#" +
@@ -413,7 +435,7 @@ namespace RuneProject.EnvironmentSystem
                 "||||||||||#" +
                 "|  ****  |#" +
                 "|        |#" +
-                ":    xx  :#" +
+                ":    x   :#" +
                 "    |Kx   #" +
                 "|   ||   |#" +
                 "|        |#" +
@@ -423,7 +445,7 @@ namespace RuneProject.EnvironmentSystem
                 "||||||||||#" +
                 "|  ****  |#" +
                 "|        |#" +
-                ":    xx  :#" +
+                ":    x   :#" +
                 "    |cx   #" +
                 "|   ||   |#" +
                 "|        |#" +
@@ -434,7 +456,7 @@ namespace RuneProject.EnvironmentSystem
                 "||||||||||#" +
                 "|  ****  |#" +
                 "|        |#" +
-                ":    xx  :#" +
+                ":    x   :#" +
                 "    |gx   #" +
                 "|   ||   |#" +
                 "|        |#" +
