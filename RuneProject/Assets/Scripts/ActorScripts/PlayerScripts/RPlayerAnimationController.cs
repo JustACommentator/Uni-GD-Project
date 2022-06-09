@@ -13,7 +13,10 @@ namespace RuneProject.ActorSystem
         [SerializeField] private RPlayerDash dash = null;
         [SerializeField] private RPlayerBasicAttack basicAttack = null;
         [SerializeField] private RPlayerHealth playerHealth = null;
+        [SerializeField] private RPlayerInventory playerInventory = null;
         [SerializeField] private RUI_Main userInterface = null;
+        [Space]
+        [SerializeField] private GameObject secondCamParent = null;
 
         private float lastTimeSinceMove = 0f;
 
@@ -26,7 +29,20 @@ namespace RuneProject.ActorSystem
             basicAttack.OnFireAutoAttack += BasicAttack_OnFireAutoAttack;
             basicAttack.OnFireItemAttack += BasicAttack_OnFireItemAttack;
             playerHealth.OnDeath += PlayerHealth_OnDeath;
+            playerInventory.OnOpenChest += PlayerInventory_OnOpenChest;
+            playerInventory.OnEndItemShowOff += PlayerInventory_OnEndItemShowOff;
             userInterface.OnReachEnd += UserInterface_OnReachEnd;
+        }
+
+        private void PlayerInventory_OnEndItemShowOff(object sender, System.EventArgs e)
+        {
+            playerAnimator.SetTrigger("putAway");
+            secondCamParent.SetActive(false);
+        }
+
+        private void PlayerInventory_OnOpenChest(object sender, EnvironmentSystem.RTreasureChestComponent e)
+        {
+            playerAnimator.Play("OpenChest");
         }
 
         private void UserInterface_OnReachEnd(object sender, System.EventArgs e)

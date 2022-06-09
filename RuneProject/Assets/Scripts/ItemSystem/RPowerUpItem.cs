@@ -8,7 +8,8 @@ namespace RuneProject.ItemSystem
     public class RPowerUpItem : ScriptableObject
     {
         [Header("Values")]
-        public string csv_Key = string.Empty;
+        public string itemName = string.Empty;
+        public string itemDescription = string.Empty;
         public Sprite powerUpIcon = null;
         public bool hasLimit = false;
         public int limit = 1;        

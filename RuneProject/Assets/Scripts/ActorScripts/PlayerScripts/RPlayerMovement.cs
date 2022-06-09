@@ -235,6 +235,15 @@ namespace RuneProject.ActorSystem
             characterParentTransform.rotation = Quaternion.LookRotation(currentMouseDirection);            
         }
 
+        public void LookAt(Vector3 pos)
+        {
+            Vector3 dir = pos - transform.position;
+            dir.y = 0f;
+            dir.Normalize();
+
+            characterParentTransform.rotation = Quaternion.LookRotation(dir);
+        }
+
         public void ResetMovementMomentum()
         {
             currentDesiredMovement = Vector3.zero;

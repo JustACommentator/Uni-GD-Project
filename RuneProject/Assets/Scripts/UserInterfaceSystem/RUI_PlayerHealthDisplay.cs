@@ -12,6 +12,10 @@ namespace RuneProject.UserInterfaceSystem
         [SerializeField] private RPlayerHealth playerHealth = null;
         [Space]
         [SerializeField] private List<Image> hearts = new List<Image>();
+        [SerializeField] private Transform heartParent = null;
+
+        [Header("Prefabs")]
+        [SerializeField] private GameObject heartPrefab = null;
 
         private const int HP_DISPLAYED_PER_HEART = 4;
 
@@ -19,6 +23,15 @@ namespace RuneProject.UserInterfaceSystem
         {
             playerHealth.OnDamageTaken += PlayerHealth_OnHealthChanged;
             playerHealth.OnHealReceived += PlayerHealth_OnHealthChanged;
+            playerHealth.OnGainAdditionalHealth += PlayerHealth_OnGainAdditionalHealth;
+        }
+
+        private void PlayerHealth_OnGainAdditionalHealth(object sender, int e)
+        {
+            Transform instance = Instantiate(heartPrefab, heartParent).transform;
+            instance.transform.SetAsLastSibling();
+            hearts.Add(instance.GetChild(1).GetComponent<Image>());
+            PlayerHealth_OnHealthChanged(null, 0);
         }
 
         private void OnDestroy()

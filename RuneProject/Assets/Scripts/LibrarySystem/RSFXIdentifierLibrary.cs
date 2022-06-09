@@ -20,6 +20,8 @@ namespace RuneProject.LibrarySystem
         [Space]
         public List<AudioClip> physicalImpactClips = new List<AudioClip>();
         public List<AudioClip> magicImpactClips = new List<AudioClip>();
+        [Space]
+        public AudioClip gatherItemJingleClip = null;
 
         private static RSFXIdentifierLibrary singleton = null;
 

@@ -24,13 +24,14 @@ namespace RuneProject.ActorSystem
         private Coroutine currentDamageMaterialRoutine = null;
         private Coroutine currentInvincibilityRoutine = null;
 
-        public int MaxHealth { get => maxHealth; set => maxHealth = value; }
+        public int MaxHealth { get => maxHealth; }
         public float ReceivedKnockbackMultiplier { get => receivedKnockbackMultiplier; }
         public int CurrentHealth { get => currentHealth; }
         public bool IsAlive { get => isAlive; }
 
         public event System.EventHandler<int> OnDamageTaken;
         public event System.EventHandler<int> OnHealReceived;
+        public event System.EventHandler<int> OnGainAdditionalHealth;
         public event System.EventHandler<GameObject> OnDeath;
 
         private const float MIN_KNOCKBACK_MAGNITUDE_TO_APPLY_KNOCKBACK_ON_DAMAGE_TAKEN = 0.1f;
@@ -100,6 +101,12 @@ namespace RuneProject.ActorSystem
         public void ForceKill()
         {
             Die(null);
+        }
+
+        public void GainMaxHealth(int amount)
+        {
+            maxHealth += amount;
+            OnGainAdditionalHealth?.Invoke(this, amount);
         }
 
         private void Die(GameObject source)

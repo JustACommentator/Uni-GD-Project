@@ -18,6 +18,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private RPlayerMovement movement = null;
         [SerializeField] private RPlayerDash dash = null;
         [SerializeField] private RPlayerHealth playerHealth = null;
+        [SerializeField] private RPlayerInventory playerInventory = null;
         [SerializeField] private RUI_Main userInterface = null;
 
         private AudioSource autoAttackChargeSource = null;
@@ -38,7 +39,14 @@ namespace RuneProject.ActorSystem
             playerHealth.OnHealReceived += PlayerHealth_OnHealReceived;
             playerHealth.OnDeath += PlayerHealth_OnDeath;
             movement.OnPushLevelObject += Movement_OnPushLevelObject;
+            playerInventory.OnClaimChestReward += PlayerInventory_OnClaimChestReward;
             userInterface.OnReachEnd += UserInterface_OnReachEnd;
+        }
+
+        private void PlayerInventory_OnClaimChestReward(object sender, RPowerUpItem e)
+        {
+            sfxSource.PlayClip(RSFXIdentifierLibrary.Singleton.gatherItemJingleClip, true);
+            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.joyClips), false, delay:0.2f);
         }
 
         private void UserInterface_OnReachEnd(object sender, System.EventArgs e)
@@ -93,7 +101,7 @@ namespace RuneProject.ActorSystem
 
         private void PlayerHealth_OnHealReceived(object sender, int e)
         {
-            voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.laughClips), false);
+            //voiceSource.PlayClip(RVoiceIdentifierLibrary.GetRandomOf(RVoiceIdentifierLibrary.Singleton.laughClips), false);
         }
 
         private void PlayerHealth_OnDamageTaken(object sender, int e)

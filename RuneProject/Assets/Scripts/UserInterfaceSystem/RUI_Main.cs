@@ -1,4 +1,5 @@
 using RuneProject.ActorSystem;
+using RuneProject.ItemSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace RuneProject.UserInterfaceSystem
         [Header("References")]
         [SerializeField] private RPlayerMovement playerMovement = null;
         [SerializeField] private RPlayerSoundHandler soundHandler = null;
+        [Space]
         [SerializeField] private GameObject endOfVSliceParent = null;
         [Space]
         [SerializeField] private RLevelTransition loadingScreenPrefab = null;
