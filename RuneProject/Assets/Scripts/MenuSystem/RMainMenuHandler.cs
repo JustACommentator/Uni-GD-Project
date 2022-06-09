@@ -44,7 +44,8 @@ namespace RuneProject.MainMenuSystem
 
         private const KeyCode ESCAPE_KEY_CODE = KeyCode.Escape;
         private const string CREDITS_PATH = "TextFileData/credits";
-        private const string LOADING_LEVEL = "Tutorial";
+        private const string LOADING_LEVEL_TUT = "Tutorial";
+        private const string LOADING_LEVEL_STAGE = "SampleScene";
 
         private void Start()
         {
@@ -185,7 +186,21 @@ namespace RuneProject.MainMenuSystem
                 musicSource.Stop();
                 //rainSFXSource.Stop();
                 RLevelTransition instance = Instantiate(levelTransitionPrefab, canvasTransform);
-                instance.LoadScene(LOADING_LEVEL);
+                instance.LoadScene(LOADING_LEVEL_STAGE);
+            }
+        }
+
+        public void OnClick_LoadTutorial()
+        {
+            if (!isLoading)
+            {
+                isLoading = true;
+
+                audioEmitter.PlayClip(clickSFX, true);
+                musicSource.Stop();
+                //rainSFXSource.Stop();
+                RLevelTransition instance = Instantiate(levelTransitionPrefab, canvasTransform);
+                instance.LoadScene(LOADING_LEVEL_TUT);
             }
         }
 

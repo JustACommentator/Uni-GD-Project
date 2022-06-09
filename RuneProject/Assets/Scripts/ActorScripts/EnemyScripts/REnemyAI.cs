@@ -109,6 +109,13 @@ namespace RuneProject.EnemySystem
                 target = player?.transform;
             }
 
+            if (!player.IsAlive)
+            {
+                CurrentState = EAlertState.IDLE;
+                lastAttack = 0;
+                return;
+            }
+
             float distToTarget = Vector3.Distance(transform.position, target.position);
 
             switch (CurrentState)
@@ -208,7 +215,7 @@ namespace RuneProject.EnemySystem
 
                     lastAttack += Time.deltaTime;
 
-                    if (distToTarget > disengageDistance || lastAttack > disengageTime || !player.IsAlive)
+                    if (distToTarget > disengageDistance || lastAttack > disengageTime)
                     {
                         CurrentState = EAlertState.SUSPICIOUS;
                         lastAttack = 0;
