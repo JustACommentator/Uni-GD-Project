@@ -46,15 +46,15 @@ namespace RuneProject.UserInterfaceSystem
 
         private void HandleConsole()
         {
-            if (Input.GetKeyDown(openConsoleKeyCode) && !isInInputField && (Application.isEditor || disableOnBuild))
+            if (Input.GetKeyDown(openConsoleKeyCode) && !isInInputField && (Application.isEditor || !disableOnBuild))
             {
                 OpenConsole();
             }
-            else if (Input.GetKeyDown(ENTER_KEYCODE) && isInInputField && (Application.isEditor || disableOnBuild))
+            else if (Input.GetKeyDown(ENTER_KEYCODE) && isInInputField && (Application.isEditor || !disableOnBuild))
             {
                 ResolveInput();
             }
-            else if (Input.GetKeyDown(ESCAPE_KEYCODE) && isInInputField && (Application.isEditor || disableOnBuild))
+            else if (Input.GetKeyDown(ESCAPE_KEYCODE) && isInInputField && (Application.isEditor || !disableOnBuild))
             {
                 CloseConsole();
             }

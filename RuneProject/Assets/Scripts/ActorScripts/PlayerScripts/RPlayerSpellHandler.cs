@@ -1,3 +1,4 @@
+using RuneProject.CameraSystem;
 using RuneProject.ItemSystem;
 using RuneProject.LibrarySystem;
 using RuneProject.SpellSystem;
@@ -37,6 +38,9 @@ namespace RuneProject.ActorSystem
         private IEnumerator IResolveSpell(RSpell spell)
         {
             yield return null;
+
+            if (!mainCamera)
+                mainCamera = Camera.main;
 
             switch (spell.RuneType)
             {
