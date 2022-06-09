@@ -1,6 +1,7 @@
 using RuneProject.ActorSystem;
 using RuneProject.EnvironmentSystem;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +13,8 @@ namespace RuneProject.UserInterfaceSystem
         [SerializeField] private RPlayerHealth playerHealth = null;
         [SerializeField] private CanvasGroup gameOverCanvas = null;
         [SerializeField] private CanvasGroup vignette = null;
+        [Space]
+        [SerializeField] private TMP_Text gameOverDeathCauseText = null;
 
         private void Start()
         {
@@ -24,7 +27,8 @@ namespace RuneProject.UserInterfaceSystem
         }
 
         private void PlayerHealth_OnDeath(object sender, GameObject e)
-        {
+        {            
+            gameOverDeathCauseText.text = e == null ? $"You were defeated." : $"Defeated by {e.name}";
             StartCoroutine(IFadeInGameOverScreen());
         }
 
