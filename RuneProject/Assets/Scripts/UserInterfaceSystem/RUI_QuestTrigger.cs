@@ -12,8 +12,6 @@ namespace RuneProject.UserInterfaceSystem
         {
             if (other.CompareTag("Player"))
             {
-                return;
-
                 if (!absolve)
                     other.GetComponentInChildren<RQuestLog>().AddQuests(Quests);
                 else

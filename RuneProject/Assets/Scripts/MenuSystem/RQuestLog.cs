@@ -46,12 +46,12 @@ namespace RuneProject.UserInterfaceSystem
         public void RemoveQuests(List<string> oldQuests)
         {
             questsDisplay.text = RenderQuests(quests, oldQuests, "green");
-            Open();
 
             foreach (string q in oldQuests) {
                 if (quests.Contains(q))
                 {
                     quests.Remove(q);
+                    Open();
                 }
             }
         }

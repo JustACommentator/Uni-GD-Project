@@ -292,7 +292,7 @@ namespace RuneProject.EnvironmentSystem
                  );
                 //WorldItems
                 roomLayouts.Add(
-                    "||||H ||||#" +
+                    "||||: ||||#" +
                     "|  i  i  |#" +
                     "|        |#" +
                     "|        |#" +
@@ -303,14 +303,14 @@ namespace RuneProject.EnvironmentSystem
                 );
                 //Enemies
                 roomLayouts.Add(
-                    "||||H ||||#" +
+                    "||||: ||||#" +
                     "|VVV  VVV|#" +
                     "|i1    3i|#" +
                     "|*      *|#" +
                     "|i2    4i|#" +
                     "|VVV  VVV|#" +
                     "|VVV  VVV|#" +
-                    "||||H ||||#" +
+                    "||||: ||||#" +
                     "S1,2#" +
                     "F3,4#"
                 );
@@ -323,7 +323,7 @@ namespace RuneProject.EnvironmentSystem
                     "|        |#" +
                     "|        |#" +
                     "|        |#" +
-                    "||||H ||||#"
+                    "||||: ||||#"
                 );
                 //Goal
                 roomLayouts.Add(
