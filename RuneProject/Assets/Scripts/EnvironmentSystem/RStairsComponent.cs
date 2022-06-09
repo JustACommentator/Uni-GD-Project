@@ -15,7 +15,9 @@ namespace RuneProject.EnvironmentSystem
             {
                 if (!showEndOfShowcaseScreen)
                 {
-                    GameObject.Find("LevelManager").transform.GetChild(0).gameObject.SetActive(false);
+                    if (GameObject.Find("LevelManager"))
+                        GameObject.Find("LevelManager").transform.GetChild(0).gameObject.SetActive(false);
+
                     collision.collider.GetComponentInChildren<RUI_Main>().LoadScene(nextLevel);
                 }
                 else
