@@ -164,6 +164,8 @@ namespace RuneProject.EnvironmentSystem
                 };
             }
 
+            bitmap[7][0] = true;
+
             string mapLayout = "";
             bool stairsNeeded = true;
 
@@ -329,9 +331,9 @@ namespace RuneProject.EnvironmentSystem
                 //Goal
                 roomLayouts.Add(
                     "||||||||||#" +
-                    "|       i|#" +
-                    "|g     L||#" +
-                    "|     i|||#" +
+                    "|  iLLi  |#" +
+                    "|g       |#" +
+                    "|        |#" +
                     "||||X ||||#" +
                     "|      K |#" +
                     "|        |#" +
@@ -351,6 +353,16 @@ namespace RuneProject.EnvironmentSystem
                 "||||: ||||#" +
                 "S1,2,3,4#" +
                 "S3,4,1,2#"
+            );
+            roomLayouts.Add(
+                "||||: ||||#" +
+                "|        |#" +
+                "|        |#" +
+                ":        :#" +
+                "          #" +
+                "|        |#" +
+                "|        |#" +
+                "||||: ||||#"
             );
             // 3 Doors
             roomLayouts.Add(
@@ -539,10 +551,10 @@ namespace RuneProject.EnvironmentSystem
                 "||||: ||||#" +
                 "|i      i|#" +
                 "|        |#" +
-                "|   uu   |#" +
-                "|   uu   |#" +
-                "|     |X |#" +
-                "|i    | L|#" +
+                "|        |#" +
+                "|    |X ||#" +
+                "|    |  L|#" +
+                "|i   |   |#" +
                 "||||||||||#"
             );
             roomLayouts.Add(
