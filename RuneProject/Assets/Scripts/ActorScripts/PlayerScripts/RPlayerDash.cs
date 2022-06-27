@@ -11,6 +11,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private float dashCooldown = 1f;
         [SerializeField] private float dashPower = 20f;
         [SerializeField] private float movementBlockTime = 0.4f;
+        [SerializeField] private bool dashInWalkingDirection = false;
 
         [Header("References")]
         [SerializeField] private RPlayerMovement movement = null;
@@ -30,6 +31,7 @@ namespace RuneProject.ActorSystem
         private bool isDead = false;
 
         public float CurrentDashCooldown { get => currentDashCooldown; set => currentDashCooldown = value; }
+        public bool DashInWalkingDirection { get => dashInWalkingDirection; set => dashInWalkingDirection = value; }
 
         private void Start()
         {
@@ -65,8 +67,15 @@ namespace RuneProject.ActorSystem
                 basicAttack.ForceDisableAllHitboxes();
                 movement.BlockMovementInput(movementBlockTime);
                 movement.ResetMovementMomentum();
-                movement.LookAtMouse();
-                movement.AddImpulse(movement.MouseDirection * dashPower);
+                if (!dashInWalkingDirection)
+                {
+                    movement.LookAtMouse();
+                    movement.AddImpulse(movement.MouseDirection * dashPower);
+                }
+                else
+                {
+                    movement.AddImpulse(movement.Forward * dashPower);
+                }
                 //cameraComponent.Shake(5f, 2f, 6f, 0.2f, 0);
                 OnDash?.Invoke(this, null);
             }
