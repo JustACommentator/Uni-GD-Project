@@ -57,6 +57,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seed: 42069
   roomProb: 0.7
+  loadOnStart: 0
+  mapPropsForCompleteUnload: 1
   tileObjects:
   - {fileID: 2250540205434635649, guid: f371daab70b63478b9bcd9c700a6dfa3, type: 3}
   - {fileID: 2250540205434635649, guid: 566b4e47365de429f8c900dd9a5cccd0, type: 3}
@@ -80,3 +82,5 @@ MonoBehaviour:
   enemies:
   - {fileID: 5917120527810921650, guid: 1d2ea8958f8b94675a719d65603ae45e, type: 3}
   - {fileID: 3508508245349882919, guid: c16f71b045608476082657202911ca67, type: 3}
+  minimapBase: {fileID: 5178155765430642260, guid: 829cf009908a8e64d85ab6ae679083c4, type: 3}
+  inputMapLayout: 

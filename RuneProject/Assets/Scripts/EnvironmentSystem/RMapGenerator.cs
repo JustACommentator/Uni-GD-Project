@@ -47,7 +47,6 @@ namespace RuneProject.EnvironmentSystem
     public class RMapGenerator : MonoBehaviour
     {
         private List<string> roomLayouts;
-        private List<GameObject> rooms;
         private List<GameObject> roomResourceProps = new List<GameObject>();
         [SerializeField] private int seed = 69420;
         [SerializeField] private float roomProb = 0.5f;
@@ -58,6 +57,8 @@ namespace RuneProject.EnvironmentSystem
         [SerializeField] private GameObject[] tileObjects;
         [Header("Enemies")]
         [SerializeField] private GameObject[] enemies;
+        [Header("Minimap")]
+        [SerializeField] private GameObject minimapBase = null;
         [Header("Editor")]
         [SerializeField] private string inputMapLayout = "";
 
@@ -646,6 +647,12 @@ namespace RuneProject.EnvironmentSystem
             KeyValuePair<TileType, Orientation>[][] tileMap = rl.room;
             List<GameObject> usedDoorBlockers = new List<GameObject>();
             List<GameObject> usedRoomResources = new List<GameObject>();
+            List<GameObject> additionalMinimapMarkers = new List<GameObject>();
+            Dictionary<string, int> doorDirections = new Dictionary<string, int>();
+            doorDirections.Add("N", 0);
+            doorDirections.Add("S", 0);
+            doorDirections.Add("E", 0);
+            doorDirections.Add("W", 0);
 
             for (int y = 0; y < tileMap.Length; y++)
             {
@@ -658,9 +665,25 @@ namespace RuneProject.EnvironmentSystem
                             parent);
                     TileType tt = tileMap[y][x].Key;
                     if (tt == TileType.DOOR)
+                    {
                         usedDoorBlockers.Add(tile.transform.GetChild(0).Find("DoorBlocker").gameObject);
+
+                        Vector3 locals = tile.transform.localPosition;
+                        if (locals.x == 4.5f && locals.z == 0.5f)
+                            doorDirections["E"]++;
+                        else if (locals.x == -4.5f && locals.z == 0.5f)
+                            doorDirections["W"]++;
+                        else if (locals.x == -0.5f && locals.z == 3.5f)
+                            doorDirections["N"]++;
+                        else if (locals.x == -0.5f && locals.z == -3.5f)
+                            doorDirections["S"]++;
+                    }
                     else if (tt == TileType.KEY || tt == TileType.SPIKES || (mapPropsForCompleteUnload && (tt == TileType.BOX || tt == TileType.CHEST_GOLD || tt == TileType.CHEST_WOOD || tt == TileType.MOVEABLE_STONE || tt == TileType.POT || tt == TileType.SOCKET || tt == TileType.STAIRS || tt == TileType.STATUE || tt == TileType.SWITCH || tt == TileType.TOURCH)))
                         usedRoomResources.Add(tile);
+
+                    RMinimapMarkerComponent minimapMarker = tile.GetComponentInChildren<RMinimapMarkerComponent>();
+                    if (minimapMarker)
+                        additionalMinimapMarkers.Add(minimapMarker.MinimapMarker);
 
                     tile.name = "Tile " + tileMap[y][x].Key;
                     if (tileMap[y][x].Key != TileType.WALL && tileMap[y][x].Key != TileType.VOID)
@@ -677,6 +700,8 @@ namespace RuneProject.EnvironmentSystem
 
             roomTrigger.SetDoorBlockers(usedDoorBlockers);
             roomTrigger.SetRoomResources(usedRoomResources);
+            roomTrigger.SetMinimapBase(Instantiate(minimapBase, parent), 
+                doorDirections["N"] > 0, doorDirections["S"] > 0, doorDirections["E"] > 0, doorDirections["W"] > 0, additionalMinimapMarkers);            
             roomResourceProps.AddRange(usedRoomResources);
             GenerateEnemies(rl.waypoints, rl.enemyLayout, room_x, room_y, parent.transform, roomTrigger);
         }

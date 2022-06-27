@@ -11,13 +11,45 @@ namespace RuneProject.EnvironmentSystem
         [SerializeField] private List<RPlayerHealth> enemies = new List<RPlayerHealth>();
         [SerializeField] private List<GameObject> doorBlockers = new List<GameObject>();
         [SerializeField] private List<GameObject> roomResources = new List<GameObject>();
+        [SerializeField] private List<GameObject> minimapAdditionalMarkers = new List<GameObject>();
+        [SerializeField] private GameObject minimapBase = null;
+        [SerializeField] private SpriteRenderer minimapBaseSpriteRenderer = null;
+        [SerializeField] private SpriteRenderer minimapNorthSpriteRenderer = null;
+        [SerializeField] private SpriteRenderer minimapSouthSpriteRenderer = null;
+        [SerializeField] private SpriteRenderer minimapEastSpriteRenderer = null;
+        [SerializeField] private SpriteRenderer minimapWestSpriteRenderer = null;
 
+        private Color playerInRoomColor = new Color(0.96f, 0.43f, 0.19f);
+        private Color playerOutRoomColor = Color.white;
         private bool waitingForUnload = false;
         private bool solved = false;
         private float unloadTimer = 0f;
         public event System.EventHandler OnClearRoom;
 
         private const float MAX_UNLOAD_TIMER = 3f;
+
+        public void SetMinimapBase(GameObject _minimapBase, bool _north, bool _south, bool _east, bool _west, List<GameObject> _additionalMarkers)
+        {
+            minimapBase = _minimapBase;
+            minimapBase.transform.localPosition = Vector3.zero;
+            minimapBase.SetActive(false);
+
+            minimapBaseSpriteRenderer = minimapBase.transform.GetChild(0).GetComponent<SpriteRenderer>();
+            minimapNorthSpriteRenderer = minimapBase.transform.GetChild(1).GetComponent<SpriteRenderer>();
+            minimapSouthSpriteRenderer = minimapBase.transform.GetChild(2).GetComponent<SpriteRenderer>();
+            minimapEastSpriteRenderer = minimapBase.transform.GetChild(3).GetComponent<SpriteRenderer>();
+            minimapWestSpriteRenderer = minimapBase.transform.GetChild(4).GetComponent<SpriteRenderer>();
+
+            minimapNorthSpriteRenderer.gameObject.SetActive(_north);
+            minimapSouthSpriteRenderer.gameObject.SetActive(_south);
+            minimapEastSpriteRenderer.gameObject.SetActive(_east);
+            minimapWestSpriteRenderer.gameObject.SetActive(_west);
+
+            minimapAdditionalMarkers = new List<GameObject>(_additionalMarkers);
+
+            for (int i = 0; i < minimapAdditionalMarkers.Count; i++)            
+                minimapAdditionalMarkers[i].transform.SetParent(minimapBase.transform);            
+        }
 
         public void SetEnemies(List<RPlayerHealth> _enemies)
         {
@@ -120,6 +152,42 @@ namespace RuneProject.EnvironmentSystem
             }
         }
 
+        private void EnableMinimap()
+        {
+            minimapBase.SetActive(true);
+
+            for (int i = 0; i < minimapAdditionalMarkers.Count; i++)
+                minimapAdditionalMarkers[i].SetActive(true);
+        }
+
+        private void SetMinimapEnter()
+        {
+            minimapBaseSpriteRenderer.color = playerInRoomColor;
+            minimapNorthSpriteRenderer.color = playerInRoomColor;
+            minimapSouthSpriteRenderer.color = playerInRoomColor;
+            minimapEastSpriteRenderer.color = playerInRoomColor;
+            minimapWestSpriteRenderer.color = playerInRoomColor;
+
+            minimapNorthSpriteRenderer.sortingOrder = 2;
+            minimapSouthSpriteRenderer.sortingOrder = 2;
+            minimapEastSpriteRenderer.sortingOrder = 2;
+            minimapWestSpriteRenderer.sortingOrder = 2;
+        }
+
+        private void SetMinimapExit()
+        {
+            minimapBaseSpriteRenderer.color = playerOutRoomColor;
+            minimapNorthSpriteRenderer.color = playerOutRoomColor;
+            minimapSouthSpriteRenderer.color = playerOutRoomColor;
+            minimapEastSpriteRenderer.color = playerOutRoomColor;
+            minimapWestSpriteRenderer.color = playerOutRoomColor; 
+
+            minimapNorthSpriteRenderer.sortingOrder = 1;
+            minimapSouthSpriteRenderer.sortingOrder = 1;
+            minimapEastSpriteRenderer.sortingOrder = 1;
+            minimapWestSpriteRenderer.sortingOrder = 1;
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Player"))
@@ -127,6 +195,8 @@ namespace RuneProject.EnvironmentSystem
                 RPlayerCameraComponent.Singleton.EnterRoom(gameObject);
                 
                 EnableEnemies();
+                EnableMinimap();
+                SetMinimapEnter();
 
                 if (enemies.Count > 0 && !solved)
                     LockRoom();
@@ -143,6 +213,7 @@ namespace RuneProject.EnvironmentSystem
             {
                 waitingForUnload = true;
                 unloadTimer = 0f;
+                SetMinimapExit();
             }
         }
 

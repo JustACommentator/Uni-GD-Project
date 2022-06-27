@@ -24,6 +24,7 @@ namespace RuneProject.UserInterfaceSystem
         [SerializeField] private RPlayerSpellHandler spellHandler = null;
         [SerializeField] private RPlayerMovement playerMovement = null;
         [SerializeField] private RPlayerHealth playerHealth = null;
+        [SerializeField] private RPlayerBasicAttack playerAttack = null;
         [SerializeField] private GameObject consoleParent = null;
         [SerializeField] private TMP_InputField consoleInputField = null;
         [SerializeField] private TMP_Text consoleResolveText = null;
@@ -161,6 +162,11 @@ namespace RuneProject.UserInterfaceSystem
             {
                 playerHealth.ForceKill();
                 consoleResolveText.text = $"Killing Player";
+                return;
+            }
+            else if (consoleInputField.text.Equals("g"))
+            {
+                consoleResolveText.text = $"Enabling God Mode";
                 return;
             }
             else
