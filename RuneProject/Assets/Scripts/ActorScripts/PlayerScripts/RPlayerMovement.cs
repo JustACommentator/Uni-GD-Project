@@ -35,6 +35,9 @@ namespace RuneProject.ActorSystem
         private Vector3 currentMouseDirection = Vector3.zero;
         private bool isGrounded = false;
         private float airTime = 0f;
+        private float baseWalkSpeed = 0f;
+        private float baseRunSpeed = 0f;
+        private float currentAdditionalMovementSpeed = 0f;
         private int blockMovement = 0;
 
         public event System.EventHandler<Vector2> OnMove;
@@ -54,9 +57,12 @@ namespace RuneProject.ActorSystem
         public Vector3 Forward { get => characterParentTransform.forward; }
         public Vector3 Right { get => characterParentTransform.right; }
         public Vector3 MouseDirection { get { if (currentMouseDirection == Vector3.zero) { currentMouseDirection += Vector3.right * 0.00001f; } return currentMouseDirection; } }
+        public float CurrentAdditionalMovementSpeed { get => currentAdditionalMovementSpeed; set { currentAdditionalMovementSpeed = value; walkSpeed = baseWalkSpeed * (1f + currentAdditionalMovementSpeed); runSpeed = baseRunSpeed * (1f + currentAdditionalMovementSpeed); } }
 
         private void Start()
         {
+            baseWalkSpeed = walkSpeed;
+            baseRunSpeed = runSpeed;
             playerHealth.OnDeath += PlayerHealth_OnDeath;
         }
 

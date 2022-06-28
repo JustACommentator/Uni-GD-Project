@@ -1,0 +1,3 @@
+Zelda model is used ONLY for the shader work example purpose and can't be used in the commercial projects or to be re-selling!
+Model author: theStoff
+Model downloaded from Sketchfab: https://sketchfab.com/3d-models/zelda-breath-of-the-wild-bf99374334a64291ae2876c83269adb6

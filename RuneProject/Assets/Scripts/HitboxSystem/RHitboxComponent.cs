@@ -27,6 +27,7 @@ namespace RuneProject.HitboxSystem
         public bool IsMultihitHitbox { get => isMultihitHitbox; set => isMultihitHitbox = value; }
         public bool ResetDamageInstanceOnTriggerExit { get => resetDamageInstanceOnTriggerExit; set => resetDamageInstanceOnTriggerExit = value; }
         public float MaxDamageInstancesPerSecond { get => maxDamageInstancesPerSecond; set => maxDamageInstancesPerSecond = value; }
+        public Vector3 Knockback { get => knockback; set => knockback = value; }
 
         protected virtual void OnTriggerStay(Collider other)
         {

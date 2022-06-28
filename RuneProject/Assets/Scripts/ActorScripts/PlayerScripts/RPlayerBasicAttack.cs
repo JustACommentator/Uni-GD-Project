@@ -18,6 +18,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private RHitboxComponent attackHitbox = null;
         [SerializeField] private RHitboxComponent spinAttackHitbox = null;
         [SerializeField] private GameObject autoAttackHitboxParent = null;
+        [SerializeField] private RHitboxComponent autoAttackHitbox = null;
         [SerializeField] private Transform autoAttackHitboxScaler = null;
         [Space]
         [SerializeField] private GameObject autoAttackIndicatorParent = null;
@@ -52,13 +53,16 @@ namespace RuneProject.ActorSystem
 
         private float currentAttackCooldown = 0f;
         private float currentAttackChargeTime = 0f;
+        private float currentAdditionalAutoAttackKnockback = 0f;
         private bool blockAttackInput = false;
         private bool blockPickupInput = false;
         private bool blockWorldItemInput = false;
         private bool chargingAttack = false;
         private int currentPickedUpWorldItemBeforeBreakCounter = 0;
+        private int currentWorldItemBreakDenierPowerupCount = 0;
         private RWorldItem currentPickedUpWorldItem = null;
         private Coroutine currentHitboxRoutine = null;
+        private Vector3 autoAttackBaseKnockback = new Vector3(235f, 0f, 0f);
 
         public event System.EventHandler<bool> OnBeginCharge; //bool ASAUTOATTACK
         public event System.EventHandler<bool> OnEndCharge;
@@ -69,8 +73,8 @@ namespace RuneProject.ActorSystem
         public event System.EventHandler<RPlayerHealth> OnHitWithItemAttack;
 
         private const int ATTACK_MOUSE_BUTTON = 0;
-        private const float MIN_AUTO_ATTACK_CHARGE_TIME = 0.5f;
-        private const float MAX_AUTO_ATTACK_CHARGE_TIME = 2f;
+        private const float MIN_AUTO_ATTACK_CHARGE_TIME = 0.25f;
+        private const float MAX_AUTO_ATTACK_CHARGE_TIME = 0.9f;
         private const float AUTO_ATTACK_STAND_TIME = 0.6f;
         private const float AUTO_ATTACK_HITBOX_WARMUP_TIME = 0.1f;
         private const float MIN_ITEM_ATTACK_CHARGE_TIME = 0.05f;
@@ -85,6 +89,10 @@ namespace RuneProject.ActorSystem
         private const float THROW_OFFSET = 0.5f;
         private const KeyCode PICKUP_DROP_KEYCODE = KeyCode.F;
         private const KeyCode WORLD_ITEM_ACTIVE_EFFECT_KEYCODE = KeyCode.R;
+
+        public float CurrentAdditionalAutoAttackKnockback { get => currentAdditionalAutoAttackKnockback;
+            set { currentAdditionalAutoAttackKnockback = value; autoAttackHitbox.Knockback = autoAttackBaseKnockback * (1 + currentAdditionalAutoAttackKnockback); } }
+        public int CurrentWorldItemBreakDenierPowerupCount { get => currentWorldItemBreakDenierPowerupCount; set => currentWorldItemBreakDenierPowerupCount = value; }
 
         private void Start()
         {
@@ -409,7 +417,12 @@ namespace RuneProject.ActorSystem
             currentPickedUpWorldItemBeforeBreakCounter--;
 
             if (currentPickedUpWorldItemBeforeBreakCounter <= 0)
-                BreakCurrentItem();
+            {
+                float chanceToStay = Mathf.Clamp01(currentWorldItemBreakDenierPowerupCount * (0.5f / (Mathf.Abs(currentPickedUpWorldItemBeforeBreakCounter) + 1)));
+
+                if (Random.Range(0f, 1f) >= chanceToStay)
+                    BreakCurrentItem();
+            }
 
             OnHitWithItemAttack?.Invoke(this, e);
         }        
