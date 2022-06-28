@@ -745,6 +745,7 @@ MonoBehaviour:
   spellHandler: {fileID: 2752603098364448998}
   playerMovement: {fileID: 1081399610661986200}
   playerHealth: {fileID: 238541623528839758}
+  playerAttack: {fileID: 0}
   consoleParent: {fileID: 1626988721}
   consoleInputField: {fileID: 2125244050}
   consoleResolveText: {fileID: 675227063}
@@ -17237,7 +17238,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   attacksPerSecond: 2
-  attackRange: 8
+  attackRange: 7.5
   autoAttackHitboxUptime: 0.5
   throwAwayForce: {x: 3, y: 1.5}
   hitboxUptime: 0.1

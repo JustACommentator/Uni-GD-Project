@@ -69,8 +69,8 @@ namespace RuneProject.ActorSystem
         public event System.EventHandler<RPlayerHealth> OnHitWithItemAttack;
 
         private const int ATTACK_MOUSE_BUTTON = 0;
-        private const float MIN_AUTO_ATTACK_CHARGE_TIME = 0.5f;
-        private const float MAX_AUTO_ATTACK_CHARGE_TIME = 2f;
+        private const float MIN_AUTO_ATTACK_CHARGE_TIME = 0.25f;
+        private const float MAX_AUTO_ATTACK_CHARGE_TIME = 0.9f;
         private const float AUTO_ATTACK_STAND_TIME = 0.6f;
         private const float AUTO_ATTACK_HITBOX_WARMUP_TIME = 0.1f;
         private const float MIN_ITEM_ATTACK_CHARGE_TIME = 0.05f;
