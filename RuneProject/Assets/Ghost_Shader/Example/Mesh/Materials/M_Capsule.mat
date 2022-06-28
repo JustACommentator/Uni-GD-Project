@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_Capsule
+  m_Shader: {fileID: -6465566751694194690, guid: fe9b8d0cd2ed3534ba1bb2eaede52204, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Albedo:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Albedo_Map:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Noise_Texture:
+        m_Texture: {fileID: 2800000, guid: 3667410e69c0eb74490c2a9fa7d5e2ea, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - Alpha: 0.008
+    - Alpha_Clip_Threshold: 0.5
+    - Alpha_Intensity: 1
+    - Bottom_Cutout: 0.024
+    - Bottom_Cutout_Smoothness: 0.403
+    - Flickering_Speed: 0
+    - Float_1: 0.25
+    - Fresnel_Intensity: 1.59
+    - Fresnel_Power: 1.45
+    - IOR: 0.03
+    - Invert_Noise: 0.119
+    - Move_Amount: 0
+    - Move_Distance: 0.05
+    - Move_Frequency: 1
+    - Move_Speed: 1
+    - Noise_Intensity: 0.77
+    - Noise_Invert: 0
+    - Noise_Power: 2.4
+    - Noise_Scale: 50
+    - Noise_Tiling: 0.2
+    - Noise_Vertical_Mask: 0.182
+    - Noise_Vertical_Mask_Smoothness: 0.616
+    - Noise_Verticality: 0.294
+    - Noise_Verticality_Smoothness: 0.307
+    - Power: 0
+    - Tint_Intensity: 1.59
+    - Transparency_Intensity: 1
+    - Triplanar_Blend_Sharpness: 2.2
+    - Use_Albedo_Map_Alpha: 0
+    - Vertical_Transparency_Control: 0
+    - Vertical_Transparency_Smoothness: 0.171
+    - Vis_Transition_Smoothness: 0.239
+    - Visibility_Transition: 0.158
+    - _Float: 0.135
+    - _Multiply: 0.02
+    m_Colors:
+    - Bottom_Emission_Color: {r: 0, g: 2.7388575, b: 6.8831816, a: 0}
+    - Emission_Color: {r: 1.0980393, g: 1.3176471, b: 2.9960785, a: 0}
+    - Fresnel_Color: {r: 6.8831816, g: 0.3919511, b: 0, a: 1}
+    - Noise_Direction: {r: 0, g: -0.2, b: 0, a: 0}
+    - Noise_Emission_Color: {r: 44.727043, g: 16.860456, b: 0, a: 0}
+    - Noise_Emission_Color_02: {r: 2, g: 2, b: 2, a: 0}
+    - Noise_Movement_Direction: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - Noise_XY_Offset_Direction: {r: 0, g: 0.1, b: 0, a: 0}
+    - Noise_YZ_Offset_Direction: {r: 0.1, g: 0, b: 0, a: 0}
+    - Tint_Color: {r: 1, g: 0.16373217, b: 0, a: 0}
+  m_BuildTextureStacks: []
