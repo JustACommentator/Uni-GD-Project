@@ -1,4 +1,5 @@
 using RuneProject.CameraSystem;
+using RuneProject.SaveGameSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,6 +39,7 @@ namespace RuneProject.ActorSystem
 
         private void Start()
         {
+            dashInWalkingDirection = RSaveGameContainer.Instance.SaveData.rollInWalkingDirection;
             baseDashPower = dashPower;
             playerHealth.OnDeath += PlayerHealth_OnDeath;
         }

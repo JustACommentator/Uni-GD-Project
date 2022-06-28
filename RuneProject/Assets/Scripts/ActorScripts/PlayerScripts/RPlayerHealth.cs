@@ -31,7 +31,7 @@ namespace RuneProject.ActorSystem
         public float ReceivedKnockbackMultiplier { get => receivedKnockbackMultiplier; }
         public int CurrentHealth { get => currentHealth; }
         public bool IsAlive { get => isAlive; }
-        public int CurrentShield { get => currentShield; set { currentShield = value; shieldIndicator.SetActive(currentShield > 0); OnShieldChanged?.Invoke(this, currentShield); } }
+        public int CurrentShield { get => currentShield; set { currentShield = value; if (shieldIndicator) { shieldIndicator.SetActive(currentShield > 0); } OnShieldChanged?.Invoke(this, currentShield); } }
 
         public event System.EventHandler<int> OnDamageTaken;
         public event System.EventHandler<int> OnHealReceived;
@@ -59,7 +59,7 @@ namespace RuneProject.ActorSystem
             if (!isAlive || isInvincible)
                 return;
 
-            int shieldedDamage = Mathf.Clamp(damage - currentShield, 0, damage);
+            int shieldedDamage = Mathf.Clamp(currentShield - damage, 0, damage);
             CurrentShield -= shieldedDamage;
             currentHealth -= damage - shieldedDamage;
 
