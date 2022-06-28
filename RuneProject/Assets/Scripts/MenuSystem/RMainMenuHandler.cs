@@ -45,7 +45,7 @@ namespace RuneProject.MainMenuSystem
         private const KeyCode ESCAPE_KEY_CODE = KeyCode.Escape;
         private const string CREDITS_PATH = "TextFileData/credits";
         private const string LOADING_LEVEL_TUT = "Tutorial";
-        private const string LOADING_LEVEL_STAGE = "SampleScene";
+        private const string LOADING_LEVEL_STAGE = "Level_";
 
         private void Start()
         {
@@ -81,6 +81,14 @@ namespace RuneProject.MainMenuSystem
                         if (Input.GetKeyDown(ESCAPE_KEY_CODE) && !currentAlert)
                         {
                             OnClick_ShowEndGameDecision();
+                        }
+                    }
+                    break;
+                case EMainMenuState.LEVEL_PANEL:
+                    {
+                        if (Input.GetKeyDown(ESCAPE_KEY_CODE) && !currentAlert)
+                        {
+                            TransitionTo(EMainMenuState.MAIN_PANEL);
                         }
                     }
                     break;
@@ -176,7 +184,7 @@ namespace RuneProject.MainMenuSystem
 
         #region OnClicks
 
-        public void OnClick_LoadLevel()
+        public void OnClick_LoadLevel(int index)
         {
             if (!isLoading)
             {
@@ -186,7 +194,7 @@ namespace RuneProject.MainMenuSystem
                 musicSource.Stop();
                 //rainSFXSource.Stop();
                 RLevelTransition instance = Instantiate(levelTransitionPrefab, canvasTransform);
-                instance.LoadScene(LOADING_LEVEL_STAGE);
+                instance.LoadScene(LOADING_LEVEL_STAGE + (index + 1));
             }
         }
 
@@ -246,6 +254,12 @@ namespace RuneProject.MainMenuSystem
             TransitionTo(EMainMenuState.MAIN_PANEL);
         }
 
+        public void OnClick_OpenLevels()
+        {
+            audioEmitter.PlayClip(clickSFX, true);
+            TransitionTo(EMainMenuState.LEVEL_PANEL);
+        }
+
         public void OnHover_PlayHoverSFX()
         {
             audioEmitter.PlayClip(hoverSFX, true);
@@ -294,6 +308,7 @@ namespace RuneProject.MainMenuSystem
     {
         INITIAL_MENU,
         MAIN_PANEL,
+        LEVEL_PANEL,
         OPTIONS_PANEL,
         AUDIO_PANEL,
         VIDEO_PANEL,
