@@ -13,6 +13,8 @@ namespace RuneProject.ActorSystem
         [Header("References")]
         [SerializeField] private RPlayerMovement playerMovement = null;
         [SerializeField] private RPlayerHealth playerHealth = null;
+        [SerializeField] private RPlayerDash playerDash = null;
+        [SerializeField] private RPlayerBasicAttack playerAttack = null;
         [SerializeField] private Transform characterTransform = null;
         [Space]
         [SerializeField] private GameObject playerShowOffParent = null;
@@ -59,9 +61,24 @@ namespace RuneProject.ActorSystem
         {
             switch(RItemIdentifierLibrary.GetPowerUpID(item))
             {
-                case 0:
+                case 0: //Health
                     playerHealth.GainMaxHealth(4);
                     playerHealth.Heal(null, 100);
+                    break;
+                case 1: //Knockback
+                    playerAttack.CurrentAdditionalAutoAttackKnockback += 0.1f;
+                    break;
+                case 2: //Movement-Speed
+                    playerMovement.CurrentAdditionalMovementSpeed += 0.15f;
+                    break;
+                case 3: //Dash-Distance
+                    playerDash.CurrentAdditionalDashPower += 0.15f;
+                    break;
+                case 4: //World Items
+                    playerAttack.CurrentWorldItemBreakDenierPowerupCount++;
+                    break;
+                case 5: //Shield
+                    playerHealth.CurrentShield += 3;
                     break;
             }
         }

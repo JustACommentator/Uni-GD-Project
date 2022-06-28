@@ -10,13 +10,16 @@ namespace RuneProject.ActorSystem
         [Header("References")]
         [SerializeField] private Rigidbody healthRigidbody = null;
         [SerializeField] private List<Renderer> characterRenderers = null;
-        [SerializeField] private Material damageMaterial = null;        
+        [SerializeField] private Material damageMaterial = null;
+        [SerializeField] private GameObject shieldIndicator = null;
+
         [Header("Values")]
         [SerializeField] private bool isAI = true;
         [SerializeField] private int maxHealth = 10;
         [SerializeField] private float receivedKnockbackMultiplier = 1f;
      
         private int currentHealth = 0;
+        private int currentShield = 0;
         private bool isAlive = false;
         private bool isInvincible = false;
         private NavMeshAgent agent = null;
@@ -28,10 +31,12 @@ namespace RuneProject.ActorSystem
         public float ReceivedKnockbackMultiplier { get => receivedKnockbackMultiplier; }
         public int CurrentHealth { get => currentHealth; }
         public bool IsAlive { get => isAlive; }
+        public int CurrentShield { get => currentShield; set { currentShield = value; shieldIndicator.SetActive(currentShield > 0); OnShieldChanged?.Invoke(this, currentShield); } }
 
         public event System.EventHandler<int> OnDamageTaken;
         public event System.EventHandler<int> OnHealReceived;
         public event System.EventHandler<int> OnGainAdditionalHealth;
+        public event System.EventHandler<int> OnShieldChanged;
         public event System.EventHandler<GameObject> OnDeath;
 
         private const float MIN_KNOCKBACK_MAGNITUDE_TO_APPLY_KNOCKBACK_ON_DAMAGE_TAKEN = 0.1f;
@@ -54,7 +59,9 @@ namespace RuneProject.ActorSystem
             if (!isAlive || isInvincible)
                 return;
 
-            currentHealth -= damage;
+            int shieldedDamage = Mathf.Clamp(damage - currentShield, 0, damage);
+            CurrentShield -= shieldedDamage;
+            currentHealth -= damage - shieldedDamage;
 
             if (currentDamageMaterialRoutine == null)
                 currentDamageMaterialRoutine = StartCoroutine(IDisplayDamageMaterial());

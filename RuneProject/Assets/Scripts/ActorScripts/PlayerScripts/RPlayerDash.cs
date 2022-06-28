@@ -28,13 +28,17 @@ namespace RuneProject.ActorSystem
         private const KeyCode DASH_INPUT = KeyCode.LeftShift;
 
         private float currentDashCooldown = 0f;
+        private float baseDashPower = 0f;
+        private float currentAdditionalDashPower = 0f;
         private bool isDead = false;
 
         public float CurrentDashCooldown { get => currentDashCooldown; set => currentDashCooldown = value; }
         public bool DashInWalkingDirection { get => dashInWalkingDirection; set => dashInWalkingDirection = value; }
+        public float CurrentAdditionalDashPower { get => currentAdditionalDashPower; set { currentAdditionalDashPower = value; dashPower = baseDashPower * (1f + currentAdditionalDashPower); } }
 
         private void Start()
         {
+            baseDashPower = dashPower;
             playerHealth.OnDeath += PlayerHealth_OnDeath;
         }
 
