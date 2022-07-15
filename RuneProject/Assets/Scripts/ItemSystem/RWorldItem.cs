@@ -44,12 +44,16 @@ namespace RuneProject.ItemSystem
         [SerializeField] private GameObject placeholder = null;
         [SerializeField] private GameObject worldMesh = null;
         [SerializeField] private new Rigidbody rigidbody = null;
-        [SerializeField] private TrailRenderer worldTrail = null; 
+        [SerializeField] private TrailRenderer worldTrail = null;         
 
         private string itemName = string.Empty;
         private string itemDescription = string.Empty;
         private bool isPreview = false;
         private Coroutine currentTrailRoutine = null;
+
+        public event EventHandler<GameObject> OnPickUp;
+        public event EventHandler<GameObject> OnDrop;
+        public event EventHandler OnDestroy;
 
         private const float TRAIL_BASE_TIME = 0.5f;
         private const float TRAIL_MIN_TIME = 0.5f;
@@ -130,6 +134,21 @@ namespace RuneProject.ItemSystem
                 StopCoroutine(currentTrailRoutine);
 
             worldTrail.gameObject.SetActive(false);
+        }
+
+        public void GetPickedUp(GameObject pickUpOrigin)
+        {
+            OnPickUp?.Invoke(this, pickUpOrigin);
+        }
+
+        public void GetDropped(GameObject dropOrigin)
+        {
+            OnDrop?.Invoke(this, dropOrigin);
+        }
+
+        public void GetDestroyed()
+        {
+            OnDestroy?.Invoke(this, null);
         }
 
         private void OnDrawGizmosSelected()

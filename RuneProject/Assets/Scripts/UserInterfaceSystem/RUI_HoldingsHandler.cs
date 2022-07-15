@@ -20,6 +20,13 @@ namespace RuneProject.UserInterfaceSystem
         {
             basicAttack.OnPickUp += BasicAttack_OnPickUp;
             basicAttack.OnThrow += BasicAttack_OnThrow;
+            basicAttack.OnDestroyHeldItem += BasicAttack_OnDestroyHeldItem;
+        }
+
+        private void BasicAttack_OnDestroyHeldItem(object sender, RWorldItem e)
+        {
+            staffHolding.SetActive(true);
+            itemHolding.SetActive(false);
         }
 
         private void BasicAttack_OnThrow(object sender, RWorldItem e)

@@ -70,6 +70,7 @@ namespace RuneProject.ActorSystem
         public event System.EventHandler<EPlayerAttackAnimationType> OnFireItemAttack;
         public event System.EventHandler<RWorldItem> OnThrow;
         public event System.EventHandler<RWorldItem> OnPickUp;
+        public event System.EventHandler<RWorldItem> OnDestroyHeldItem;
         public event System.EventHandler<RPlayerHealth> OnHitWithItemAttack;
 
         private const int ATTACK_MOUSE_BUTTON = 0;
@@ -285,6 +286,7 @@ namespace RuneProject.ActorSystem
                 OnThrow?.Invoke(this, currentPickedUpWorldItem);
             }
 
+            currentPickedUpWorldItem.GetDropped(gameObject);
             currentPickedUpWorldItem = null;
         }
 
@@ -319,6 +321,7 @@ namespace RuneProject.ActorSystem
             if (nearestInRange)
             {
                 currentPickedUpWorldItem = nearestInRange;
+                currentPickedUpWorldItem.GetPickedUp(gameObject);
                 currentPickedUpWorldItem.ForceDisableTrail();
                 currentPickedUpWorldItem.DisableAllColliders();
                 currentPickedUpWorldItem.transform.SetParent(handTransforms[0]);
@@ -337,6 +340,8 @@ namespace RuneProject.ActorSystem
         private void BreakCurrentItem()
         {
             GameObject worldItemObject = currentPickedUpWorldItem.gameObject;
+            currentPickedUpWorldItem.GetDestroyed();
+            OnDestroyHeldItem?.Invoke(this, currentPickedUpWorldItem);
             DropCurrentWorldItem(false);
             Destroy(worldItemObject);
         }
