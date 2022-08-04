@@ -222,7 +222,6 @@ MonoBehaviour:
   disengageTime: 10
   aggroTime: 3
   currentPattern: 0
-  target: {fileID: 0}
   attackDistance: 2
   attackCooldownTime: 2
   tolleranceDistance: 1
@@ -242,6 +241,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   hitboxes:
   - {fileID: 506123900356264310}
+  attentionIndicator: {fileID: 0}
 --- !u!54 &3986327658171331712
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -274,6 +274,7 @@ MonoBehaviour:
   characterRenderers:
   - {fileID: 1219525343}
   damageMaterial: {fileID: 2100000, guid: ebe5301ac99cc34428642d9ee5956a96, type: 2}
+  shieldIndicator: {fileID: 0}
   isAI: 1
   maxHealth: 10
   receivedKnockbackMultiplier: 1
@@ -307,8 +308,10 @@ MonoBehaviour:
   enemyAI: {fileID: 8170655358071508800}
   enemyAgent: {fileID: 4180986265226394684}
   enemyRigidbody: {fileID: 3986327658171331712}
+  enemyMesh: {fileID: 1219525343}
   enemyColliders:
   - {fileID: 4717086359785390240}
   bouncyMaterial: {fileID: 13400000, guid: ecf59c5977e7eee4b93c100d2989a82e, type: 2}
+  deathMaterial: {fileID: 2100000, guid: 238234b03f9174da2b80a924f41f2523, type: 2}
   destroyParticleSystemPrefab: {fileID: 9013604096713952438, guid: 250900aa652d840c5a1680524c147eff, type: 3}
   ragdollInitialBurstPower: 2000

@@ -192,3 +192,4 @@ MonoBehaviour:
   img: {fileID: 2449823358486419382}
   ai_sus: {fileID: 21300000, guid: 0ff8a8db2700c4bf69da095c92fa6c35, type: 3}
   ai_following: {fileID: 21300000, guid: 2bd1e6db1e1ac49a1b58476f075d2761, type: 3}
+  ai_dead: {fileID: 21300000, guid: 24e120d4a5a01463086633d7fd226b5f, type: 3}

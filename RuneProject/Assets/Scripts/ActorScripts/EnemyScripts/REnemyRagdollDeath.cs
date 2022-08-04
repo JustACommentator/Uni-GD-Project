@@ -13,14 +13,20 @@ namespace RuneProject.EnemySystem
         [SerializeField] private REnemyAI enemyAI = null;
         [SerializeField] private NavMeshAgent enemyAgent = null;
         [SerializeField] private Rigidbody enemyRigidbody = null;
+        [SerializeField] private Renderer enemyMesh = null;
+        [SerializeField] private ParticleSystem enemyParticles = null;
+        [SerializeField] private RAttentionIndicator enemyAttentionIndicator = null;
         [SerializeField] private List<Collider> enemyColliders = new List<Collider>();
         [Space]
         [SerializeField] private PhysicMaterial bouncyMaterial = null;
+        [SerializeField] private Material deathMaterial = null;
         [SerializeField] private ParticleSystem destroyParticleSystemPrefab = null;
 
         [Header("Values")]
         [SerializeField] private float ragdollInitialBurstPower = 2000f;
 
+        private bool isDead = false;
+        private float deathTime;
         private bool isPlaying = false;
 
         private const int DONT_COLLIDE_WITH_ENTITIES_LAYER = 8;
@@ -31,9 +37,16 @@ namespace RuneProject.EnemySystem
         private const float COLLISION_VELOCITY_STRENGTH = 0.5f;
         private const float PARTICLE_LIFETIME = 2f;
 
+
         private void Start()
         {
             enemyHealth.OnDeath += EnemyHealth_OnDeath;
+        }
+
+        private void Update()
+        {
+            if (isDead)
+                enemyMesh.material.Lerp(enemyMesh.material, deathMaterial, Mathf.Min((Time.time - deathTime) / 3, 1));
         }
 
         private void OnDestroy()
@@ -57,8 +70,18 @@ namespace RuneProject.EnemySystem
             enemyAgent.enabled = false;
             enemyHealth.gameObject.layer = DONT_COLLIDE_WITH_ENTITIES_LAYER;
 
+            if (enemyParticles != null)
+            {
+                enemyParticles.Stop();
+                enemyParticles.Clear();
+            }
+            enemyAttentionIndicator.setDead();
+
             for (int i = 0; i < enemyColliders.Count; i++)
                 enemyColliders[i].material = bouncyMaterial;
+
+            deathTime = Time.time;
+            isDead = true;
 
             enemyRigidbody.velocity = Vector3.zero;
             Vector3 ownerPos = transform.position;

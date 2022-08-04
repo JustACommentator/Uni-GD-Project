@@ -12,6 +12,7 @@ namespace RuneProject.EnemySystem
         [SerializeField] private Image img;
         [SerializeField] private Sprite ai_sus;
         [SerializeField] private Sprite ai_following;
+        [SerializeField] private Sprite ai_dead;
 
         private Vector3 origin;
         private Transform vcam;
@@ -57,6 +58,13 @@ namespace RuneProject.EnemySystem
                     img.enabled = false;
                     break;
             }
+        }
+
+        public void setDead()
+        {
+            img.color = Color.white;
+            img.sprite = ai_dead;
+            img.enabled = true;
         }
     }
 }
