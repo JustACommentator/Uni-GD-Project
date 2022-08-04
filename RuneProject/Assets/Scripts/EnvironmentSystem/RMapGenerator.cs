@@ -47,9 +47,11 @@ namespace RuneProject.EnvironmentSystem
     public class RMapGenerator : MonoBehaviour
     {
         private List<string> roomLayouts;
+        string bossRoom;
         private List<GameObject> roomResourceProps = new List<GameObject>();
         [SerializeField] private int seed = 69420;
         [SerializeField] private float roomProb = 0.5f;
+        [SerializeField] private bool hasBossRoom = false;
         [SerializeField] private bool loadOnStart = false;
         [SerializeField] private bool mapPropsForCompleteUnload = true;
 
@@ -182,9 +184,13 @@ namespace RuneProject.EnvironmentSystem
                     bool open_n = y != 0;
                     bool room_n = open_n && bitmap[y - 1][x];
 
+                    if (hasBossRoom && x == 3 && y == 0)
+                        room_n = true;
+                       
+
                     if (bitmap[y][x] && (room_n || room_e || room_s || room_w))
                     {
-                        List<int> options = FilterRooms(roomLayouts, new bool[4] { room_n, room_e, room_s, room_w }, x == 0 && y == 7, !stairsNeeded || (x == 0 && y == 7));
+                        List<int> options = FilterRooms(roomLayouts, new bool[4] { room_n, room_e, room_s, room_w }, x == 0 && y == 7, !stairsNeeded || (x == 0 && y == 7) || hasBossRoom);
 
                         if (options.Count > 0)
                         {
@@ -199,7 +205,7 @@ namespace RuneProject.EnvironmentSystem
                 mapLayout += "#";
             }
 
-            int rx = 0, ry = 7;
+            float rx = 0f, ry = 7f;
             string idx = "";
             foreach (char c in mapLayout)
             {
@@ -228,6 +234,20 @@ namespace RuneProject.EnvironmentSystem
                 {
                     idx += c;                    
                 }
+            }
+
+            if (hasBossRoom)
+            {
+                rx = 2f + (1f / 3f);
+                ry = 8f;
+                GameObject room = new GameObject("Bossroom");
+                room.transform.SetParent(transform);
+                room.transform.position = tilePosition(10.5f, 7.75f, rx, ry);
+                BoxCollider trigger = room.AddComponent<BoxCollider>();
+                trigger.isTrigger = true;
+                trigger.size = new Vector3(20.25f, 4f, 15.25f);
+                RPlayerRoomTrigger roomTrigger = room.AddComponent<RPlayerRoomTrigger>();
+                GenerateRoom(bossRoom, rx, ry, room.transform, roomTrigger, true);
             }
         }
 
@@ -268,6 +288,25 @@ namespace RuneProject.EnvironmentSystem
         private List<string> AddRooms(bool useAllRooms)
         {
             List<string> roomLayouts = new List<string>();
+
+            bossRoom =
+                "||||||||||||||||||||||#" +
+                "|                    |#" +
+                "|                    |#" +
+                "|                    |#" +
+                "|                    |#" +
+                "|                    |#" +
+                "|                    |#" +
+                "|                    |#" +
+                "|                    |#" +
+                "|                    |#" +
+                "|                    |#" +
+                "|                    |#" +
+                "|                    |#" +
+                "|                    |#" +
+                "|                    |#" +
+                "|                    |#" +
+                "||||||||||H ||||||||||#";
 
             if (useAllRooms)
             {
@@ -787,9 +826,9 @@ namespace RuneProject.EnvironmentSystem
             return filtered;
         }
 
-        private void GenerateRoom(string room, float room_x, float room_y, Transform parent, RPlayerRoomTrigger roomTrigger)
+        private void GenerateRoom(string room, float room_x, float room_y, Transform parent, RPlayerRoomTrigger roomTrigger, bool isBossRoom = false)
         {
-            RoomLayout rl = roomLayoutFromString(room);
+            RoomLayout rl = roomLayoutFromString(room, isBossRoom ? 17 : 8);
             KeyValuePair<TileType, Orientation>[][] tileMap = rl.room;
             List<GameObject> usedDoorBlockers = new List<GameObject>();
             List<GameObject> usedRoomResources = new List<GameObject>();
@@ -972,7 +1011,7 @@ namespace RuneProject.EnvironmentSystem
             return quat;
         }
 
-        private RoomLayout roomLayoutFromString(string map)
+        private RoomLayout roomLayoutFromString(string map, int height = 8)
         {
 
             List<TileType[]> lookup_temp = new List<TileType[]>();
@@ -1044,7 +1083,7 @@ namespace RuneProject.EnvironmentSystem
                         lookup_row.Add(TileType.DOOR);
                         break;
                     case '#':
-                        if (iy < 8)
+                        if (iy < height)
                         {
                             lookup_temp.Add(lookup_row.ToArray());
                             lookup_row = new List<TileType>();
@@ -1091,7 +1130,7 @@ namespace RuneProject.EnvironmentSystem
                 {
                     if (lookup[y][x] == TileType.LOCKED_DOOR || lookup[y][x] == TileType.BOSS_GATE || lookup[y][x] == TileType.DOOR)
                     {
-                        if (x == 0 || x == 9)
+                        if (x == 0 || x == lookup[y].Length - 1)
                             row.Add(new KeyValuePair<TileType, Orientation>(lookup[y][x], Orientation.EAST));
                         else
                             row.Add(new KeyValuePair<TileType, Orientation>(lookup[y][x], Orientation.NORTH));
