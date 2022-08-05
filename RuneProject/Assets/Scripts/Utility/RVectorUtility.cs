@@ -16,5 +16,20 @@ namespace RuneProject.UtilitySystem
 
             return result;
         }
+
+        public static float GetFlatDistance(Vector3 x, Vector3 y)
+        {
+            x.y = 0f;
+            y.y = 0f;
+
+            return Vector3.Distance(x, y);
+        }
+
+        public static Quaternion GetFlatLookAt(Transform origin, Vector3 target)
+        {
+            target.y = origin.position.y;
+            Vector3 dir = (target - origin.position).normalized;
+            return Quaternion.LookRotation(dir);
+        }
     }
 }

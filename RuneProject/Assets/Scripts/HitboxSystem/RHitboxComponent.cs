@@ -10,7 +10,7 @@ namespace RuneProject.HitboxSystem
     public class RHitboxComponent : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] protected GameObject owner = null;
+        [SerializeField] protected GameObject owner;
 
         [Header("Values")]
         [SerializeField] protected int damage = 0;
@@ -23,6 +23,7 @@ namespace RuneProject.HitboxSystem
 
         public event EventHandler<RPlayerHealth> OnHitTarget;
 
+        public GameObject Owner { get => owner; set => owner = value; }
         public int Damage { get => damage; set => damage = value; }
         public bool IsMultihitHitbox { get => isMultihitHitbox; set => isMultihitHitbox = value; }
         public bool ResetDamageInstanceOnTriggerExit { get => resetDamageInstanceOnTriggerExit; set => resetDamageInstanceOnTriggerExit = value; }
@@ -44,7 +45,7 @@ namespace RuneProject.HitboxSystem
             {
                 if (other.TryGetComponent<RPlayerHealth>(out RPlayerHealth otherHealth))
                 {
-                    otherHealth.TakeDamage(owner, damage, RVectorUtility.ConvertKnockbackToWorldSpace(owner.transform.position, other.transform.position, knockback));
+                    otherHealth.TakeDamage(owner, damage, RVectorUtility.ConvertKnockbackToWorldSpace(owner ? owner.transform.position : transform.position, other.transform.position, knockback));
                     damageDictionary.Add(other, new Tuple<RPlayerHealth, float>(otherHealth, Time.time + 1f / maxDamageInstancesPerSecond));
                     OnHitTarget?.Invoke(this, otherHealth);
                 }

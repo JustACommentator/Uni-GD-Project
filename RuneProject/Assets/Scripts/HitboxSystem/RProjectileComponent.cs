@@ -40,5 +40,10 @@ namespace RuneProject.HitboxSystem
             if (other.gameObject != owner && !isPiercing)
                 Destroy(gameObject);
         }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            flightDirection *= -1f;
+        }
     }
 }

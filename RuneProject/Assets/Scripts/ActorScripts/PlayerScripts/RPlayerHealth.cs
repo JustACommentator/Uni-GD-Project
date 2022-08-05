@@ -50,8 +50,8 @@ namespace RuneProject.ActorSystem
             isAlive = true;
             currentHealth = maxHealth;
 
-            if (isAI)
-                agent = healthRigidbody.GetComponent<NavMeshAgent>();
+            if (isAI && healthRigidbody.TryGetComponent<NavMeshAgent>(out NavMeshAgent navmesh))
+                agent = navmesh;
         }
 
         public void TakeDamage(GameObject source, int damage, Vector3 knockback, bool dontGiveInvincibility = false)
@@ -71,7 +71,7 @@ namespace RuneProject.ActorSystem
             {
                 healthRigidbody.AddForce(knockback);
 
-                if (isAI)
+                if (isAI && agent)
                 {
                     if (currentKnockbackRoutine != null)
                         StopCoroutine(currentKnockbackRoutine);

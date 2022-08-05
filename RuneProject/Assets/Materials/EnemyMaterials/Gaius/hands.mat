@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Bottom_Cutout: 0.192
+    - Bottom_Cutout: 0.092
     - Bottom_Cutout_Smoothness: 0.529
     - Fresnel_Intensity: 1.511
     - Noise_Intensity: 1.51
@@ -61,7 +61,7 @@ Material:
     - Vertical_Transparency_Smoothness: 0.161
     m_Colors:
     - Fresnel_Color: {r: 3.209303, g: 0, b: 4, a: 1}
-    - Noise_Emission_Color: {r: 1.435839, g: 0.20995758, b: 1.4282546, a: 0}
+    - Noise_Emission_Color: {r: 1.435839, g: 0.20995758, b: 1.4282546, a: 1}
     - Noise_XY_Offset_Direction: {r: 0, g: 0.05, b: 0, a: 0}
     - Noise_YZ_Offset_Direction: {r: 0.05, g: 0.1, b: 0, a: 0}
     - Tint_Color: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 0}

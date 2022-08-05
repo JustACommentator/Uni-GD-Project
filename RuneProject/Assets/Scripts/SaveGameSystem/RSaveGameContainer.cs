@@ -27,7 +27,8 @@ namespace RuneProject.SaveGameSystem
 
         public static void Load()
         {
-            Instance.SaveData = SaveGame.Load<RSaveData>(Application.persistentDataPath + "/saveData.sav", RSaveData.zero, true);
+            Instance.SaveData = SaveGame.Exists(Application.persistentDataPath + "/saveData.sav") ?
+                SaveGame.Load<RSaveData>(Application.persistentDataPath + "/saveData.sav", RSaveData.zero, true) : RSaveData.zero;
         }
     }
 
