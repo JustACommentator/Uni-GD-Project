@@ -43,6 +43,11 @@ namespace RuneProject.UserInterfaceSystem
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
+        public void OnClick_NextLevel()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+
         public void OnClick_MainMenu()
         {
             SceneManager.LoadScene(0);
