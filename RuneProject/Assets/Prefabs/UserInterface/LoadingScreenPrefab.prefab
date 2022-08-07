@@ -45,7 +45,7 @@ AudioSource:
   m_GameObject: {fileID: 1068891779598407884}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 3165115837890290358, guid: 113871317cb666a449a9c8d6d91d75e6, type: 2}
+  OutputAudioMixerGroup: {fileID: -1300250601614928652, guid: 113871317cb666a449a9c8d6d91d75e6, type: 2}
   m_audioClip: {fileID: 8300000, guid: be3e907b1c795de40a73affe9d19e172, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -195,6 +195,7 @@ MonoBehaviour:
   loadOnStart: 1
   minLoadTime: 6
   targetSceneName: SampleScene
+  mixer: {fileID: 24100000, guid: 113871317cb666a449a9c8d6d91d75e6, type: 2}
 --- !u!114 &7651910500277590859
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -191,8 +191,6 @@ namespace RuneProject.MainMenuSystem
                 isLoading = true;
 
                 audioEmitter.PlayClip(clickSFX, true);
-                musicSource.Stop();
-                //rainSFXSource.Stop();
                 RLevelTransition instance = Instantiate(levelTransitionPrefab, canvasTransform);
                 instance.LoadScene(LOADING_LEVEL_STAGE + (index + 1));
             }
@@ -205,8 +203,6 @@ namespace RuneProject.MainMenuSystem
                 isLoading = true;
 
                 audioEmitter.PlayClip(clickSFX, true);
-                musicSource.Stop();
-                //rainSFXSource.Stop();
                 RLevelTransition instance = Instantiate(levelTransitionPrefab, canvasTransform);
                 instance.LoadScene(LOADING_LEVEL_TUT);
             }

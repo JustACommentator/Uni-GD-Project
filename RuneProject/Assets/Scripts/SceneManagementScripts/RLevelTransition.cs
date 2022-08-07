@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 namespace RuneProject.UserInterfaceSystem
@@ -10,6 +11,8 @@ namespace RuneProject.UserInterfaceSystem
         [SerializeField] private bool loadOnStart = false;
         [SerializeField] private float minLoadTime = 3f;
         [SerializeField] private string targetSceneName = "SampleScene";
+
+        [SerializeField] private AudioMixer mixer;
 
         private bool isLoading = false;
 
@@ -23,6 +26,7 @@ namespace RuneProject.UserInterfaceSystem
 
         public void LoadScene()
         {
+            mixer.FindSnapshot("Loading").TransitionTo(1f);
             if (!isLoading)
             {
                 isLoading = true;
@@ -62,6 +66,8 @@ namespace RuneProject.UserInterfaceSystem
 
             if (Time.timeScale != 1f)
                 Time.timeScale = 1f;
+
+            mixer.FindSnapshot("Default").TransitionTo(1f);
 
             op.allowSceneActivation = true;
 
