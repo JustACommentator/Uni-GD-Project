@@ -16,6 +16,10 @@ namespace RuneProject.UserInterfaceSystem
         [Space]
         [SerializeField] private TMP_Text gameOverDeathCauseText = null;
         [SerializeField] private GameObject nextLevelButton = null;
+        [Space]
+        [SerializeField] private RLevelTransition levelTransitionPrefab = null;
+
+        private bool isLoading = false;
 
         private void Start()
         {
@@ -43,17 +47,32 @@ namespace RuneProject.UserInterfaceSystem
 
         public void OnClick_ReloadScene()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            if (!isLoading)
+            {
+                isLoading = true;
+                RLevelTransition instance = Instantiate(levelTransitionPrefab, transform);
+                instance.LoadScene(SceneManager.GetActiveScene().name);
+            }
         }
 
         public void OnClick_NextLevel()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            if (!isLoading)
+            {
+                isLoading = true;
+                RLevelTransition instance = Instantiate(levelTransitionPrefab, transform);
+                instance.LoadScene(SceneManager.GetSceneAt(SceneManager.GetActiveScene().buildIndex + 1).name);
+            }
         }
 
         public void OnClick_MainMenu()
         {
-            SceneManager.LoadScene(0);
+            if (!isLoading)
+            {
+                isLoading = true;
+                RLevelTransition instance = Instantiate(levelTransitionPrefab, transform);
+                instance.LoadScene(SceneManager.GetSceneAt(0).name);
+            }
         }
 
         public void OnClick_CloseApplication()
