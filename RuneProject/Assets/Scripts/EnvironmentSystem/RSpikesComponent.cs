@@ -29,6 +29,18 @@ namespace RuneProject.EnvironmentSystem
             HandleSpikeRising();
         }
 
+        private void OnDisable()
+        {
+            if (currentSpikeRoutine != null)
+                StopCoroutine(currentSpikeRoutine);
+
+            spikeHitbox.SetActive(false);
+            spikeTransform.localScale = new Vector3(spikeTransform.localScale.x, spikeTransform.localScale.y, 0f);
+
+            if (currentSpikeCooldown <= 0f)
+                currentSpikeCooldown += spikeCooldown;
+        }
+
         private void HandleSpikeRising()
         {
             if (currentSpikeCooldown > 0f)

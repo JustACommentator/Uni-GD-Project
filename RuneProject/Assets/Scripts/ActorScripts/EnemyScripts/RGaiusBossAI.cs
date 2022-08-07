@@ -100,30 +100,14 @@ namespace RuneProject.EnemySystem
 
             EGaiusBossState selectedState = EGaiusBossState.WAIT;
 
-            if (health.CurrentHealth <= health.MaxHealth * ENRAGE_HP_PERCENTAGE)
-            {                                
-                do
-                {
-                    int randomIndex = Random.Range(0, 5);
-                    selectedState = randomIndex == 0 ? EGaiusBossState.FIREBALL_ENHANCED :
-                                    randomIndex == 1 ? EGaiusBossState.HANDS_PLUS :
-                                    randomIndex == 2 ? EGaiusBossState.HANDS_CROSS :
-                                    randomIndex == 3 ? EGaiusBossState.HANDS_CATCH :
-                                    randomIndex == 4 ? EGaiusBossState.CHANGE_POSITION : 
-                                    EGaiusBossState.WAIT;
-                } while(selectedState == EGaiusBossState.WAIT || selectedState == lastState || (selectedState == lastNonWaitState && ALLOW_SAME_STATE_ENRAGED));
-            }
-            else
+            do
             {
-                do
-                {
-                    int randomIndex = Random.Range(0, 2);
-                    selectedState = randomIndex == 0 ? EGaiusBossState.FIREBALL :
-                                    randomIndex == 1 ? EGaiusBossState.CHANGE_POSITION :
-                                    EGaiusBossState.WAIT;
-                } while (selectedState == EGaiusBossState.WAIT || selectedState == lastState || (selectedState == lastNonWaitState && ALLOW_SAME_STATE_DEFAULT));
-            }
-
+                int randomIndex = Random.Range(0, 2);
+                selectedState = randomIndex == 0 ? (health.CurrentHealth <= health.MaxHealth/2f ? EGaiusBossState.FIREBALL_ENHANCED : EGaiusBossState.FIREBALL) :
+                                randomIndex == 1 ? EGaiusBossState.CHANGE_POSITION :
+                                EGaiusBossState.WAIT;
+            } while (selectedState == EGaiusBossState.WAIT || selectedState == lastState || (selectedState == lastNonWaitState && ALLOW_SAME_STATE_DEFAULT));
+            
             return selectedState;
         }
 
