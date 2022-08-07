@@ -53,9 +53,16 @@ namespace RuneProject.MainMenuSystem
             audioMixer.SetFloat("SFX", slider.value * (sfxOriginalVolume + 80) - 80);
         }
 
-        public void OnClick_MuteInBackground()
+        public void OnClick_MuteInBackground(Button button)
         {
             Application.runInBackground = !Application.runInBackground;
+
+            ColorBlock cb = button.colors;
+            cb.normalColor = new Color(1f, 1f, 1f, Application.runInBackground ? 0.1f : 0.02f);
+            cb.pressedColor = new Color(1f, 1f, 1f, Application.runInBackground ? 0.1f : 0.02f);
+            cb.selectedColor = new Color(1f, 1f, 1f, Application.runInBackground ? 0.1f : 0.02f);
+            cb.highlightedColor = new Color(1f, 1f, 1f, Application.runInBackground ? 0.1f : 0.2f);
+            button.colors = cb;
         }
     }
 }
