@@ -8,6 +8,7 @@ TagManager:
   - Projectile
   - WorldItem
   - Boss
+  - Manager
   layers:
   - Default
   - TransparentFX

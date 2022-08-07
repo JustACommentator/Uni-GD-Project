@@ -11,13 +11,15 @@ namespace RuneProject.EnemySystem
     {
         [Header("References")]
         [SerializeField] private RPlayerHealth health = null;
+        [SerializeField] private Animator animator = null;
         [Space]
+        [SerializeField] private CanvasGroup endGameCanvas = null;
         [SerializeField] private Transform leftHand = null;
         [SerializeField] private Transform rightHand = null;
         [SerializeField] private Transform fireballSpawnPoint = null;
         [SerializeField] private List<Transform> additionalFireballSpawnPoints = new List<Transform>();
         [SerializeField] private List<Transform> potentialResidencePoints = new List<Transform>();
-        [SerializeField] private GameObject dashHitbox = null;
+        [SerializeField] private GameObject dashHitbox = null;        
 
         [Header("Prefabs")]
         [SerializeField] private RProjectileComponent fireballPrefab = null;
@@ -32,12 +34,14 @@ namespace RuneProject.EnemySystem
         private Vector2 percentageUpdateTimeDecreaseOnHit = new Vector2(0.1f, 0.25f);
 
         private Transform playerTransform = null;
+        private RPlayerHealth playerHealth = null;
         private int currentResidenceIndex = 0;
 
         private const float ENRAGE_HP_PERCENTAGE = 0.5f;
         private const float SPIN_RANGE = 0.8f;
         private const float TRANSITION_TIME = 1f;
         private const float TURNAROUND_TIME = 0.35f;
+        private const float END_GAME_CANVAS_ALPHA_DELTA = 1f;
         private const bool ALLOW_SAME_STATE_DEFAULT = true;
         private const bool ALLOW_SAME_STATE_ENRAGED = false;
 
@@ -46,12 +50,16 @@ namespace RuneProject.EnemySystem
         private void Start()
         {
             health.OnDamageTaken += Health_OnDamageTaken;
+            health.OnDeath += Health_OnDeath;
+
             playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+            playerHealth = playerTransform.GetComponent<RPlayerHealth>();
         }
 
-        private void Health_OnDamageTaken(object sender, int e)
+        private void OnDestroy()
         {
-            currentRemainingUpdateTimer -= currentRemainingUpdateTimer * Random.Range(percentageUpdateTimeDecreaseOnHit.x, percentageUpdateTimeDecreaseOnHit.y);
+            health.OnDamageTaken -= Health_OnDamageTaken;
+            health.OnDeath -= Health_OnDeath;
         }
 
         private void Update()
@@ -65,9 +73,21 @@ namespace RuneProject.EnemySystem
             Gizmos.DrawWireSphere(transform.position, SPIN_RANGE);
         }
 
+        private void Health_OnDeath(object sender, GameObject e)
+        {
+            animator.SetTrigger("die");
+            playerTransform.gameObject.SetActive(false);
+            StartCoroutine(ISetEndGameCanvasActiveAfter(3f));
+        }
+
+        private void Health_OnDamageTaken(object sender, int e)
+        {
+            currentRemainingUpdateTimer -= currentRemainingUpdateTimer * Random.Range(percentageUpdateTimeDecreaseOnHit.x, percentageUpdateTimeDecreaseOnHit.y);
+        }
+
         private void HandleStateChange()
         {
-            if (health.IsAlive)
+            if (health.IsAlive && playerHealth.IsAlive)
             {
                 if (currentRemainingUpdateTimer > 0f)
                     currentRemainingUpdateTimer -= Time.deltaTime;
@@ -232,6 +252,22 @@ namespace RuneProject.EnemySystem
                     transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, currentTimer / TURNAROUND_TIME);
                     yield return null;
                 }
+            }
+        }
+
+        private IEnumerator ISetEndGameCanvasActiveAfter(float time)
+        {
+            yield return new WaitForSeconds(time);
+
+            endGameCanvas.gameObject.SetActive(true);
+            endGameCanvas.alpha = 0f;
+
+            float timer = 0f; 
+            while (timer <= END_GAME_CANVAS_ALPHA_DELTA)
+            {
+                timer += Time.deltaTime;
+                endGameCanvas.alpha = Mathf.Lerp(0f, 1f, timer / END_GAME_CANVAS_ALPHA_DELTA);
+                yield return null;
             }
         }
     }

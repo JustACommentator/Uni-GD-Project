@@ -20,6 +20,7 @@ namespace RuneProject.EnvironmentSystem
         [SerializeField] private SpriteRenderer minimapWestSpriteRenderer = null;
         [Space]
         [SerializeField] private float cameraFOVMultiplier = 1f;
+        [SerializeField] private AudioClip overrideMusic = null;
 
         private Color playerInRoomColor = new Color(0.96f, 0.43f, 0.19f);
         private Color playerOutRoomColor = Color.white;
@@ -30,6 +31,7 @@ namespace RuneProject.EnvironmentSystem
         public event System.EventHandler OnClearRoom;
 
         public float CameraFOVMultiplier => cameraFOVMultiplier;
+        public AudioClip OverrideMusic => overrideMusic;
 
         private const float MAX_UNLOAD_TIMER = 3f;
 
@@ -198,7 +200,15 @@ namespace RuneProject.EnvironmentSystem
             if (other.CompareTag("Player") && !other.isTrigger)
             {
                 RPlayerCameraComponent.Singleton.EnterRoom(this);
-                
+
+                if (overrideMusic != null)
+                {
+                    AudioSource source = GameObject.FindGameObjectWithTag("Manager").transform.GetChild(0).GetComponent<AudioSource>();
+                    source.Stop();
+                    source.clip = overrideMusic;
+                    source.Play();
+                }
+
                 EnableEnemies();
                 EnableMinimap();
                 SetMinimapEnter();
