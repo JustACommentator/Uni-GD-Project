@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/GameLevels/MenuScenes/MainMenu.unity
     guid: b5b07acf7566f5748a926c499598f7e4
   - enabled: 1
+    path: Assets/Scenes/GameLevels/GameplayScenes/PreTutorial/PreTutorial.unity
+    guid: bdab2c16b423658438addd5db0d41d6a
+  - enabled: 1
     path: Assets/Scenes/GameLevels/GameplayScenes/TutorialScene/Tutorial.unity
     guid: 6af4a068da9713443abb7f78ea23ad37
   - enabled: 1

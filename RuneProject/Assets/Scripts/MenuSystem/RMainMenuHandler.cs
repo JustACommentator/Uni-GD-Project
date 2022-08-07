@@ -44,7 +44,7 @@ namespace RuneProject.MainMenuSystem
 
         private const KeyCode ESCAPE_KEY_CODE = KeyCode.Escape;
         private const string CREDITS_PATH = "TextFileData/credits";
-        private const string LOADING_LEVEL_TUT = "Tutorial";
+        private const string LOADING_LEVEL_TUT = "PreTutorial";
         private const string LOADING_LEVEL_STAGE = "Level_";
 
         private void Start()
