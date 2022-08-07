@@ -1,4 +1,5 @@
 using RuneProject.ActorSystem;
+using RuneProject.EnvironmentSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,16 +19,26 @@ namespace RuneProject.CameraSystem
         [SerializeField] private Vector2 maxTiltDifference = Vector2.one;
 
         private int currentShakePriority = -1;
+        private float startFOV = -1f;
         private Coroutine currentShakeRoutine = null;
         private Coroutine currentMoveRoutine = null;
+        private Coroutine currentFOVRoutine = null;
         private Transform playerTransform = null;
+        private Cinemachine.CinemachineVirtualCamera cam = null;
 
         private const float CAMERA_TRANSITION_TIME = 0.4f;
+        private const float FOV_TRANSITION_TIME = 0.4f;
 
         private static RPlayerCameraComponent singleton = null;
 
         public Transform VirtualCam { get => virtualCam; }
-        public static RPlayerCameraComponent Singleton { get { if (singleton == null) singleton = FindObjectOfType<RPlayerCameraComponent>(); return singleton; } }     
+        public static RPlayerCameraComponent Singleton { get { if (singleton == null) singleton = FindObjectOfType<RPlayerCameraComponent>(); return singleton; } }
+
+        private void Awake()
+        {
+            cam = virtualCam.GetComponent<Cinemachine.CinemachineVirtualCamera>();
+            startFOV = cam.m_Lens.FieldOfView;
+        }
 
         private void Update()
         {
@@ -67,12 +78,18 @@ namespace RuneProject.CameraSystem
             currentShakeRoutine = StartCoroutine(IShakeCamera(intensity, magnitude, swayPower, time));
         }
 
-        public void EnterRoom(GameObject room)
+        public void EnterRoom(RPlayerRoomTrigger room)
         {
             if (currentMoveRoutine != null)
                 StopCoroutine(currentMoveRoutine);
 
             currentMoveRoutine = StartCoroutine(IMoveToNewRoom(room.transform.position + camOffset));
+
+            if (currentFOVRoutine != null)
+                StopCoroutine(currentFOVRoutine);
+
+            if (cam.m_Lens.FieldOfView != startFOV * room.CameraFOVMultiplier)
+                currentFOVRoutine = StartCoroutine(ILerpFieldOfView(startFOV * room.CameraFOVMultiplier));
         }
 
         private IEnumerator IShakeCamera(float intensity, float magnitude, float swayPower, float time)
@@ -121,6 +138,19 @@ namespace RuneProject.CameraSystem
             {
                 timePassed += Time.deltaTime;
                 moveParent.position = Vector3.Lerp(startPos, targetPos, timePassed / CAMERA_TRANSITION_TIME);
+                yield return null;
+            }
+        }
+
+        private IEnumerator ILerpFieldOfView(float goalFOV)
+        {
+            float startFOV = cam.m_Lens.FieldOfView;
+
+            float timePassed = 0f;
+            while (timePassed <= FOV_TRANSITION_TIME)
+            {
+                timePassed += Time.deltaTime;
+                cam.m_Lens.FieldOfView = Mathf.Lerp(startFOV, goalFOV, timePassed / FOV_TRANSITION_TIME);
                 yield return null;
             }
         }
