@@ -20,6 +20,15 @@ namespace RuneProject.ActorSystem
 
         private float lastTimeSinceMove = 0f;
 
+        public Animator PlayerAnimator { get => playerAnimator; set => playerAnimator = value; }
+        public RPlayerMovement Movement { get => movement; set => movement = value; }
+        public RPlayerDash Dash { get => dash; set => dash = value; }
+        public RPlayerBasicAttack BasicAttack { get => basicAttack; set => basicAttack = value; }
+        public RPlayerHealth PlayerHealth { get => playerHealth; set => playerHealth = value; }
+        public RPlayerInventory PlayerInventory { get => playerInventory; set => playerInventory = value; }
+        public RUI_Main UserInterface { get => userInterface; set => userInterface = value; }
+        public float LastTimeSinceMove { get => lastTimeSinceMove; set => lastTimeSinceMove = value; }
+
         private void Start()
         {
             movement.OnMove += Movement_OnMove;
@@ -95,7 +104,7 @@ namespace RuneProject.ActorSystem
         {
             lastTimeSinceMove += Time.deltaTime;
 
-            if (lastTimeSinceMove > 0.01f)
+            if (lastTimeSinceMove > 0.03f)
                 playerAnimator.SetFloat("inputMagnitude", 0f);
         }
 

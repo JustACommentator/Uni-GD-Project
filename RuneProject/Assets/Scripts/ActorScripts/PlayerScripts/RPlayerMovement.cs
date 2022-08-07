@@ -53,6 +53,7 @@ namespace RuneProject.ActorSystem
         private const float IMPACT_DECREASE_DELTA = 10f;
         private const float IMPULSE_THRESHOLD = 0.1f;
         private const float MOVEMENT_MULTIPLIER_ON_SLOW_SCENE = 1.4f;
+        private const float MOVEMENT_MULTIPLIER_ON_BUILD = 0.3f;
 
         public bool IsGrounded { get => isGrounded; }
         public bool CanMove { get => blockMovement == 0; }
@@ -67,6 +68,11 @@ namespace RuneProject.ActorSystem
             {
                 walkSpeed *= MOVEMENT_MULTIPLIER_ON_SLOW_SCENE;
                 runSpeed *= MOVEMENT_MULTIPLIER_ON_SLOW_SCENE;
+            }
+            else if (!Application.isEditor)
+            {
+                walkSpeed *= MOVEMENT_MULTIPLIER_ON_BUILD;
+                runSpeed *= MOVEMENT_MULTIPLIER_ON_BUILD;
             }
 
             baseWalkSpeed = walkSpeed;

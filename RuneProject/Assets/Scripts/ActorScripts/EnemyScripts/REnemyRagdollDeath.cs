@@ -90,7 +90,7 @@ namespace RuneProject.EnemySystem
             killerPos.y = 0f;
             Vector3 dir = (ownerPos - killerPos).normalized;
             enemyRigidbody.drag = OVERRIDE_DRAG;
-            enemyRigidbody.AddForce(dir * ragdollInitialBurstPower * enemyHealth.ReceivedKnockbackMultiplier);
+            enemyRigidbody.AddForce(enemyHealth.ReceivedKnockbackMultiplier * ragdollInitialBurstPower * dir);
 
             StartCoroutine(IDestroyEnemyOnVelocityReachZero());
         }
