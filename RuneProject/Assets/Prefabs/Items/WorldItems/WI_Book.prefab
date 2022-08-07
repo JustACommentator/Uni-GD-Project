@@ -95,10 +95,10 @@ MonoBehaviour:
   cantBeBroken: 0
   rangedProjectilePrefab: {fileID: 0}
   rangedProjectileSpawnOffset: {x: 0, y: 0, z: 1}
-  attackDamage: 2
-  spinAttackDamage: 5
+  attackDamage: 4
+  spinAttackDamage: 3
   attacksPerSecond: 2
-  attacksBeforeBeingBroken: 8
+  attacksBeforeBeingBroken: 5
   activeEffect: 0
   activeEffectParameters: []
   colliders:
