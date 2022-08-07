@@ -15,10 +15,13 @@ namespace RuneProject.UserInterfaceSystem
         [SerializeField] private CanvasGroup vignette = null;
         [Space]
         [SerializeField] private TMP_Text gameOverDeathCauseText = null;
+        [SerializeField] private GameObject nextLevelButton = null;
 
         private void Start()
         {
             playerHealth.OnDeath += PlayerHealth_OnDeath;
+            if (SceneManager.GetActiveScene().buildIndex >= (SceneManager.sceneCountInBuildSettings - 1))
+                nextLevelButton.SetActive(false);
         }
 
         private void OnDestroy()
