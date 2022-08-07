@@ -32,10 +32,12 @@ namespace RuneProject.ActorSystem
         private float baseDashPower = 0f;
         private float currentAdditionalDashPower = 0f;
         private bool isDead = false;
+        private bool blockDash = false;
 
         public float CurrentDashCooldown { get => currentDashCooldown; set => currentDashCooldown = value; }
         public bool DashInWalkingDirection { get => dashInWalkingDirection; set => dashInWalkingDirection = value; }
         public float CurrentAdditionalDashPower { get => currentAdditionalDashPower; set { currentAdditionalDashPower = value; dashPower = baseDashPower * (1f + currentAdditionalDashPower); } }
+        public bool BlockDash { get => blockDash; set => blockDash = value; }
 
         private void Start()
         {
@@ -89,14 +91,14 @@ namespace RuneProject.ActorSystem
 
         private void HandleIndicator()
         {
-            if (isDead) return;
+            if (isDead || blockDash) return;
 
             dashDirectionIndicator.rotation = Quaternion.LookRotation(movement.MouseDirection);
         }
 
         private bool CanDash()
         {
-            return currentDashCooldown <= 0f && movement.CanMove;
+            return currentDashCooldown <= 0f && movement.CanMove && !blockDash;
         }
 
         private IEnumerator IDisableTrailAfter()

@@ -92,14 +92,16 @@ namespace RuneProject.ActorSystem
 
             yield return new WaitForSeconds(1.2f);
 
+            RPowerUpItem content = chest.Content;
+
             playerShowOffParent.SetActive(true);
-            playerShowOffImage.sprite = chest.Content.powerUpIcon;
+            playerShowOffImage.sprite = content.powerUpIcon;
 
             yield return new WaitForSeconds(0.25f);
 
             characterTransform.Rotate(new Vector3(0f, 180f, 0f), Space.Self);
-            OnClaimChestReward?.Invoke(this, chest.Content);
-            AddPowerUp(chest.Content);
+            OnClaimChestReward?.Invoke(this, content);
+            AddPowerUp(content);
 
             bool done = false;
             while(!done)

@@ -83,7 +83,13 @@ MonoBehaviour:
   playerOpenTransform: {fileID: 7379433783593414761}
   chestAnimator: {fileID: 1198969952082143607}
   chestAudioSource: {fileID: 296487653325758735}
-  content: {fileID: 11400000, guid: 72105e5666a8c004eb0b6132fc80b569, type: 2}
+  possibleContents:
+  - {fileID: 11400000, guid: 72105e5666a8c004eb0b6132fc80b569, type: 2}
+  - {fileID: 11400000, guid: 7ff3fa0c5fc37e14eb498db16d5fb14b, type: 2}
+  - {fileID: 11400000, guid: 4667a7a74cd55ba4c8fa84299797cc62, type: 2}
+  - {fileID: 11400000, guid: d3546c87678fd474696954d6d1daaaec, type: 2}
+  - {fileID: 11400000, guid: 666be94db3f55f441b83a15e1f4295a8, type: 2}
+  - {fileID: 11400000, guid: 7315ce072d54a294f8e529e19580a566, type: 2}
 --- !u!95 &1198969952082143607
 Animator:
   serializedVersion: 3

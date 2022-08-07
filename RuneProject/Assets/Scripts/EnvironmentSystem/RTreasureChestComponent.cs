@@ -14,12 +14,12 @@ namespace RuneProject.EnvironmentSystem
         [SerializeField] private AudioSource chestAudioSource = null;
 
         [Header("Values")]
-        [SerializeField] private RPowerUpItem content = null;
+        [SerializeField] private List<RPowerUpItem> possibleContents = new List<RPowerUpItem>();
 
         private bool open = false;
 
-        public RPowerUpItem Content { get => content; }
-        public Transform PlayerOpenTransform { get => playerOpenTransform; }
+        public RPowerUpItem Content => possibleContents[Random.Range(0, possibleContents.Count)];
+        public Transform PlayerOpenTransform => playerOpenTransform;
 
         private void OnCollisionEnter(Collision collision)
         {

@@ -2,6 +2,7 @@ using RuneProject.CameraSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace RuneProject.ActorSystem
 {
@@ -51,6 +52,7 @@ namespace RuneProject.ActorSystem
         private const float AIRTIME_DELTA = 10f;
         private const float IMPACT_DECREASE_DELTA = 10f;
         private const float IMPULSE_THRESHOLD = 0.1f;
+        private const float MOVEMENT_MULTIPLIER_ON_SLOW_SCENE = 1.4f;
 
         public bool IsGrounded { get => isGrounded; }
         public bool CanMove { get => blockMovement == 0; }
@@ -61,6 +63,12 @@ namespace RuneProject.ActorSystem
 
         private void Start()
         {
+            if (SceneManager.GetActiveScene().buildIndex != 2)
+            {
+                walkSpeed *= MOVEMENT_MULTIPLIER_ON_SLOW_SCENE;
+                runSpeed *= MOVEMENT_MULTIPLIER_ON_SLOW_SCENE;
+            }
+
             baseWalkSpeed = walkSpeed;
             baseRunSpeed = runSpeed;
             playerHealth.OnDeath += PlayerHealth_OnDeath;

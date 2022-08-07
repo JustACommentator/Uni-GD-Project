@@ -1,5 +1,6 @@
 using RuneProject.HitboxSystem;
 using RuneProject.ItemSystem;
+using RuneProject.UserInterfaceSystem;
 using RuneProject.UtilitySystem;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace RuneProject.ActorSystem
         [SerializeField] private RPlayerHealth playerHealth = null;
         [SerializeField] private RPlayerMovement playerMovement = null;
         [SerializeField] private RPlayerDash playerDash = null;
+        [SerializeField] private RUI_Main uiMain = null;
         [Space]
         [SerializeField] private GameObject staffHandInstance = null;
         [SerializeField] private GameObject staffBeltInstance = null;
@@ -94,19 +96,22 @@ namespace RuneProject.ActorSystem
         public float CurrentAdditionalAutoAttackKnockback { get => currentAdditionalAutoAttackKnockback;
             set { currentAdditionalAutoAttackKnockback = value; autoAttackHitbox.Knockback = autoAttackBaseKnockback * (1 + currentAdditionalAutoAttackKnockback); } }
         public int CurrentWorldItemBreakDenierPowerupCount { get => currentWorldItemBreakDenierPowerupCount; set => currentWorldItemBreakDenierPowerupCount = value; }
+        public bool HasWorldItem => currentPickedUpWorldItem;
 
         private void Start()
         {
             playerHealth.OnDeath += PlayerHealth_OnDeath;
             playerDash.OnDash += PlayerDash_OnDash;
             attackHitbox.OnHitTarget += AttackHitbox_OnHitTarget;
-        }        
-
+            uiMain.OnReachEnd += UiMain_OnReachEnd;
+        }
+       
         private void OnDestroy()
         {
             playerHealth.OnDeath -= PlayerHealth_OnDeath;
             playerDash.OnDash -= PlayerDash_OnDash;
             attackHitbox.OnHitTarget -= AttackHitbox_OnHitTarget;
+            uiMain.OnReachEnd -= UiMain_OnReachEnd;
         }
 
         void Update()
@@ -430,7 +435,22 @@ namespace RuneProject.ActorSystem
             }
 
             OnHitWithItemAttack?.Invoke(this, e);
-        }        
+        }
+
+        private void UiMain_OnReachEnd(object sender, System.EventArgs e)
+        {
+            if (HasWorldItem)
+            {
+                GameObject item = currentPickedUpWorldItem.gameObject;
+                DropCurrentWorldItem(false);
+                Destroy(item);
+
+                playerDash.BlockDash = true;
+                blockAttackInput = true;
+                blockPickupInput = true;
+                blockWorldItemInput = true;
+            }
+        }
 
         private IEnumerator IToggleHitbox()
         {

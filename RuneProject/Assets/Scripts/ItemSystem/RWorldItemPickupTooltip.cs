@@ -1,3 +1,4 @@
+using RuneProject.ActorSystem;
 using RuneProject.CameraSystem;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace RuneProject.ItemSystem
 
         private Coroutine currentDisplayTooltipRoutine = null;
         private RPlayerCameraComponent cameraComponent = null;
+        private RPlayerBasicAttack player = null;
+        private bool tooltipActive = false;
 
         private const float LERP_TIME = 0.125f;
         private const float DEFAULT_HEIGHT = 0.4f;
@@ -48,7 +51,7 @@ namespace RuneProject.ItemSystem
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && other.TryGetComponent<RPlayerBasicAttack>(out player) && !player.HasWorldItem)
             {
                 EnableTooltip();
             }
@@ -69,6 +72,9 @@ namespace RuneProject.ItemSystem
 
             if (cameraComponent)
                 tooltip.LookAt(cameraComponent.VirtualCam);
+
+            if (player && player.HasWorldItem)
+                DisableTooltip();
         }
 
         private void HandleTooltipPosition()
@@ -92,7 +98,9 @@ namespace RuneProject.ItemSystem
 
         private void DisableTooltip()
         {
-            if (worldItem.CantBePickedUp) return;
+            if (worldItem.CantBePickedUp || !tooltipActive) return;
+
+            tooltipActive = false;
 
             if (currentDisplayTooltipRoutine != null)
                 StopCoroutine(currentDisplayTooltipRoutine);
@@ -102,7 +110,9 @@ namespace RuneProject.ItemSystem
 
         private void EnableTooltip()
         {
-            if (worldItem.CantBePickedUp) return;
+            if (worldItem.CantBePickedUp || tooltipActive) return;
+
+            tooltipActive = true;
 
             if (currentDisplayTooltipRoutine != null)
                 StopCoroutine(currentDisplayTooltipRoutine);
