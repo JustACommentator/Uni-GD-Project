@@ -43,21 +43,27 @@ namespace RuneProject.UserInterfaceSystem
         {
             transform.SetAsLastSibling();
             DontDestroyOnLoad(gameObject);
+
+            yield return null;
+
             AsyncOperation op = SceneManager.LoadSceneAsync(targetSceneName);
             op.allowSceneActivation = false;
             float time = 0f;
 
             while (op.progress < MAX_PROGRESS_WITHOUT_SCENE_ACTIVATION)
             {
-                time += Time.deltaTime;
+                time += Time.unscaledDeltaTime;
                 yield return null;
             }
 
             while(time < minLoadTime)
             {
-                time += Time.deltaTime;
+                time += Time.unscaledDeltaTime;
                 yield return null;
             }
+
+            if (Time.timeScale != 1f)
+                Time.timeScale = 1f;
 
             op.allowSceneActivation = true;
 

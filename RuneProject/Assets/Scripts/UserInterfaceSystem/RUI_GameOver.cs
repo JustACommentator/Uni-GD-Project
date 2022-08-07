@@ -61,7 +61,7 @@ namespace RuneProject.UserInterfaceSystem
             {
                 isLoading = true;
                 RLevelTransition instance = Instantiate(levelTransitionPrefab, transform);
-                instance.LoadScene(SceneManager.GetSceneAt(SceneManager.GetActiveScene().buildIndex + 1).name);
+                instance.LoadScene(GetNextLevelName());
             }
         }
 
@@ -71,8 +71,20 @@ namespace RuneProject.UserInterfaceSystem
             {
                 isLoading = true;
                 RLevelTransition instance = Instantiate(levelTransitionPrefab, transform);
-                instance.LoadScene(SceneManager.GetSceneAt(0).name);
+                instance.LoadScene("MainMenu");
             }
+        }
+
+        private string GetNextLevelName()
+        {
+            switch(SceneManager.GetActiveScene().name)
+            {
+                case "Tutorial": return "Level_1";
+                case "Level_1": return "Level_2";
+                case "Level_2": return "Level_3";
+            }
+
+            return "MainMenu";
         }
 
         public void OnClick_CloseApplication()
