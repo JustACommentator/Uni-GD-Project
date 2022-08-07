@@ -18,13 +18,18 @@ namespace RuneProject.EnvironmentSystem
         [SerializeField] private SpriteRenderer minimapSouthSpriteRenderer = null;
         [SerializeField] private SpriteRenderer minimapEastSpriteRenderer = null;
         [SerializeField] private SpriteRenderer minimapWestSpriteRenderer = null;
+        [Space]
+        [SerializeField] private float cameraFOVMultiplier = 1f;
 
         private Color playerInRoomColor = new Color(0.96f, 0.43f, 0.19f);
         private Color playerOutRoomColor = Color.white;
         private bool waitingForUnload = false;
         private bool solved = false;
         private float unloadTimer = 0f;
+
         public event System.EventHandler OnClearRoom;
+
+        public float CameraFOVMultiplier => cameraFOVMultiplier;
 
         private const float MAX_UNLOAD_TIMER = 3f;
 
@@ -190,9 +195,9 @@ namespace RuneProject.EnvironmentSystem
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && !other.isTrigger)
             {
-                RPlayerCameraComponent.Singleton.EnterRoom(gameObject);
+                RPlayerCameraComponent.Singleton.EnterRoom(this);
                 
                 EnableEnemies();
                 EnableMinimap();
@@ -209,7 +214,7 @@ namespace RuneProject.EnvironmentSystem
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && !other.isTrigger)
             {
                 waitingForUnload = true;
                 unloadTimer = 0f;

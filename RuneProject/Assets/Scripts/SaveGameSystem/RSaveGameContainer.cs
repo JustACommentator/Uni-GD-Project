@@ -38,10 +38,6 @@ namespace RuneProject.SaveGameSystem
         [Header("Options")]
         public bool rollInWalkingDirection;
 
-        [Header("Progress")]
-        public int currentLevel;
-        public int currentXP;
-
         public static RSaveData zero => new RSaveData();
     }
 }

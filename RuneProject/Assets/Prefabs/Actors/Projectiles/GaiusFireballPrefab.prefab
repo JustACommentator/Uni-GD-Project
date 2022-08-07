@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae8e7012d3b1f1f459de7c052af8f2c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyAfter: 5
+  destroyAfter: 4
   shrinkOverLifetime: 1
 --- !u!96 &6556709673260132651
 TrailRenderer:

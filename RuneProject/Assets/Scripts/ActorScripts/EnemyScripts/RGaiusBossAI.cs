@@ -17,6 +17,7 @@ namespace RuneProject.EnemySystem
         [SerializeField] private Transform fireballSpawnPoint = null;
         [SerializeField] private List<Transform> additionalFireballSpawnPoints = new List<Transform>();
         [SerializeField] private List<Transform> potentialResidencePoints = new List<Transform>();
+        [SerializeField] private GameObject dashHitbox = null;
 
         [Header("Prefabs")]
         [SerializeField] private RProjectileComponent fireballPrefab = null;
@@ -66,19 +67,22 @@ namespace RuneProject.EnemySystem
 
         private void HandleStateChange()
         {
-            if (currentRemainingUpdateTimer > 0f)
-                currentRemainingUpdateTimer -= Time.deltaTime;
-            else
+            if (health.IsAlive)
             {
-                currentRemainingUpdateTimer = Random.Range(updateTimeRange.x, updateTimeRange.y);
+                if (currentRemainingUpdateTimer > 0f)
+                    currentRemainingUpdateTimer -= Time.deltaTime;
+                else
+                {
+                    currentRemainingUpdateTimer = Random.Range(updateTimeRange.x, updateTimeRange.y);
 
-                if (currentState != EGaiusBossState.WAIT)
-                    lastNonWaitState = currentState;
+                    if (currentState != EGaiusBossState.WAIT)
+                        lastNonWaitState = currentState;
 
-                lastState = currentState;
-                currentState = GetRandomFittingBossState();                
-                OnStateChange?.Invoke(this, currentState);
-                ExecuteState(currentState);
+                    lastState = currentState;
+                    currentState = GetRandomFittingBossState();
+                    OnStateChange?.Invoke(this, currentState);
+                    ExecuteState(currentState);
+                }
             }
         }
 
@@ -134,6 +138,8 @@ namespace RuneProject.EnemySystem
 
                         yield return StartCoroutine(IExecuteTurnaround(targetRot));
 
+                        dashHitbox.SetActive(true);
+
                         //Traverse to selected point
                         float currentTimer = 0f;
                         while (currentTimer <= TRANSITION_TIME)
@@ -142,6 +148,8 @@ namespace RuneProject.EnemySystem
                             transform.position = Vector3.Lerp(startPos, potentialResidencePoints[currentResidenceIndex].position, currentTimer / TRANSITION_TIME);
                             yield return null;
                         }
+
+                        dashHitbox.SetActive(false);
 
                         targetRot = RVectorUtility.GetFlatLookAt(transform, playerTransform.position);
 
