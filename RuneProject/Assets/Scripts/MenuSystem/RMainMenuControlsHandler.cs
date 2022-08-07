@@ -1,11 +1,6 @@
-using RuneProject.AudioSystem;
-using RuneProject.UserInterfaceSystem;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using RuneProject.SaveGameSystem;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.UI;
 
 
@@ -13,13 +8,28 @@ namespace RuneProject.MainMenuSystem
 {
     public class RMainMenuControlsHandler : MonoBehaviour
     {
-        private bool rollInWalkingDirection = RuneProject.SaveGameSystem.RSaveGameContainer.Instance.SaveData.rollInWalkingDirection;
+        [SerializeField] private TMP_Text buttonText = null;
 
-        public void OnClick_DashDirection(Button button)
+        private bool rollInWalkingDirection = false;
+        
+        private void Start()
+        {
+            rollInWalkingDirection = RSaveGameContainer.Instance.SaveData.rollInWalkingDirection;
+
+            UpdateText();
+        }
+
+        public void OnClick_DashDirection()
         {
             rollInWalkingDirection = !rollInWalkingDirection;
+            RSaveGameContainer.SetRoll(rollInWalkingDirection);
 
-            button.GetComponentInChildren<TMP_Text>().text = rollInWalkingDirection ? "Dash in walking direction" : "Dash in mouse direction";
+            UpdateText();
+        }
+
+        private void UpdateText()
+        {
+            buttonText.text = rollInWalkingDirection ? "Dash in walking direction" : "Dash in mouse direction";
         }
     }
 }

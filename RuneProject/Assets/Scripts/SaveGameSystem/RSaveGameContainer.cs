@@ -7,7 +7,7 @@ namespace RuneProject.SaveGameSystem
 {
     public class RSaveGameContainer : MonoBehaviour
     {
-        private RSaveData saveData;
+        private RSaveData saveData = RSaveData.zero;
 
         private static RSaveGameContainer instance = null;
 
@@ -18,6 +18,12 @@ namespace RuneProject.SaveGameSystem
         private void Awake()
         {
             Load();
+        }
+
+        public static void SetRoll(bool value)
+        {
+            instance.saveData.rollInWalkingDirection = value;
+            Save();
         }
 
         public static void Save()
