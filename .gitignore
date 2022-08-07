@@ -57,6 +57,7 @@ sysinfo.txt
 
 # Unneccesary Blend Files
 *.blend1
+*.blend1.meta
 
 # Editor Settings
 EditorUserSettings.asset

@@ -127,7 +127,7 @@ MonoBehaviour:
   rangedProjectilePrefab: {fileID: 0}
   rangedProjectileSpawnOffset: {x: 0, y: 0, z: 1}
   attackDamage: 1
-  spinAttackDamage: 3
+  spinAttackDamage: 2
   attacksPerSecond: 3
   attacksBeforeBeingBroken: 7
   activeEffect: 0
