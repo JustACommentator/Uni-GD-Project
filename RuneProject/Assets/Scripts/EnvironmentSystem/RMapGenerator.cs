@@ -238,14 +238,14 @@ namespace RuneProject.EnvironmentSystem
 
             if (hasBossRoom)
             {
-                rx = 2f + (1f / 3f);
+                rx = 2f + (5f / 9f);
                 ry = 8f;
                 GameObject room = new GameObject("Bossroom");
                 room.transform.SetParent(transform);
-                room.transform.position = tilePosition(10.5f, 7.75f, rx, ry);
+                room.transform.position = tilePosition(8.5f, 6.25f, rx, ry);
                 BoxCollider trigger = room.AddComponent<BoxCollider>();
                 trigger.isTrigger = true;
-                trigger.size = new Vector3(20.25f, 4f, 15.25f);
+                trigger.size = new Vector3(16.25f, 4f, 12.25f);
                 RPlayerRoomTrigger roomTrigger = room.AddComponent<RPlayerRoomTrigger>();
                 GenerateRoom(bossRoom, rx, ry, room.transform, roomTrigger, true);
             }
@@ -290,23 +290,20 @@ namespace RuneProject.EnvironmentSystem
             List<string> roomLayouts = new List<string>();
 
             bossRoom =
-                "||||||||||||||||||||||#" +
-                "|                    |#" +
-                "|                    |#" +
-                "|                    |#" +
-                "|                    |#" +
-                "|                    |#" +
-                "|                    |#" +
-                "|                    |#" +
-                "|                    |#" +
-                "|                    |#" +
-                "|                    |#" +
-                "|                    |#" +
-                "|                    |#" +
-                "|                    |#" +
-                "|                    |#" +
-                "|                    |#" +
-                "||||||||||H ||||||||||#";
+                "||||||||||||||||||#" +
+                "|                |#" +
+                "|                |#" +
+                "|                |#" +
+                "|                |#" +
+                "|                |#" +
+                "|                |#" +
+                "|                |#" +
+                "|                |#" +
+                "|                |#" +
+                "|                |#" +
+                "|                |#" +
+                "|                |#" +
+                "||||||||H ||||||||#";
 
             if (useAllRooms)
             {
@@ -828,7 +825,7 @@ namespace RuneProject.EnvironmentSystem
 
         private void GenerateRoom(string room, float room_x, float room_y, Transform parent, RPlayerRoomTrigger roomTrigger, bool isBossRoom = false)
         {
-            RoomLayout rl = roomLayoutFromString(room, isBossRoom ? 17 : 8);
+            RoomLayout rl = roomLayoutFromString(room, isBossRoom ? 14 : 8);
             KeyValuePair<TileType, Orientation>[][] tileMap = rl.room;
             List<GameObject> usedDoorBlockers = new List<GameObject>();
             List<GameObject> usedRoomResources = new List<GameObject>();
