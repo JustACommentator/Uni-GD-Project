@@ -63,7 +63,7 @@ namespace RuneProject.ActorSystem
 
         private void Start()
         {
-            if (SceneManager.GetActiveScene().buildIndex != 2)
+            if (SceneManager.GetActiveScene().buildIndex != 2 && Application.isEditor)
             {
                 walkSpeed *= MOVEMENT_MULTIPLIER_ON_SLOW_SCENE;
                 runSpeed *= MOVEMENT_MULTIPLIER_ON_SLOW_SCENE;
