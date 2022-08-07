@@ -35,6 +35,7 @@ namespace RuneProject.ActorSystem
         private Vector3 currentImpulseMovement = Vector3.zero;
         private Vector3 currentMouseDirection = Vector3.zero;
         private bool isGrounded = false;
+        private bool alteredSpeed = false;
         private float airTime = 0f;
         private float baseWalkSpeed = 0f;
         private float baseRunSpeed = 0f;
@@ -69,11 +70,6 @@ namespace RuneProject.ActorSystem
                 walkSpeed *= MOVEMENT_MULTIPLIER_ON_SLOW_SCENE;
                 runSpeed *= MOVEMENT_MULTIPLIER_ON_SLOW_SCENE;
             }
-            else if (!Application.isEditor)
-            {
-                walkSpeed *= MOVEMENT_MULTIPLIER_ON_BUILD;
-                runSpeed *= MOVEMENT_MULTIPLIER_ON_BUILD;
-            }
 
             baseWalkSpeed = walkSpeed;
             baseRunSpeed = runSpeed;
@@ -90,6 +86,13 @@ namespace RuneProject.ActorSystem
             HandleFindCamera();
             HandleMovementAndTurnaround();
             HandleUpdateCurrentMouseDirection();
+
+            if (Input.GetKeyDown(KeyCode.P) && !Application.isEditor && !alteredSpeed)
+            {
+                alteredSpeed = true;
+                walkSpeed *= MOVEMENT_MULTIPLIER_ON_BUILD;
+                runSpeed *= MOVEMENT_MULTIPLIER_ON_BUILD;
+            }
         }
 
         private void FixedUpdate()
